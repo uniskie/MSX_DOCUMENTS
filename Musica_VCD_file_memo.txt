@@ -47,6 +47,8 @@ Address Map
 (*) M: Modulator
 (*) C:Carrier
 
+(*) [BUG] DC and DM are reversed on Editor.
+
 ------------------------------------------------------
 [PSG Voice Data] Format (8bytes)
 ------------------------------------------------------
@@ -120,7 +122,7 @@ AR DR SL RR NF T   N  : at dt sl rt nz sw xx xx
 
 *AR,DR,SL,DR : see [PSG Voice Data]
 
-*Wavetable (32Bytes) : Sined 8bit value
+*Wavetable (32Bytes) : Signed 8bit value
 e.g.)
     $80: -127
     $81: -126
