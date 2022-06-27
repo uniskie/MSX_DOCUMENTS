@@ -1,0 +1,135 @@
+﻿-------------------------------------------------------------------------------
+ASCII MuSICA VCD File format
+-------------------------------------------------------------------------------
+
+------------------------------------------------------
+Voice Count:
+------------------------------------------------------
+* OPLL Voice Count: 0 - 99 (100)
+* PSG  Voice Count: 0 - 29 (30)
+* SCC  Voice Count: 0 - 49 (50)
+
+------------------------------------------------------
+Address Map
+------------------------------------------------------
+0000: 8byte*100 [OPLL Instrument Name]
+0320: 8byte*30  [PSG  Instrument Name]
+0410: 8byte*50  [SCC  Instrument Name]
+05A0: 8byte*100 [OPLL Voice Data] 
+08C0: 8byte*30  [PSG  Voice Data] 
+09B0: 36byte*50 [SCC  Voice Data] 
+
+------------------------------------------------------
+[OPLL Voice Data] Format (8bytes)
+------------------------------------------------------
+* NAME(bits)
+
++0: M: AM(1) | VIB(1) | EG(1) | KSR(1) | MUL(4)
++1: C: AM(1) | VIB(1) | EG(1) | KSR(1) | MUL(4)
++2: M: KSL(2) | TL(6)
++3: C: KSL(2) | N(1) | DC(1) | DM(1) | FB(3)
++4: M: AR(4) | DR(4)
++5: C: AR(4) | DR(4)
++6: M: SL(4) | RR(4)
++7: C: SL(4) | RR(4)
+
+
+(detail word)
++0: M: Ampllitude_Modulation(1) Vibrato(1) EG_Type(1) Key_Scale_Rate(1) Multiple(4)
++1: C: Ampllitude_Modulation(1) Vibrato(1) EG_Type(1) Key_Scale_Rate(1) Multiple(4)
++2: M: Key_Scale_Level(2) Total_Level(6)
++3: C: Key_Scale_Level(2) N(1) Distortion_Carrier(1) Distortion_Modulator(1) FeedBack(3)
++4: M: Attack_Rate(4) Decay_Rate(4)
++5: C: Attack_Rate(4) Decay_Rate(4)
++6: M: Sustain_Level(4) Release_Rate(4)
++7: C: Sustain_Level(4) Release_Rate(4)
+
+(*) M: Modulator
+(*) C:Carrier
+
+------------------------------------------------------
+[PSG Voice Data] Format (8bytes)
+------------------------------------------------------
++0: Attack_Rate
++1: Decay_Rate
++2: Sustain_Level
++3: Release_Rate
++4: Noise Freqency
++5: $01=Tone off | $08=Noise off
++6: blank
++7: blank
+
+Editor(Decimal)       : Dump($Hexadecimal)
+AR DR SL RR NF T   N  : at dt sl rt nz sw xx xx
+-----------------------------------------------
+00 00 00 00 00 off off: F1 F1 00 F1 00 09 00 00
+01 01 01 01 01 on  off: C1 C1 01 C1 01 08 00 00
+02 02 02 02 02 on  off: A1 A1 02 A1 02 08 00 00
+03 03 03 03 03 on  off: 91 91 03 91 03 08 00 00
+04 04 04 04 04 on  off: 81 81 04 81 04 08 00 00
+05 05 05 05 05 on  off: 71 71 05 71 05 08 00 00
+06 06 06 06 06 on  off: 61 61 06 61 06 08 00 00
+07 07 07 07 07 on  off: 51 51 07 51 07 08 00 00
+08 08 08 08 08 on  off: 41 41 08 41 08 08 00 00
+09 09 09 09 09 on  off: 72 72 09 72 09 08 00 00
+00 00 00 00 00 on  off: 31 31 0A 31 0A 08 00 00
+11 11 11 11 11 on  off: 52 52 0B 52 0B 08 00 00
+12 12 12 12 12 on  off: 21 21 0C 21 0C 08 00 00
+13 13 13 13 13 on  off: 53 53 0D 53 0D 08 00 00
+14 14 14 14 14 on  off: 32 32 0E 32 0E 08 00 00
+15 15 15 15 15 on  off: 43 43 0F 43 0F 08 00 00
+16 16 15 16 16 on  off: 11 11 0F 11 10 08 00 00
+17 17 15 17 17 on  off: 34 34 0F 34 11 08 00 00
+18 18 15 18 18 on  off: 23 23 0F 23 12 08 00 00
+19 19 15 19 19 on  off: 35 35 0F 35 13 08 00 00
+20 20 15 20 20 on  off: 12 12 0F 12 14 08 00 00
+21 21 15 21 21 on  off: 25 25 0F 25 15 08 00 00
+22 22 15 22 22 on  off: 13 13 0F 13 16 08 00 00
+23 23 15 23 23 on  off: 27 27 0F 27 17 08 00 00
+24 24 15 24 24 on  off: 14 14 0F 14 18 08 00 00
+25 25 15 25 25 on  off: 15 15 0F 15 19 08 00 00
+26 26 15 26 26 on  off: 16 16 0F 16 1A 08 00 00
+27 27 15 27 27 on  off: 17 17 0F 17 1B 08 00 00
+28 28 15 28 28 on  off: 18 18 0F 18 1C 08 00 00
+29 29 15 29 29 on  off: 19 19 0F 19 1D 08 00 00
+30 30 15 30 30 on  off: 1A 1A 0F 1A 1E 08 00 00
+31 31 15 31 31 on  off: 1C 1C 0F 1C 1F 08 00 00
+32 32 15 32 31 on  on : 1F 1F 0F 1F 1F 00 00 00
+
+*at/dt/rt: frame|value
+ ... $1F -> add(or sub) 15 per 1 frame
+ ... $11 -> add(or sub) 1 per 1 frame
+ ... $F1 -> add(or sub) 1 per 15 frame
+
+*AR: Attack Rate
+*DR: Decay Rate
+*SL: Sustain Level (Volume value)
+*RR: Release Rate
+*NF: Noise Freq. register value
+
+------------------------------------------------------
+[SCC Voice Data] Format (4+32=36bytes)
+------------------------------------------------------
++00: Attack_Rate
++01: Decay_Rate
++02: Sustain_Level
++03: Release_Rate
++04: Wave Table (32bytes)
+ ...
++35: (Wave Table end)
+
+*AR,DR,SL,DR : see [PSG Voice Data]
+
+*Wavetable (32Bytes) : Sined 8bit value
+e.g.)
+    $80: -127
+    $81: -126
+      (...)
+    $FE:   -2
+    $FF:   -1
+    $00:    0
+    $01:   +1
+    $02:   +2
+      (...)
+    $7E: +126
+    $7F: +127
