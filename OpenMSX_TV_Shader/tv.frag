@@ -3,7 +3,7 @@
 
 #define COMPOSITE
 
-#define SATURARION_F(x)	((x) * 1.5)
+#define SATURARION_F(x)	((x) * 1.20)
 
 // begin params
 #define PI 3.14159265

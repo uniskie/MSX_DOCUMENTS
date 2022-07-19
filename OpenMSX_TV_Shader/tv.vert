@@ -11,7 +11,7 @@ varying vec4 cornerCoord1;
 
 void main()
 {
-	float pix_mul = 0.275;
+	float pix_mul = 0.25;
 	gl_Position = u_mvpMatrix * a_position;
 	intCoord.xy = a_texCoord.xy * texSize.xy;
 	intCoord.zw = -intCoord.xy;
