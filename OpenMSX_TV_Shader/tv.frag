@@ -1,4 +1,4 @@
-// NTSC effect
+// based on Themaister's NTSC shader
 #define NTSC
 
 #define COMPOSITE

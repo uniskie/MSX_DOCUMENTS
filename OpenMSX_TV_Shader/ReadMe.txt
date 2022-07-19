@@ -12,5 +12,6 @@ https://jp.mathworks.com/help/images/ref/rgb2ntsc.html
 http://p6ers.net/mm/pc-6001/dev/screen4color/
 http://fpgapark.com/ntsc/ntsc.htm
 https://github.com/libretro/glsl-shaders/blob/master/ntsc/ntsc.glslp
+// based on Themaister's NTSC shader
 
 
