@@ -1,7 +1,9 @@
-// based on Themaister's NTSC shader
+// NTSC effect
 #define NTSC
 
 #define COMPOSITE
+
+#define SATURARION_F(x)	((x) * 1.5)
 
 // begin params
 #define PI 3.14159265
@@ -146,7 +148,7 @@ vec4 getColor(const vec2 texCoord0, const vec2 texCoord1)
 	return rgb;
 }
 
-// Phase1 : RGB -> YIQ -> Decode
+// RGB -> YIQ -> Decode
 vec4 encode(const vec2 texCoord0,
             const vec2 texCoord1,
             const vec2 pixCoord,
@@ -154,16 +156,13 @@ vec4 encode(const vec2 texCoord0,
 {
 
 	vec4 rgb = getColor(texCoord0, texCoord1);
-	
 #if 1
-	// Interlace & where bright pixels are larger than dark pixels (OpenMSX original Effect modded)
 	vec4 distComp = fract(intCoord);
 	rgb = rgb * smoothstep(
 		minScanline + sizeVariance * (vec4(1.0) - rgb),
 		vec4(1.0),
 		vec4(distComp.y) + (1.0 - minScanline) );
 #endif
-	
 	vec3 yiq = rgb2yiq(rgb.rgb);
 
 	float chroma_phase = PI * 1.2;//(mod(pixCoord.y, 2.0) + float(FrameCount));
@@ -191,8 +190,9 @@ void main()
 	vec2 texCoord0 = cornerCoord0.xy;
 	vec2 texCoord1 = cornerCoord1.xy;
 
+	// envoded YIQ -> decode YIQ
+
 #if 1
-	// Phase2 : envoded YIQ -> decode YIQ
 	vec3 signal = vec3(0.0);
 	float offset;
 	vec3 sums;
@@ -200,7 +200,7 @@ void main()
 	#define macro_loopz(c) offset = float(c) - 1.0; \
 		sums = fetch_offset(offset - float(TAPS) ) \
 		     + fetch_offset(float(TAPS) - offset); \
-		signal += sums * vec3(luma_filter##c, chroma_filter##c, chroma_filter##c);
+		signal += sums * vec3(luma_filter##c, chroma_filter##c, SATURARION_F(chroma_filter##c));
 	
 	macro_loopz(1)
 	macro_loopz(2)
@@ -240,7 +240,6 @@ void main()
 
 #else
 
-	// TEST: Show Phase1 directly
 	vec3 signal = encode(texCoord0, texCoord1, intCoord.xy, FrameCount).rgb;
 	
 #endif
