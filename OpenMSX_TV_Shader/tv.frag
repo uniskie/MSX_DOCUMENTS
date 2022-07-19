@@ -200,7 +200,7 @@ void main()
 	#define macro_loopz(c) offset = float(c) - 1.0; \
 		sums = fetch_offset(offset - float(TAPS) ) \
 		     + fetch_offset(float(TAPS) - offset); \
-		signal += sums * vec3(luma_filter##c, chroma_filter##c, SATURARION_F(chroma_filter##c));
+		signal += sums * vec3(luma_filter##c, SATURARION_F(chroma_filter##c), SATURARION_F(chroma_filter##c));
 	
 	macro_loopz(1)
 	macro_loopz(2)
