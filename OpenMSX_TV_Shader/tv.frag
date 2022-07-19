@@ -146,7 +146,7 @@ vec4 getColor(const vec2 texCoord0, const vec2 texCoord1)
 	return rgb;
 }
 
-// RGB -> YIQ -> Decode
+// Phase1 : RGB -> YIQ -> Decode
 vec4 encode(const vec2 texCoord0,
             const vec2 texCoord1,
             const vec2 pixCoord,
@@ -154,13 +154,16 @@ vec4 encode(const vec2 texCoord0,
 {
 
 	vec4 rgb = getColor(texCoord0, texCoord1);
+	
 #if 1
+	// Interlace & where bright pixels are larger than dark pixels (OpenMSX original Effect modded)
 	vec4 distComp = fract(intCoord);
 	rgb = rgb * smoothstep(
 		minScanline + sizeVariance * (vec4(1.0) - rgb),
 		vec4(1.0),
 		vec4(distComp.y) + (1.0 - minScanline) );
 #endif
+	
 	vec3 yiq = rgb2yiq(rgb.rgb);
 
 	float chroma_phase = PI * 1.2;//(mod(pixCoord.y, 2.0) + float(FrameCount));
@@ -188,9 +191,8 @@ void main()
 	vec2 texCoord0 = cornerCoord0.xy;
 	vec2 texCoord1 = cornerCoord1.xy;
 
-	// envoded YIQ -> decode YIQ
-
 #if 1
+	// Phase2 : envoded YIQ -> decode YIQ
 	vec3 signal = vec3(0.0);
 	float offset;
 	vec3 sums;
@@ -238,6 +240,7 @@ void main()
 
 #else
 
+	// TEST: Show Phase1 directly
 	vec3 signal = encode(texCoord0, texCoord1, intCoord.xy, FrameCount).rgb;
 	
 #endif
