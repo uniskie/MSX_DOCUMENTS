@@ -1,0 +1,23 @@
+uniform mat4 u_mvpMatrix;
+uniform vec3 texSize; // xy = texSize1,  xz = texSize2
+
+attribute vec4 a_position;
+attribute vec3 a_texCoord;
+
+varying vec3 texStep;
+varying vec4 intCoord;
+varying vec4 cornerCoord0;
+varying vec4 cornerCoord1;
+
+void main()
+{
+	float pix_mul = 0.275;
+	gl_Position = u_mvpMatrix * a_position;
+	intCoord.xy = a_texCoord.xy * texSize.xy;
+	intCoord.zw = -intCoord.xy;
+	texStep.xyz = pix_mul / texSize.xyz;
+	cornerCoord0 = vec4(a_texCoord.xy,
+	                    a_texCoord.xy + texStep.xy);
+	cornerCoord1 = vec4(a_texCoord.xz,
+	                    a_texCoord.xz + texStep.xz);
+}
