@@ -3,7 +3,7 @@
 
 #define COMPOSITE
 
-#define SATURARION_F(x)	((x) * 1.20)
+#define SATURARION_F(x)	((x) * 1.5)
 
 // begin params
 #define PI 3.14159265
@@ -56,38 +56,38 @@ vec3 rgb2yiq(vec3 col)
 
 #define TAPS 32
 float luma_filter1  = -0.000174844 * 0.75;
-float luma_filter2  = -0.000205844 * 0.75;
-float luma_filter3  = -0.000149453 * 0.75;
-float luma_filter4  = -0.000051693 * 0.75;
-float luma_filter5  =  0.000000000 * 0.75;
-float luma_filter6  = -0.000066171 * 0.75;
-float luma_filter7  = -0.000245058 * 0.75;
-float luma_filter8  = -0.000432928 * 0.75;
-float luma_filter9  = -0.000472644 * 0.75;
-float luma_filter10 = -0.000252236 * 0.75;
-float luma_filter11 =  0.000198929 * 0.75;
-float luma_filter12 =  0.000687058 * 0.75;
-float luma_filter13 =  0.000944112 * 0.75;
-float luma_filter14 =  0.000803467 * 0.75;
-float luma_filter15 =  0.000363199 * 0.75;
-float luma_filter16 =  0.000013422 * 0.75;
-float luma_filter17 =  0.000253402 * 0.75;
-float luma_filter18 =  0.001339461 * 0.75;
-float luma_filter19 =  0.002932972 * 0.75;
-float luma_filter20 =  0.003983485 * 0.75;
-float luma_filter21 =  0.00302668  * 0.75;
-float luma_filter22 = -0.001102056 * 0.75;
-float luma_filter23 = -0.008373026 * 0.75;
-float luma_filter24 = -0.016897700 * 0.75;
-float luma_filter25 = -0.022914480 * 0.75;
-float luma_filter26 = -0.021642347 * 0.75;
-float luma_filter27 = -0.008863273 * 0.75;
-float luma_filter28 =  0.017271957 * 0.75;
-float luma_filter29 =  0.054921920 * 0.75;
-float luma_filter30 =  0.098342579 * 0.75;
-float luma_filter31 =  0.139044281 * 0.75;
-float luma_filter32 =  0.168055832 * 0.75;
-float luma_filter33 =  0.178571429 * 2.50;
+float luma_filter2  = -0.000205844 * 0.60;
+float luma_filter3  = -0.000149453 * 0.50;
+float luma_filter4  = -0.000051693 * 0.50;
+float luma_filter5  =  0.000000000 * 0.50;
+float luma_filter6  = -0.000066171 * 0.50;
+float luma_filter7  = -0.000245058 * 0.50;
+float luma_filter8  = -0.000432928 * 0.50;
+float luma_filter9  = -0.000472644 * 0.50;
+float luma_filter10 = -0.000252236 * 0.50;
+float luma_filter11 =  0.000198929 * 0.25;
+float luma_filter12 =  0.000687058 * 0.25;
+float luma_filter13 =  0.000944112 * 0.25;
+float luma_filter14 =  0.000803467 * 0.25;
+float luma_filter15 =  0.000363199 * 0.25;
+float luma_filter16 =  0.000013422 * 0.25;
+float luma_filter17 =  0.000253402 * 0.25;
+float luma_filter18 =  0.001339461 * 0.25;
+float luma_filter19 =  0.002932972 * 0.25;
+float luma_filter20 =  0.003983485 * 0.25;
+float luma_filter21 =  0.00302668  * 0.25;
+float luma_filter22 = -0.001102056 * 0.125;
+float luma_filter23 = -0.008373026 * 0.125;
+float luma_filter24 = -0.016897700 * 0.125;
+float luma_filter25 = -0.022914480 * 0.125;
+float luma_filter26 = -0.021642347 * 0.125;
+float luma_filter27 = -0.008863273 * 0.125;
+float luma_filter28 =  0.017271957 * 0.125;
+float luma_filter29 =  0.054921920 * 0.125;
+float luma_filter30 =  0.098342579 * 0.125;
+float luma_filter31 =  0.139044281 * 0.125;
+float luma_filter32 =  0.168055832 * 0.125;
+float luma_filter33 =  0.178571429 * 4.75;
 
 float chroma_filter1  = 0.001384762;
 float chroma_filter2  = 0.001678312;
