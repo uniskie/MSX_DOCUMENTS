@@ -1,5 +1,7 @@
 # TV shader mod for OpenMSX
 
+![sample1](samples/BASIC.png)
+
 これはOpenMSXのTVフィルタをThemaister's NTSC shaderベースのアナログテレビ風のにじみ（クロスカラーやドット妨害）再現に変更するためのシェーダーファイルです。
 
 ## 準備 
@@ -71,4 +73,5 @@ http://fpgapark.com/ntsc/ntsc.htm
 https://github.com/libretro/glsl-shaders/blob/master/ntsc/ntsc.glslp 
 // based on Themaister's NTSC shader
 
-
+![sample2](samples/Hydlide3_0.png)
+![sample3](samples/Hydlide3_1.png)
