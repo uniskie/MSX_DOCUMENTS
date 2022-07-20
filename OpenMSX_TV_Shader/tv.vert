@@ -9,9 +9,11 @@ varying vec4 intCoord;
 varying vec4 cornerCoord0;
 varying vec4 cornerCoord1;
 
+#define BLUR_MILTIPLE	0.167
+
 void main()
 {
-	float pix_mul = (texSize.x > 500.0) ? 0.5 : 0.25;
+	float pix_mul = (texSize.x > 500.0) ? BLUR_MILTIPLE*2.0 : BLUR_MILTIPLE;
 	gl_Position = u_mvpMatrix * a_position;
 	intCoord.xy = a_texCoord.xy * texSize.xy;
 	intCoord.zw = -intCoord.xy;

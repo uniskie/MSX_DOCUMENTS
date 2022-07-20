@@ -1,9 +1,10 @@
-// NTSC effect
+// NTSC effect (based on Themaister's NTSC shader)
 #define NTSC
 
 #define COMPOSITE
 
-#define SATURARION_F(x)	((x) * 1.5)
+//#define MULT_SATURARION(x)	(x * 1.25)
+#define MULT_SATURARION(x)	(x)
 
 // begin params
 #define PI 3.14159265
@@ -55,39 +56,39 @@ vec3 rgb2yiq(vec3 col)
 }
 
 #define TAPS 32
-float luma_filter1  = -0.000174844 * 0.75;
-float luma_filter2  = -0.000205844 * 0.60;
-float luma_filter3  = -0.000149453 * 0.50;
-float luma_filter4  = -0.000051693 * 0.50;
-float luma_filter5  =  0.000000000 * 0.50;
-float luma_filter6  = -0.000066171 * 0.50;
-float luma_filter7  = -0.000245058 * 0.50;
-float luma_filter8  = -0.000432928 * 0.50;
-float luma_filter9  = -0.000472644 * 0.50;
-float luma_filter10 = -0.000252236 * 0.50;
-float luma_filter11 =  0.000198929 * 0.25;
-float luma_filter12 =  0.000687058 * 0.25;
-float luma_filter13 =  0.000944112 * 0.25;
-float luma_filter14 =  0.000803467 * 0.25;
-float luma_filter15 =  0.000363199 * 0.25;
-float luma_filter16 =  0.000013422 * 0.25;
-float luma_filter17 =  0.000253402 * 0.25;
-float luma_filter18 =  0.001339461 * 0.25;
-float luma_filter19 =  0.002932972 * 0.25;
-float luma_filter20 =  0.003983485 * 0.25;
-float luma_filter21 =  0.00302668  * 0.25;
-float luma_filter22 = -0.001102056 * 0.125;
-float luma_filter23 = -0.008373026 * 0.125;
-float luma_filter24 = -0.016897700 * 0.125;
-float luma_filter25 = -0.022914480 * 0.125;
-float luma_filter26 = -0.021642347 * 0.125;
-float luma_filter27 = -0.008863273 * 0.125;
-float luma_filter28 =  0.017271957 * 0.125;
-float luma_filter29 =  0.054921920 * 0.125;
-float luma_filter30 =  0.098342579 * 0.125;
-float luma_filter31 =  0.139044281 * 0.125;
-float luma_filter32 =  0.168055832 * 0.125;
-float luma_filter33 =  0.178571429 * 4.75;
+float luma_filter1  = -0.000174844;
+float luma_filter2  = -0.000205844;
+float luma_filter3  = -0.000149453;
+float luma_filter4  = -0.000051693;
+float luma_filter5  =  0.000000000;
+float luma_filter6  = -0.000066171;
+float luma_filter7  = -0.000245058;
+float luma_filter8  = -0.000432928;
+float luma_filter9  = -0.000472644;
+float luma_filter10 = -0.000252236;
+float luma_filter11 =  0.000198929;
+float luma_filter12 =  0.000687058;
+float luma_filter13 =  0.000944112;
+float luma_filter14 =  0.000803467;
+float luma_filter15 =  0.000363199;
+float luma_filter16 =  0.000013422;
+float luma_filter17 =  0.000253402;
+float luma_filter18 =  0.001339461;
+float luma_filter19 =  0.002932972;
+float luma_filter20 =  0.003983485;
+float luma_filter21 =  0.00302668 ;
+float luma_filter22 = -0.001102056;
+float luma_filter23 = -0.008373026;
+float luma_filter24 = -0.016897700;
+float luma_filter25 = -0.022914480;
+float luma_filter26 = -0.021642347;
+float luma_filter27 = -0.008863273;
+float luma_filter28 =  0.017271957;
+float luma_filter29 =  0.054921920;
+float luma_filter30 =  0.098342579;
+float luma_filter31 =  0.139044281;
+float luma_filter32 =  0.168055832;
+float luma_filter33 =  0.178571429;
 
 float chroma_filter1  = 0.001384762;
 float chroma_filter2  = 0.001678312;
@@ -156,16 +157,17 @@ vec4 encode(const vec2 texCoord0,
 {
 
 	vec4 rgb = getColor(texCoord0, texCoord1);
+	float y = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
 #if 1
 	vec4 distComp = fract(intCoord);
 	rgb = rgb * smoothstep(
-		minScanline + sizeVariance * (vec4(1.0) - rgb),
+		minScanline + sizeVariance * (vec4(1.0 - y)),
 		vec4(1.0),
 		vec4(distComp.y) + (1.0 - minScanline) );
 #endif
 	vec3 yiq = rgb2yiq(rgb.rgb);
 
-	float chroma_phase = PI * 1.2;//(mod(pixCoord.y, 2.0) + float(FrameCount));
+	float chroma_phase = PI * 0.6;//(mod(pixCoord.y, 2.0) + float(FrameCount));
 	float mod_phase = pixCoord.x * CHROMA_MOD_FREQ + chroma_phase;
 
 	float i_mod = cos(mod_phase);
@@ -200,7 +202,7 @@ void main()
 	#define macro_loopz(c) offset = float(c) - 1.0; \
 		sums = fetch_offset(offset - float(TAPS) ) \
 		     + fetch_offset(float(TAPS) - offset); \
-		signal += sums * vec3(luma_filter##c, SATURARION_F(chroma_filter##c), SATURARION_F(chroma_filter##c));
+		signal += sums * vec3(luma_filter##c, MULT_SATURARION(chroma_filter##c), MULT_SATURARION(chroma_filter##c));
 	
 	macro_loopz(1)
 	macro_loopz(2)
