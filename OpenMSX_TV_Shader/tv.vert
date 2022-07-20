@@ -9,7 +9,7 @@ varying vec4 intCoord;
 varying vec4 cornerCoord0;
 varying vec4 cornerCoord1;
 
-#define BLUR_MILTIPLE	0.167
+#define BLUR_MILTIPLE	0.169
 
 void main()
 {
