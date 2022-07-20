@@ -1,8 +1,8 @@
-# TV shader mod for OpenMSX
+# TV shader mod for OpenMSX 1.8.0
 
 ![sample1](samples/BASIC.png)
 
-これはOpenMSXのTVフィルタをThemaister's NTSC shaderベースのアナログテレビ風のにじみ（クロスカラーやドット妨害）再現に変更するためのシェーダーファイルです。
+これはOpenMSX(現在1.8.0)のTVフィルタをThemaister's NTSC shaderベースのアナログテレビ風のにじみ（クロスカラーやドット妨害）再現に変更するためのシェーダーファイルです。
 
 ## 準備 
 
