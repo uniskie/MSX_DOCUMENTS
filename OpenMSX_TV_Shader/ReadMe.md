@@ -1,3 +1,5 @@
+# TV shader mod for OpenMSX
+
 これはOpenMSXのTVフィルタをThemaister's NTSC shaderベースのアナログテレビ風のにじみ（クロスカラーやドット妨害）再現に変更するためのシェーダーファイルです。
 
 ## 準備 
@@ -22,8 +24,10 @@
 
 *※注) Rendererが「SDL」ではシェーダーは動作しません。*
 
+![screenshot of video control](./screenshot_video_control.png)
+
 -----------------------------------------------
-(in English)
+# (in English)
 
 This is a shader file for changing the OpenMSX TV filter to a Themaister's NTSC shader-based analog TV-like bleeding (cross-color or dot jamming) reproduction.
 
@@ -46,9 +50,10 @@ When you're ready
 
 *[CAUTION] Shader does not work on ”SDL" renderer.*
 
+![screenshot of video control](./screenshot_video_control.png)
 -----------------------------------------------
 
-## 参考＆Special Thanks
+# 参考＆Special Thanks
 
 http://hp.vector.co.jp/authors/VA030421/msx302.htm  
 https://jp.mathworks.com/help/images/ref/rgb2ntsc.html  
