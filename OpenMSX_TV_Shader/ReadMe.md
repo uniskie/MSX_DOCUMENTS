@@ -1,3 +1,7 @@
+これはOpenMSXのTVフィルタをThemaister's NTSC shaderベースのアナログテレビ風のにじみ（クロスカラーやドット妨害）再現に変更するためのシェーダーファイルです。
+
+-- 準備
+"tv.vert"と"tv.frag"を、
 「ドキュメント\OpenMSX\share\shaders」
 へコピーしてください。
 
@@ -8,14 +12,34 @@
 
 ※ ドキュメントフォルダではなくOpenMSXインストールフォルダ配下の"OpenMSX\share\shaders"に上書きするとOpenMSXのアップデート時に元に戻ってしまいます。
 
+-- 使用方法
+準備が終わったら、
+(1) OpenMSX CatapultからStartでOpenMSXを実行
+(2) OpenMSX Catapultの"Video Control"タブで、"Renderer"に"SDLGL-PP"を選択
+(3) OpenMSX Catapultの"Video Control"タブで、Scaler:[サイズ]x[フィルタ]のところで"TV"を選択
+
+※ RendererがSDLでは動作しません。
+
 -------------------(English)-------------------
-Copy it to "Documents\OpenMSX\share\ shaders". 
+This is a shader file for changing the OpenMSX TV filter to a Themaister's NTSC shader-based analog TV-like bleeding (cross-color or dot jamming) reproduction.
+
+-- setup
+Please copy "tv.vert" and "tv.frag" to
+"Documents \ OpenMSX \ share \ shaders"
 
 If there is no "shaders" folder in "Documents\OpenMSX\share\", create a "shaders" folder.
 
 * The "Documents" folder is a document folder for each Windows user. (My Documents in XP or earlier) 
 
 * If you overwrite "OpenMSX\share\shaders" under the OpenMSX installation folder instead of the document folder, it will be restored at the time of software update. 
+
+-- how to use:
+When you're ready
+(1) Execute OpenMSX with Start from OpenMSX Catapult
+(2) Select "SDLGL-PP" for "Renderer" in the "Video Control" tab of OpenMSX Catapult.
+(3) In the "Video Control" tab of OpenMSX Catapult, select "TV" in Scaler: [Size] x [Filter].
+
+* Renderer does not work with SDL.
 -----------------------------------------------
 
 参考＆Special Thanks：
