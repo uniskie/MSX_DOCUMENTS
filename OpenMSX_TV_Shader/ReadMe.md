@@ -11,6 +11,8 @@
 「ドキュメント\OpenMSX\share\」
 に「shaders」フォルダが無い場合はフォルダを作成してください。
 
+![screenshot of folder](./screenshot_file_place.png)
+
 *※注) 「ドキュメント」フォルダはWindowsのユーザー毎のドキュメントフォルダです。(XP以前で言えばマイドキュメント)*
 
 *※注) ドキュメントフォルダではなくOpenMSXインストールフォルダ配下の"OpenMSX\share\shaders"に上書きするとOpenMSXのアップデート時に元に戻ってしまいます。*
@@ -25,6 +27,7 @@
 *※注) Rendererが「SDL」ではシェーダーは動作しません。*
 
 ![screenshot of video control](./screenshot_video_control.png)
+
 *※注) TVフィルタでは、Scanlineは反映されますが、Blurは無視されます。*
 
 -----------------------------------------------
@@ -34,9 +37,11 @@ This is a shader file for changing the OpenMSX TV filter to a Themaister's NTSC 
 
 ## setup
 Please copy "tv.vert" and "tv.frag" to
-"Documents \ OpenMSX \ share \ shaders"
+"Documents\OpenMSX\share\shaders"
 
 If there is no "shaders" folder in "Documents\OpenMSX\share\", create a "shaders" folder.
+
+![screenshot of folder](./screenshot_file_place.png)
 
 *Note) The "Documents" folder is a document folder for each Windows user. (My Documents in XP or earlier)*
 
