@@ -1,12 +1,22 @@
-uƒhƒLƒ…ƒƒ“ƒg\OpenMSX\share\shadersv
-‚ÖƒRƒs[‚µ‚Ä‚­‚¾‚³‚¢B
+ã€Œãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ\OpenMSX\share\shadersã€
+ã¸ã‚³ãƒ”ãƒ¼ã—ã¦ãã ã•ã„ã€‚
 
-uƒhƒLƒ…ƒƒ“ƒg\OpenMSX\share\v
-‚ÉushadersvƒtƒHƒ‹ƒ_‚ª–³‚¢ê‡‚ÍƒtƒHƒ‹ƒ_‚ğì¬‚µ‚Ä‚­‚¾‚³‚¢B
+ã€Œãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ\OpenMSX\share\ã€
+ã«ã€Œshadersã€ãƒ•ã‚©ãƒ«ãƒ€ãŒç„¡ã„å ´åˆã¯ãƒ•ã‚©ãƒ«ãƒ€ã‚’ä½œæˆã—ã¦ãã ã•ã„ã€‚
 
-¦ ƒ}ƒCƒhƒLƒ…ƒƒ“ƒg‚Å‚Í‚È‚­OpenMSX\share\shaders‚Éã‘‚«‚·‚é‚ÆƒAƒbƒvƒf[ƒg‚ÉŒ³‚É–ß‚Á‚Ä‚µ‚Ü‚¢‚Ü‚·B
+â€» "ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆâ€ãƒ•ã‚©ãƒ«ãƒ€ã¯Windowsã®ãƒ¦ãƒ¼ã‚¶ãƒ¼æ¯ã®ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆãƒ•ã‚©ãƒ«ãƒ€ã§ã™ã€‚(XPä»¥å‰ã§è¨€ãˆã°ãƒã‚¤ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ)
+â€» ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆãƒ•ã‚©ãƒ«ãƒ€ã§ã¯ãªãOpenMSXã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ãƒ•ã‚©ãƒ«ãƒ€é…ä¸‹ã®"OpenMSX\share\shaders"ã«ä¸Šæ›¸ãã™ã‚‹ã¨OpenMSXã®ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆæ™‚ã«å…ƒã«æˆ»ã£ã¦ã—ã¾ã„ã¾ã™ã€‚
 
-Ql•Special ThanksF
+-------------------(English)-------------------
+Copy it to "Documents\OpenMSX\share\ shaders". 
+
+If there is no "shaders" folder in "Documents\OpenMSX\share\", create a "shaders" folder.
+
+* The "Documents" folder is a document folder for each Windows user. (My Documents in XP or earlier) 
+* If you overwrite "OpenMSX\share\shaders" under the OpenMSX installation folder instead of the document folder, it will be restored at the time of software update. 
+-----------------------------------------------
+
+å‚è€ƒï¼†Special Thanksï¼š
 http://hp.vector.co.jp/authors/VA030421/msx302.htm
 https://jp.mathworks.com/help/images/ref/rgb2ntsc.html
 http://p6ers.net/mm/pc-6001/dev/screen4color/
