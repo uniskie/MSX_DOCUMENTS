@@ -25,6 +25,7 @@
 *※注) Rendererが「SDL」ではシェーダーは動作しません。*
 
 ![screenshot of video control](./screenshot_video_control.png)
+*※注) TVフィルタでは、Scanlineは反映されますが、Blurは無視されます。*
 
 -----------------------------------------------
 # (in English)
@@ -37,9 +38,9 @@ Please copy "tv.vert" and "tv.frag" to
 
 If there is no "shaders" folder in "Documents\OpenMSX\share\", create a "shaders" folder.
 
-*[CAUTION] The "Documents" folder is a document folder for each Windows user. (My Documents in XP or earlier)*
+*Note) The "Documents" folder is a document folder for each Windows user. (My Documents in XP or earlier)*
 
-*[CAUTION] If you overwrite "OpenMSX\share\shaders" under the OpenMSX installation folder instead of the document folder, it will be restored at the time of software update.*
+*Note) If you overwrite "OpenMSX\share\shaders" under the OpenMSX installation folder instead of the document folder, it will be restored at the time of software update.*
 
 ## how to use:
 When you're ready
@@ -48,9 +49,12 @@ When you're ready
 2. Select "SDLGL-PP" for "Renderer" in the "Video Control" tab of OpenMSX Catapult.
 3. In the "Video Control" tab of OpenMSX Catapult, select "TV" in Scaler: [Size] x [Filter].
 
-*[CAUTION] Shader does not work on ”SDL" renderer.*
+*Note) Shader does not work on ”SDL" renderer.*
 
 ![screenshot of video control](./screenshot_video_control.png)
+
+*Note) The TV filter reflects the Scanline but ignores the Blur.*
+
 -----------------------------------------------
 
 # 参考＆Special Thanks
