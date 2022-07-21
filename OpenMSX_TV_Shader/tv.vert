@@ -9,6 +9,7 @@ varying vec4 intCoord;
 varying vec4 cornerCoord0;
 varying vec4 cornerCoord1;
 
+// If you want to adjust the amount of bleeding, please play with this value.
 #define BLUR_MILTIPLE	0.169
 
 void main()
