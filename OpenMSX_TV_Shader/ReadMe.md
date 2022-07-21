@@ -32,6 +32,29 @@
 
 *※注) TVフィルタでは、Scanlineは反映されますが、Blurは無視されます。*
 
+## 滲みの調整
+
+現状のOpenMSXのTVフィルタには、VideoControlの調整値がScanline値しか渡されず
+Blur値はシェーダーには送られてこない為、シェーダー側を弄って調整する必要があります。
+
+滲み方の調整は [tv.vert](tv.vert)"tv.vert" の、
+    // If you want to adjust the amount of bleeding, please play with this value.
+    #define BLUR_MILTIPLE	0.169
+0.169の部分を変更して調整して下さい。  
+
+例) 0.169 (現在)  
+<img src="samples/BLUR_MILTIPLE_0169_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0169_2.png" width="50%">
+
+例) 0.200  
+<img src="samples/BLUR_MILTIPLE_0200_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0200_2.png" width="50%">
+
+例) 0.300  
+<img src="samples/BLUR_MILTIPLE_0300_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0300_2.png" width="50%">
+
+例) 0.400  
+<img src="samples/BLUR_MILTIPLE_0400_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0400_2.png" width="50%">
+
+
 -----------------------------------------------
 # (in English)
 
@@ -62,6 +85,27 @@ When you're ready
 
 *Note) The TV filter reflects the Scanline but ignores the Blur.*
 
+## Blurring adjustment
+
+Only the Scanline value is passed as the adjustment value of VideoControl to the current TV filter of OpenMSX.
+Since the Blur value is not sent to the shader, it is necessary to adjust it by playing with the shader side.
+
+Adjust the blurring method of [tv.vert](tv.vert)"tv.vert",
+    // If you want to adjust the amount of bleeding, please play with this value.
+    #define BLUR_MILTIPLE 0.169
+Please change the part of 0.169 and adjust.  
+
+ex.) 0.169 (Current)  
+<img src="samples/BLUR_MILTIPLE_0169_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0169_2.png" width="50%">
+
+ex.) 0.200  
+<img src="samples/BLUR_MILTIPLE_0200_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0200_2.png" width="50%">
+ex.) 0.300  
+<img src="samples/BLUR_MILTIPLE_0300_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0300_2.png" width="50%">
+
+ex.) 0.400  
+<img src="samples/BLUR_MILTIPLE_0400_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0400_2.png" width="50%">
+
 -----------------------------------------------
 
 # 参考＆Special Thanks
@@ -72,6 +116,3 @@ http://p6ers.net/mm/pc-6001/dev/screen4color/
 http://fpgapark.com/ntsc/ntsc.htm  
 https://github.com/libretro/glsl-shaders/blob/master/ntsc/ntsc.glslp 
 // based on Themaister's NTSC shader
-
-![sample2](samples/Hydlide3_0.png)
-![sample3](samples/Hydlide3_1.png)
