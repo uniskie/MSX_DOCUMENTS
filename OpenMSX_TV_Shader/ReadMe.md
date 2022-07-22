@@ -46,6 +46,8 @@ OpenMSXがのシェーダーが1パス処理であることや、解像度の不
 
 ![screenshot of video control](./screenshot_video_control.png)
 
+個人的なおすすめはScanline 75%です。
+
 *※注) TVフィルタでは、Scanlineは反映されますが、Blurは無視されます。*
 
 ## 滲みの調整
@@ -59,13 +61,13 @@ OpenMSXがのシェーダーが1パス処理であることや、解像度の不
 
 ## 参考画像
 
-1. CASIO MX-101実機をCompositeVideo接続からGV-USB2でキャプチャしたもの
+1. CASIO MX-101実機をCompositeVideo接続からGV-USB2でキャプチャしたもの  
 <img src="samples/HYDLIDE3_MX10_video.png" width="50%">
 
-2. MSX2エミュレーションでMSX版ハイドライド3
+2. MSX2エミュレーションでMSX版ハイドライド3  
 <img src="samples/HYDLIDE3MSX1_1.png" width="50%"><img src="samples/HYDLIDE3MSX1_2.png" width="50%">
 
-2. MSX2エミュレーションでMSX2版ハイドライド3
+2. MSX2エミュレーションでMSX2版ハイドライド3  
 <img src="samples/HYDLIDE3MSX2_1.png" width="50%"><img src="samples/HYDLIDE3MSX2_2.png" width="50%">
 
 -----------------------------------------------
@@ -110,12 +112,13 @@ When you're ready
 
 ![screenshot of video control](./screenshot_video_control.png)
 
+My personal recommendation is Scanline 75%.
+
 *Note) The TV filter reflects the Scanline but ignores the Blur.*
 
 ## Blurring adjustment
 
 Adjust the blurring method of [tv.vert](tv.vert)"tv.vert",
-    // If you want to adjust the amount of bleeding, please play with this value.
     #define BLUR_MILTIPLE   (10.625/32.0)//(8.0/32.0)
 It can be adjusted by changing Due to a problem with Themaister's NTSC shader and internal resolution, it seems that I can't make very good adjustments.
 
@@ -124,14 +127,14 @@ Only simple saturation enhancement has been added.
 
 ## reference image
 
-1. CASIO MX-101 captured by GV-USB2 from Composite Video connection
+1. CASIO MX-101 captured by GV-USB2 from Composite Video connection  
 <img src="samples/HYDLIDE3_MX10_video.png" width="50%">
 
-2. MSX version Hydlide 3 with MSX2 emulation
-<img src="samples/HYDLIDE3MSX1_1.png" width="50%"> <img src="samples/HYDLIDE3MSX1_2.png" width="50%">
+2. MSX version Hydlide 3 with MSX2 emulation  
+<img src="samples/HYDLIDE3MSX1_1.png" width="50%"><img src="samples/HYDLIDE3MSX1_2.png" width="50%">
 
-2. MSX2 version Hydlide 3 with MSX2 emulation
-<img src="samples/HYDLIDE3MSX2_1.png" width="50%"> <img src="samples/HYDLIDE3MSX2_2.png" width="50%">
+2. MSX2 version Hydlide 3 with MSX2 emulation  
+<img src="samples/HYDLIDE3MSX2_1.png" width="50%"><img src="samples/HYDLIDE3MSX2_2.png" width="50%">
 
 -----------------------------------------------
 
