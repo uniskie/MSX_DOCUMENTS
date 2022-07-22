@@ -1,4 +1,5 @@
 # TV shader mod for OpenMSX 1.8.0
+[ReadMe in English](ReadMe_Eng.md)
 
 ![sample1](samples/BASIC.png)
 
