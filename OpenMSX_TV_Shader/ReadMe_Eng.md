@@ -10,7 +10,9 @@ It will be a little closer to the analog TV-like bleeding.
 Themaister's NTSC shader is converted to NTSC signal once at the time of display, processed for cross color (color interference) and dot interference (dark dots), and then returned to RGB for display.
 
 ## Implementation description
-Due to the fact that the shader of OpenMSX is 1-pass processing and the lack of resolution, there are no CRT characteristics or signal interference (periodic color bleeding) from the main unit. Only NTSC signal interference processing.  
+Due to the fact that the shader of OpenMSX is 1-pass processing and the resolution is insufficient, there is no signal interference (periodic color bleeding) from the CRT characteristics or the main unit.
+
+Only NTSC signal interference processing.  
 I think that the atmosphere will come out at all rather than nothing.
 
 ## setup
