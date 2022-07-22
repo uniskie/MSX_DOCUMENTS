@@ -2,7 +2,17 @@
 
 ![sample1](samples/BASIC.png)
 
-これはOpenMSX(現在1.8.0)のTVフィルタをThemaister's NTSC shaderベースのアナログテレビ風のにじみ（クロスカラーやドット妨害）再現に変更するためのシェーダーファイルです。
+これはOpenMSX(現在1.8.0)のTVフィルタをThemaister's NTSC shaderベースの処理を移植したものに差し替えるものです。  
+アナログテレビ風のにじみに少し近くなります。
+
+## Themaister's NTSC shader
+
+表示時に一度NTSC信号に変換し、クロスカラー(色の干渉)やドット妨害(暗いドット)の処理を施した後にRGBに戻して表示する物です。
+
+## 実装説明
+
+OpenMSXがのシェーダーが1パス処理であることや、解像度の不足からブラウン管特性や、本体からの信号干渉(周期的な色の滲みだし)などは入っていません。NTSC信号の干渉処理のみです。  
+無いよりは全然雰囲気が出るかと思います。
 
 ## 準備 
 
@@ -19,6 +29,12 @@
 
 *※注) ドキュメントフォルダではなくOpenMSXインストールフォルダ配下の"OpenMSX\share\shaders"に上書きするとOpenMSXのアップデート時に元に戻ってしまいます。*
 
+### バリエーション
+
+* tv_ntsc_composit_video ... 標準（OpenMSX_TV_Shader直下のものと同じ）
+* tv_ntsc_vivid          ... 彩度強調
+* tv_original            ... OpenMSXの素のファイル
+
 ## 使用方法
 準備が終わったら、
 
@@ -34,31 +50,36 @@
 
 ## 滲みの調整
 
-現状のOpenMSXのTVフィルタには、VideoControlの調整値がScanline値しか渡されず
-Blur値はシェーダーには送られてこない為、シェーダー側を弄って調整する必要があります。
-
 滲み方の調整は [tv.vert](tv.vert)"tv.vert" の、
-    // If you want to adjust the amount of bleeding, please play with this value.
-    #define BLUR_MILTIPLE	0.169
-0.169の部分を変更して調整して下さい。  
+    #define BLUR_MILTIPLE   (10.625/32.0)//(8.0/32.0)
+を変更することで調整できますが、Themaister's NTSC shaderと内部解像度との問題で、あまり良い調整が出来ないようです。
 
-例) 0.169 (現在)  
-<img src="samples/BLUR_MILTIPLE_0169_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0169_2.png" width="50%">
+簡易的な彩度強調のみ追加しました。
+(tv_ntsc_vividフォルダの中のtv.vertとtv.frag)
 
-例) 0.200  
-<img src="samples/BLUR_MILTIPLE_0200_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0200_2.png" width="50%">
+## 参考画像
 
-例) 0.300  
-<img src="samples/BLUR_MILTIPLE_0300_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0300_2.png" width="50%">
+1. CASIO MX-101実機をCompositeVideo接続からGV-USB2でキャプチャしたもの
+<img src="samples/HYDLIDE3_MX10_video.png" width="50%">
 
-例) 0.400  
-<img src="samples/BLUR_MILTIPLE_0400_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0400_2.png" width="50%">
+2. MSX2エミュレーションでMSX版ハイドライド3
+<img src="samples/HYDLIDE3MSX1_1.png" width="50%"><img src="samples/HYDLIDE3MSX1_2.png" width="50%">
 
+2. MSX2エミュレーションでMSX2版ハイドライド3
+<img src="samples/HYDLIDE3MSX2_1.png" width="50%"><img src="samples/HYDLIDE3MSX2_2.png" width="50%">
 
 -----------------------------------------------
 # (in English)
 
-This is a shader file for changing the OpenMSX TV filter to a Themaister's NTSC shader-based analog TV-like bleeding (cross-color or dot jamming) reproduction.
+It replaces the OpenMSX (currently 1.8.0) TV filter with a port of Themaister's NTSC shader-based processing.  
+It will be a little closer to the analog TV-like bleeding.
+
+## What's Themaister's NTSC shader?
+Themaister's NTSC shader is converted to NTSC signal once at the time of display, processed for cross color (color interference) and dot interference (dark dots), and then returned to RGB for display.
+
+## Implementation description
+Due to the fact that the shader of OpenMSX is 1-pass processing and the lack of resolution, there are no CRT characteristics or signal interference (periodic color bleeding) from the main unit. Only NTSC signal interference processing.  
+I think that the atmosphere will come out at all rather than nothing.
 
 ## setup
 Please copy "tv.vert" and "tv.frag" to
@@ -71,6 +92,12 @@ If there is no "shaders" folder in "Documents\OpenMSX\share\", create a "shaders
 *Note) The "Documents" folder is a document folder for each Windows user. (My Documents in XP or earlier)*
 
 *Note) If you overwrite "OpenMSX\share\shaders" under the OpenMSX installation folder instead of the document folder, it will be restored at the time of software update.*
+
+### variation
+
+* tv_ntsc_composit_video ... Standard (same as the one directly under OpenMSX_TV_Shader)
+* tv_ntsc_vivid          ... Saturation enhancement
+* tv_original            ... OpenMSX raw files
 
 ## how to use:
 When you're ready
@@ -87,24 +114,24 @@ When you're ready
 
 ## Blurring adjustment
 
-Only the Scanline value is passed as the adjustment value of VideoControl to the current TV filter of OpenMSX.
-Since the Blur value is not sent to the shader, it is necessary to adjust it by playing with the shader side.
-
 Adjust the blurring method of [tv.vert](tv.vert)"tv.vert",
     // If you want to adjust the amount of bleeding, please play with this value.
-    #define BLUR_MILTIPLE 0.169
-Please change the part of 0.169 and adjust.  
+    #define BLUR_MILTIPLE   (10.625/32.0)//(8.0/32.0)
+It can be adjusted by changing Due to a problem with Themaister's NTSC shader and internal resolution, it seems that I can't make very good adjustments.
 
-ex.) 0.169 (Current)  
-<img src="samples/BLUR_MILTIPLE_0169_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0169_2.png" width="50%">
+Only simple saturation enhancement has been added.
+(tv.vert and tv.frag in the tv_ntsc_vivid folder)
 
-ex.) 0.200  
-<img src="samples/BLUR_MILTIPLE_0200_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0200_2.png" width="50%">
-ex.) 0.300  
-<img src="samples/BLUR_MILTIPLE_0300_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0300_2.png" width="50%">
+## reference image
 
-ex.) 0.400  
-<img src="samples/BLUR_MILTIPLE_0400_1.png" width="50%"><img src="samples/BLUR_MILTIPLE_0400_2.png" width="50%">
+1. CASIO MX-101 captured by GV-USB2 from Composite Video connection
+<img src="samples/HYDLIDE3_MX10_video.png" width="50%">
+
+2. MSX version Hydlide 3 with MSX2 emulation
+<img src="samples/HYDLIDE3MSX1_1.png" width="50%"> <img src="samples/HYDLIDE3MSX1_2.png" width="50%">
+
+2. MSX2 version Hydlide 3 with MSX2 emulation
+<img src="samples/HYDLIDE3MSX2_1.png" width="50%"> <img src="samples/HYDLIDE3MSX2_2.png" width="50%">
 
 -----------------------------------------------
 

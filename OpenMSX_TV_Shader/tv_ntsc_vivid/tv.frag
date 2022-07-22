@@ -13,8 +13,8 @@
 
 // additional filter
 //---------------------
-//#define vSATU(x)  (x * 1.25)  // 彩度を強調する
-  #define vSATU(x)  (x)         // 彩度を強調しない
+  #define vSATU(x)      (x * 1.25)  // 彩度を強調する
+//#define vSATU(x)      (x)         // 彩度を強調しない
 
 //#define vLUMA(x,c)    ((x) * (1.40 - float(c) * 0.02))    // 輝度マルチサンプルの重みに細工する(※モアレ発生)
   #define vLUMA(x,c)    (x)                                 // 輝度マルチサンプルの重みに細工しない
