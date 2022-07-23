@@ -10,10 +10,10 @@
 
 表示時に一度NTSC信号に変換し、クロスカラー(色の干渉)やドット妨害(暗いドット)の処理を施した後にRGBに戻して表示する物です。
 
-ドット妨害  
+クロスカラー  
 ![cross-color](img/CrossColor.png)
 
-クロスカラー  
+ドット妨害  
 ![cross-luminance](img/CrossLuminance.png)
 
 ## 実装説明
