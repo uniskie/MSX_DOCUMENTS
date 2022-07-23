@@ -1,7 +1,7 @@
 # TV shader mod for OpenMSX 1.8.0
 [ReadMe in English](ReadMe_Eng.md)
 
-![sample1](samples/BASIC.png)
+![sample1](img/BASIC.png)
 
 これはOpenMSX(現在1.8.0)のTVフィルタをThemaister's NTSC shaderベースの処理を移植したものに差し替えるものです。  
 アナログテレビ風のにじみに少し近くなります。
@@ -9,6 +9,12 @@
 ## Themaister's NTSC shader
 
 表示時に一度NTSC信号に変換し、クロスカラー(色の干渉)やドット妨害(暗いドット)の処理を施した後にRGBに戻して表示する物です。
+
+ドット妨害  
+![cross-color](img/CrossColor.png)
+
+クロスカラー  
+![cross-luminance](img/CrossLuminance.png)
 
 ## 実装説明
 
@@ -66,13 +72,13 @@ NTSC信号の干渉処理のみです。
 ## 参考画像
 
 1. CASIO MX-101実機をCompositeVideo接続からGV-USB2でキャプチャしたもの  
-<img src="samples/HYDLIDE3_MX10_video.png" width="50%">
+<img src="img/HYDLIDE3_MX10_video.png" width="50%">
 
 2. MSX2エミュレーションでMSX版ハイドライド3  
-<img src="samples/HYDLIDE3MSX1_1.png" width="50%"><img src="samples/HYDLIDE3MSX1_2.png" width="50%">
+<img src="img/HYDLIDE3MSX1_1.png" width="50%"><img src="img/HYDLIDE3MSX1_2.png" width="50%">
 
 2. MSX2エミュレーションでMSX2版ハイドライド3  
-<img src="samples/HYDLIDE3MSX2_1.png" width="50%"><img src="samples/HYDLIDE3MSX2_2.png" width="50%">
+<img src="img/HYDLIDE3MSX2_1.png" width="50%"><img src="img/HYDLIDE3MSX2_2.png" width="50%">
 
 -----------------------------------------------
 

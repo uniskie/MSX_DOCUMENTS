@@ -1,13 +1,19 @@
 # TV shader mod for OpenMSX 1.8.0
 [ReadMe in Japanese](ReadMe.md)
 
-![sample1](samples/BASIC.png)
+![sample1](img/BASIC.png)
 
 It replaces the OpenMSX (currently 1.8.0) TV filter with a port of Themaister's NTSC shader-based processing.  
 It will be a little closer to the analog TV-like bleeding.
 
 ## What's Themaister's NTSC shader?
-Themaister's NTSC shader is converted to NTSC signal once at the time of display, processed for cross color (color interference) and dot interference (dark dots), and then returned to RGB for display.
+Themaister's NTSC shader is converted to NTSC signal once at the time of display, processed for cross color (color interference) and cross luminance (dark dots), and then returned to RGB for display.
+
+Cross Color  
+![cross-color](img/CrossColor.png)
+
+Cross Luminance  
+![cross-luminance](img/CrossLuminance.png)
 
 ## Implementation description
 Due to the fact that the shader of OpenMSX is 1-pass processing and the resolution is insufficient, there is no signal interference (periodic color bleeding) from the CRT characteristics or the main unit.
@@ -61,13 +67,13 @@ Only simple saturation enhancement has been added.
 ## reference image
 
 1. CASIO MX-101 captured by GV-USB2 from Composite Video connection  
-<img src="samples/HYDLIDE3_MX10_video.png" width="50%">
+<img src="img/HYDLIDE3_MX10_video.png" width="50%">
 
 2. MSX version Hydlide 3 with MSX2 emulation  
-<img src="samples/HYDLIDE3MSX1_1.png" width="50%"><img src="samples/HYDLIDE3MSX1_2.png" width="50%">
+<img src="img/HYDLIDE3MSX1_1.png" width="50%"><img src="img/HYDLIDE3MSX1_2.png" width="50%">
 
 2. MSX2 version Hydlide 3 with MSX2 emulation  
-<img src="samples/HYDLIDE3MSX2_1.png" width="50%"><img src="samples/HYDLIDE3MSX2_2.png" width="50%">
+<img src="img/HYDLIDE3MSX2_1.png" width="50%"><img src="img/HYDLIDE3MSX2_2.png" width="50%">
 
 -----------------------------------------------
 
