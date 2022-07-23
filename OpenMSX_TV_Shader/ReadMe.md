@@ -34,9 +34,10 @@ NTSC信号の干渉処理のみです。
 
 ### バリエーション
 
-* tv_ntsc_composit_video ... 標準（OpenMSX_TV_Shader直下のものと同じ）
-* tv_ntsc_vivid          ... 彩度強調
-* tv_original            ... OpenMSXの素のファイル
+* tv_ntsc_composit_video     ... 標準（OpenMSX_TV_Shader直下のものと同じ）
+* tv_ntsc_no_cross_luminance ... ドット妨害なし。クロスカラーのみ
+* tv_ntsc_vivid              ... 彩度強調
+* tv_original                ... OpenMSXの素のファイル
 
 ## 使用方法
 準備が終わったら、

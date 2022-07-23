@@ -29,9 +29,10 @@ If there is no "shaders" folder in "Documents\OpenMSX\share\", create a "shaders
 
 ### variation
 
-* tv_ntsc_composit_video ... Standard (same as the one directly under OpenMSX_TV_Shader)
-* tv_ntsc_vivid          ... Saturation enhancement
-* tv_original            ... OpenMSX raw files
+* tv_ntsc_composit_video     ... Standard (same as the one directly under OpenMSX_TV_Shader)
+* tv_ntsc_no_cross_luminance ... No Cross-Luminance, Cross-Color only
+* tv_ntsc_vivid              ... Saturation enhancement
+* tv_original                ... OpenMSX raw files
 
 ## how to use:
 When you're ready
