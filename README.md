@@ -9,5 +9,13 @@ MSX関連の色んなメモを置く場所です
 [Musica_VCD_file_memo.txt][2]
 ...ASCIIの音源ドライバMuSICAの音声ファイル(VCDファイル)の解析メモ
 
+[GETIFF.asm][3]
+[GETIFF_ENG.asm][4]
+...Z80の割り込みフラグ取得バグ対策
+
+
+
 [1]:GAME_USING_SCREEN8.txt
 [2]:Musica_VCD_file_memo.txt
+[3]:GETIFF.asm
+[4]:GETIFF_ENG.asm
