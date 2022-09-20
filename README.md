@@ -6,16 +6,26 @@ MSX関連の色んなメモを置く場所です
 [GAME_USING_SCREEN8.txt][1]
 ...SCREEN8を使用した市販ゲームのリスト
 
-[Musica_VCD_file_memo.txt][2]
+[MuSICA_DATA_MANUAL.txt][2]
+...ASCIIの音源ドライバ「MuSICA」のデータ仕様書 書き起こし
+
+[MuSICA_PROGMAM_MANUAL.txt][3]
+...ASCIIの音源ドライバ「MuSICA」のプログラム仕様書 書き起こし
+
+[Musica_VCD_file_memo.txt][4]
 ...ASCIIの音源ドライバMuSICAの音声ファイル(VCDファイル)の解析メモ
 
-[GETIFF.asm][3]
-[GETIFF_ENG.asm][4]
+[GETIFF.asm][5]
+[GETIFF_ENG.asm][6]
 ...Z80の割り込みフラグ取得バグ対策
 
-
+[MSX-BASIC_KEYWORDS.txt][7]
+...MSX-BASIC予約語リスト...テキストエディタの協調表示などに
 
 [1]:GAME_USING_SCREEN8.txt
-[2]:Musica_VCD_file_memo.txt
-[3]:GETIFF.asm
-[4]:GETIFF_ENG.asm
+[2]:MuSICA_DATA_MANUAL.txt
+[3]:MuSICA_PROGMAM_MANUAL.txt
+[4]:Musica_VCD_file_memo.txt
+[5]:GETIFF.asm
+[6]:GETIFF_ENG.asm
+[7]:MSX-BASIC_KEYWORDS.txt
