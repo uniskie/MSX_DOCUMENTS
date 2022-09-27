@@ -22,6 +22,9 @@ MSX関連の色んなメモを置く場所です
 [MSX-BASIC_KEYWORDS.txt][7]
 ...MSX-BASIC予約語リスト...テキストエディタの協調表示などに
 
+[FMBIOS_MUSIC_DATA.MD][8]
+...FMBIOS用音楽データのメモ
+
 [1]:GAME_USING_SCREEN8.txt
 [2]:MuSICA_DATA_MANUAL.txt
 [3]:MuSICA_PROGMAM_MANUAL.txt
@@ -29,3 +32,4 @@ MSX関連の色んなメモを置く場所です
 [5]:GETIFF.asm
 [6]:GETIFF_ENG.asm
 [7]:MSX-BASIC_KEYWORDS.txt
+[8]:FMBIOS_MUSIC_DATA.MD
