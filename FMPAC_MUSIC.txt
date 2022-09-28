@@ -1,4 +1,5 @@
 ﻿■ FMPACのバンク選択
+
 レジスタ: 7FF7h
 http://bifi.msxnet.org/msxnet/utils/saverom
 SAVEROM FMPAC.ROM⏎
@@ -11,9 +12,9 @@ Last Block: 3
 
 ■ FMPACの曲データ
 
-0CBF4Hへ転送
+RAM 0CBF4H(環境による)へ転送して再生される
 
-(bank2)
+(ROMイメージ先頭から)
 8080H	曲データアドレスリスト
 	(2byte*5)
 	408A	1曲目
