@@ -35,7 +35,7 @@ MSX関連の色んなメモを置く場所です
 [FMBIOS_MUSIC_DATA.MD][8]  
 ...FMBIOS用音楽データのメモ
 
-[FMPAC_MUSIC.txt][9]  
+[FMPAC_Memo.txt][9]  
 ...FMPACメモ
 
 - - - -
@@ -48,4 +48,4 @@ MSX関連の色んなメモを置く場所です
 [6]:MuSICA_PROGMAM_MANUAL.txt
 [7]:Musica_VCD_file_memo.txt
 [8]:FMBIOS_MUSIC_DATA.MD
-[9]:FMPAC_MUSIC.txt
+[9]:FMPAC_Memo.txt
