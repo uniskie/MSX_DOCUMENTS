@@ -1,12 +1,16 @@
+
+[FM-BIOS ENTRY](#fm-bios-entry)  
+[FM-BIOS MUSIC DATA](#fm-bios-music-data)
+
 - - -
 
-# FM-BIOS ENTRY
+# FM-BIOS
 
 ## ROMヘッダ
 
 4018Hに"OPLL" (4バイト)があったらFM-BIOS ROM。
 
-## FM-BIOS
+## FM-BIOS ENTRY
 
 | エントリ  | WRTOPL  (4110H)
 |:---------:|:----------------|
