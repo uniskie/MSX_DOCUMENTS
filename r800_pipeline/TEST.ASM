@@ -148,11 +148,9 @@ test2:
 		;---------------
 
 test2_l1:
-;						;*1
-;		add		a,1		;2
-;		inc		a		;2+1=3
 
-		jp		test2_n	;3
+		jp		test2_jp	;3 + wait 2(ram)/3(rom)
+;		jr		test2_jr	;3
 		
 		nop
 		nop
@@ -163,9 +161,13 @@ test2_l1:
 		nop
 		nop
 
-test2_n:
-						;*2
+						;*1
 		add		a,1		;2
+		inc		a		;2+1=3
+test2_jr:
+						;*2
+;		add		a,1		;2
+test2_jp:
 		inc		a		;2+1=3
 		
 						;*3
