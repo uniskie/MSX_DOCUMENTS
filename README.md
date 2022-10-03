@@ -40,6 +40,11 @@ MSX関連の色んなメモを置く場所です
 
 - - - -
 
+[MGSDRV_MEMO.md][10]  
+...MGSDRVメモ ... F-Numberらしきものなど
+
+- - - -
+
 [1]:GAME_USING_SCREEN8.txt
 [2]:GETIFF.asm
 [3]:GETIFF_ENG.asm
@@ -49,3 +54,4 @@ MSX関連の色んなメモを置く場所です
 [7]:Musica_VCD_file_memo.txt
 [8]:FMBIOS_MUSIC_DATA.MD
 [9]:FMPAC_Memo.txt
+[10]:MGSDRV_MEMO.md
