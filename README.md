@@ -38,7 +38,7 @@ MSX関連の色んなメモを置く場所です
 [FMPAC_Memo.txt][9]  
 ... FMPAC OPLDRV BGMデータメモ
 
-[RTYPE_memo.txt][10]  
+[RTYPE_memo.md][10]  
 ... RTYPE OPLDRV BGMデータメモ
 
 - - - -
@@ -57,5 +57,5 @@ MSX関連の色んなメモを置く場所です
 [7]:Musica_VCD_file_memo.txt
 [8]:FMBIOS_MUSIC_DATA.MD
 [9]:FMPAC_Memo.txt
-[10]:RTYPE_memo.txt
+[10]:RTYPE_memo.md
 [11]:MGSDRV_MEMO.md
