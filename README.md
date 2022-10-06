@@ -40,6 +40,8 @@ MSX関連の色んなメモを置く場所です
 
 [RTYPE_memo.md][10]  
 ... RTYPE OPLDRV BGMデータメモ
+[RTYPE_BGM_EXTRACT][11]  
+... RTYPE OPLDRV BGMデータ取り出しプログラムサンプル
 
 - - - -
 
@@ -58,4 +60,5 @@ MSX関連の色んなメモを置く場所です
 [8]:FMBIOS_MUSIC_DATA.MD
 [9]:FMPAC_Memo.txt
 [10]:RTYPE_memo.md
-[11]:MGSDRV_MEMO.md
+[11]:RTYPE_BGM_EXTRACT
+[12]:MGSDRV_MEMO.md
