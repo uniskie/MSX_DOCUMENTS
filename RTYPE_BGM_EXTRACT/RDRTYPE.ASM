@@ -81,7 +81,7 @@ rtype_bank_reg2:	equ	7000H
 rtype_bgm_bank:		equ	9
 ;BGMƒf[ƒ^‚Ì”ÍˆÍ‚Í $9073- $BF5D
 rtype_bgm_start:	equ	$9073
-rtype_bgm_size:		equ	$BF5D - $9073
+rtype_bgm_size:		equ	$BF5D + 1 - $9073
 
 use_page:			equ	$8000
 vram_dest:			equ	$9073 - $8000
