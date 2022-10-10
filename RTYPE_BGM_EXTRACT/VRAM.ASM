@@ -33,12 +33,14 @@ VSETWRT:
 		CP		7
 		JR		NC,VSETWR3		; page / 1
 ; SCREEN 5,6 = page : A16,15
-		LD		A,D
-		RLA						; c=d7
-		RLA						; c=d6
-		LD		A,(ACPAGE)		; Active Page
-		RLA						;00000pp6
-		AND		7				; xxxxxpp6 »›…¿“ mask
+		LD		A,(ACPAGE)
+		RLC		D				; 65432107 cy=bit7
+		ADC		A,0				; 000000pp + cy
+		RLC		D				; 54321076 cy=bit6
+		RL		A				; 00000pp6
+		AND		7				; xxxxx??? »›…¿“ mask
+		RRC		D				; 65432107
+		RRC		D				; 76543210
 		JR		VSETWR4
 VSETWR3:
 ; SCREEN 7,8 = page : A16

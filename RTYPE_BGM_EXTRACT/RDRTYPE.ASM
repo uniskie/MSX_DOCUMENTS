@@ -84,7 +84,7 @@ rtype_bgm_start:	equ	$9073
 rtype_bgm_size:		equ	$BF5D + 1 - $9073
 
 use_page:			equ	$8000
-vram_dest:			equ	$9073 - $8000
+vram_dest:			equ	rtype_bgm_start; - $8000
 
 ;================================
 ;  rom to vram
