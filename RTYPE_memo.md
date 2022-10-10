@@ -45,3 +45,6 @@ BGMデータの範囲は $9073- $BF5D
 
 ■ R-Typeの特殊ROMバンクを変更してASCII 16KBバンクに変更するツール  
 [RType_MSXROM_To_Ascii16](https://github.com/uniskie/RType_MSXROM_To_Ascii16)
+
+■ カートリッジからデータを取り出すプログラム  
+https://github.com/uniskie/MSX_MISC_TOOLS/tree/main/OPLDRV_BGM_EXTRACT

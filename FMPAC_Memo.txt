@@ -29,6 +29,9 @@ $990E	3曲目 サイズ $0280 ($990E),データ($9910-$9B8F)
 $9B90	4曲目 サイズ $0A80 ($9B90),データ($9B92-$A611)
 $A612	5曲目 サイズ $0580 ($A612),データ($A614-$AB93)
 
+■ カートリッジからデータを取り出すプログラム  
+https://github.com/uniskie/MSX_MISC_TOOLS/tree/main/OPLDRV_BGM_EXTRACT
+
 ■ 曲再生呼び出し処理
 
 (bank 0)

@@ -43,6 +43,9 @@ MSX関連の色んなメモを置く場所です
 [RTYPE_BGM_EXTRACT][11]  
 ... RTYPE OPLDRV BGMデータ取り出しプログラムサンプル
 
+https://github.com/uniskie/MSX_MISC_TOOLS/tree/main/OPLDRV_BGM_EXTRACT  
+... FMPAC / RTYPE のカートリッジからOPLDRV用BGMデータを取り出すツール
+
 - - - -
 
 [MGSDRV_MEMO.md][11]  
@@ -62,3 +65,4 @@ MSX関連の色んなメモを置く場所です
 [10]:RTYPE_memo.md
 [11]:RTYPE_BGM_EXTRACT
 [12]:MGSDRV_MEMO.md
+
