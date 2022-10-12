@@ -49,8 +49,13 @@ https://github.com/uniskie/MSX_MISC_TOOLS/tree/main/OPLDRV_BGM_EXTRACT
 
 - - - -
 
-[MGSDRV_MEMO.md][11]  
+[MGSDRV_MEMO.md][12]  
 ... MGSDRVメモ ... F-Numberらしきものなど
+
+- - - -
+
+[tempo_list.md][13]
+... 4分音符のフレーム数指定でのテンポと各音長のフレーム数リスト
 
 - - - -
 
@@ -66,4 +71,4 @@ https://github.com/uniskie/MSX_MISC_TOOLS/tree/main/OPLDRV_BGM_EXTRACT
 [10]:RTYPE_memo.md
 [11]:RTYPE_BGM_EXTRACT
 [12]:MGSDRV_MEMO.md
-
+[13]:tempo_list.md
