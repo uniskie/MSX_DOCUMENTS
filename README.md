@@ -54,7 +54,7 @@ https://github.com/uniskie/MSX_MISC_TOOLS/tree/main/OPLDRV_BGM_EXTRACT
 
 - - - -
 
-[tempo_list.md][13]
+[tempo_list.md][13]  
 ... 4分音符のフレーム数指定でのテンポと各音長のフレーム数リスト
 
 - - - -
