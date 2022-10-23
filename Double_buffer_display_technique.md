@@ -27,13 +27,13 @@ Double buffering : Anti Flicker display technique.
 > **Warning**
 >
 > VRAMのパレットテーブルが邪魔なので、  
-> ```COLOR=(n,r,g,b)```や```COLOR=RESTORE``などのパレット操作命令を使わない前提でのメモになります。
+> ```COLOR=(n,r,g,b)```や```COLOR=RESTORE```などのパレット操作命令を使わない前提でのメモになります。
 >
 > ```COLOR=(n,r,g,b)```を使用するとVRAMのパレットテーブルの位置が書き換えられてしまいます。
 > この命令専用の領域なので、VDP操作で直接パレットを設定する場合はパレットテーブルは使用されません。
 > 
 > ダブルバッファリングを使用する場合は、  
-> BASICの```COLOR=(n,r,g,b)```や```COLOR=RESTORE``は使わない方が良いです。
+> BASICの```COLOR=(n,r,g,b)```や```COLOR=RESTORE```は使わない方が良いです。
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
