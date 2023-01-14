@@ -21,8 +21,9 @@ Double buffering : Anti Flicker display technique.
 4. [スプライトパターンデータ書き換え（スプライトパターンジェネレータ）](#スプライトパターンデータ書き換え)
 5. [テキスト/キャラ表示（パターンネーム）](#テキストキャラ表示)
 6. [キャラクタパターンデータ書き換え（パターンジェネレータ&パターンカラー）](#キャラクタパターン書き換え)
+7. [実際の使用事例紹介](#事例紹介)
 
-について、ダブルバッファリング手法の事例をメモしていきます。
+という順番で、ダブルバッファリング手法についてメモしていきます。
 
 > **Warning** :point_right: パレットテーブルを使わない！
 > 
@@ -752,3 +753,8 @@ SCREEN1の場合、カラーテーブルもダブルバッファにする事が�
 > https://github.com/uniskie/MSX_MISC_TOOLS/tree/main/LOADSRD/samples/.sensitive/KUONAI
 
 1ラインにスプライトが8個以上並んでも消えたままにならずに点滅するようにしたサンプル。
+
+## 事例紹介
+
+- 記事：[FREEDOM FIGHTER SMOOTH SCROLLING](https://thegeps.blogspot.com/2022/04/freedom-fighter-smooth-scrolling-eng.html)  
+  [MSXdev’20: #18 – Freedom Fighter](https://msxdev.org/2020/07/30/msxdev20-18-pacificfreedom-fighter/)で実装されているスムーズスクロールでもダブルバッファリングを使用しているそうです。 
