@@ -1,35 +1,40 @@
 ﻿MSXでSCEREEN8を使用した市販ゲーム
 
 ★タイトル/エンディング
-イース
-フィードバック（CAPSオン/ED放置）
-プロジェクトA2
-スーパーランボースペシャル
-美少女コントロール(2+は自然画)
-たんば
+イース (1987 日本ファルコム)
+フィードバック **裏技で表示:CAPS OnでEnding放置** (1988 テクノソフト)
+プロジェクトＡ２史上最大の標的 (1987 ポニーキャニオン)
+スーパーランボースペシャル (1986 パックインビデオ)
+美少女コントロール **2+は自然画** (1989 HARD)
+たんば (1988 マイクロネット)
 
 ★OP/デモ
-ハイディフォス
-アレスタ
-エメラルドドラゴン
-スターシップランデブー(イベントも)
-真・魔王ゴルベリアス(2+は自然画)
+ハイディフォス (1989 Hertz)
+アレスタ (1988 Compile)
+エメラルドドラゴン (1990 Glodia)
+スターシップランデブー **イベントシーンも** (1988 Scaptrust)
+真・魔王ゴルベリアス **2+は自然画** (1988 Compile)
 
 ★全体/ゲーム
-ラ・フェール失われた時を求めて
-ウイングマン スペシャル
-メルヘンヴェール
-HOLE IN ONE Special
-レナム
-エミー２
-りっくとみっくの大冒険
-ほっとMILK
-ぴんきぃ・ぽんきぃ
-スーパートリトーン
-MSX2版ハイドライド（選択式）
-小林ひとみのパズルインロンドン
-ARCTIC
-2021 SNOOKY!
-コラムス
-ブロックブレイカー
-Beppinディスク(MSXマガジン付録)
+RadX-8 (1987 Radarsoft)
+Breaker/ブロックブレーカー (1988 Radarsoft/1988 GA夢/Hot-B)
+Last Mission (1987 Opera Soft)
+Livingstone Supongo (MSX2/1986 Opera Soft)
+Goody (MSX2/1988 Opera Soft)
+L'Affaire.../ラ・フェール失われた時を求めて (1986 Infogrames/1987 Pack-In-Video)
+ウイングマン スペシャル (1988 ENIX)
+メルヘンヴェール (MSX2/1987 System Sacom)
+HOLE IN ONE Special (1987 HAL研究所)
+レナム (1990 Hertz)
+エミー２ (1985 ASCII/工画堂スタジオ)
+りっくとみっくの大冒険 (1987 Humming Bird Soft)
+ほっとMILK (1988 Fairytale)
+ぴんきぃ・ぽんきぃ (1989 Elf)
+スーパートリトーン (1986 SEIN SOFT)
+ハイドライド **SCREEN5/8選択式** (1985 T&E SOFT)
+小林ひとみ パズル イン ロンドン (1988 Informercial)
+ARCTIC (1989 ポニーキャニオン)
+2021 SNOOKY! (1992 TAKERU/Atelier Taka)
+コラムス (1990 日本テレネット/Compile）
+Beppinディスク(MSXマガジン付録) (1988 英知出版)
+
