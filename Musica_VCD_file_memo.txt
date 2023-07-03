@@ -48,7 +48,7 @@ Address Map
 (*) M: Modulator
 (*) C: Carrier
 
-(*) [BUG] DC and DM are reversed on Editor.
+(*) [BUG] DC and DM are reversed on Editor. DCとDMが入れ替わっているバグがあります。
 
 ------------------------------------------------------
 [PSG Voice Data] Format (8bytes)
