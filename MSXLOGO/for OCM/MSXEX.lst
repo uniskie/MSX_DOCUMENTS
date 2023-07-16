@@ -1,0 +1,764 @@
+0001   0000             ; =======================================
+0002   0000             ; Plot LOGO for MSX2+ with antialiasing
+0003   0000             ; to insert in MSXKANJI.ROM file.
+0004   0000             ; Binary result: MSXKANJIFIX.ROM
+0005   0000             ; Size of logo: 422*80 dots
+0006   0000             ; Hex Editor Address: $399d - $3fff
+0007   0000             ; Modified by KdL 2013.05.12
+0008   0000             ; Coded in TWZ'CA3 w/ TASM80 v3.2ud
+0009   0000             ; =======================================
+0010   0000             
+0011   799D                 .org    07A00h - 99         ; StartProg - MainProg = 99 bytes               <---------------------
+0012   799D             ;   .org    0100h               ; MSXEX.COM
+0013   799D             
+0014   799D             MainProg:
+0015   799D C3 00 7A        jp      startProg           ; filler of 3 bytes -> useful for MSXEX.COM
+0016   79A0             ;\------------------------------
+0017   79A0             Line_EX_COM:
+0018   79A0 D5              push    de
+0019   79A1 1E 70           ld  e, 70h                  ; Line Execution Command
+0020   79A3             loc_7C2F:
+0021   79A3 16 2E           ld  d, 2Eh                  ; R#46 - Command Register
+0022   79A5 CD 7A 7B        call    wr_dat2reg
+0023   79A8 CD 85 7B        call    wait_CE
+0024   79AB D1              pop de
+0025   79AC C9              ret
+0026   79AD             ; ==============================
+0027   79AD             sub_7C3E:
+0028   79AD 3E 0D           ld  a, 0Dh                  ; RTC#13 mode register
+0029   79AF D3 B4           out (0B4h), a
+0030   79B1 DB B5           in  a, (0B5h)
+0031   79B3 E6 0C           and 0Ch
+0032   79B5 F6 02           or  2
+0033   79B7 D3 B5           out (0B5h), a               ; Select Block 2
+0034   79B9 3E 0B           ld  a, 0Bh                  ; Register Color/Title
+0035   79BB D3 B4           out (0B4h), a
+0036   79BD DB B5           in  a, (0B5h)               ; (Color/Title) -> Code (Color)=0..3
+0037   79BF 07              rlca
+0038   79C0             ;   rlca
+0039   79C0 E6 06           and 06h                     ; 0Ch by default
+0040   79C2 4F              ld  c, a
+0041   79C3 06 00           ld  b, 0
+0042   79C5 21 12 7C        ld  hl, tab_7CA4            ; Color table
+0043   79C8 09              add hl, bc
+0044   79C9 4E              ld  c, (hl)
+0045   79CA 23              inc hl
+0046   79CB 46              ld  b, (hl)
+0047   79CC C5              push    bc
+0048   79CD             ;   inc hl
+0049   79CD             ;   ld  e, (hl)
+0050   79CD             ;   inc hl
+0051   79CD             ;   ld  d, (hl)
+0052   79CD             ;   ex  de, hl
+0053   79CD             ; Set Palette Register address
+0054   79CD 11 00 10        ld  de, 1000h               ; 00H -> R#16
+0055   79D0 CD 7A 7B        call    wr_dat2reg
+0056   79D3             ; Set Palette Register 0...7
+0057   79D3 21 00 00        ld  hl, 0000h               ; 0/0/0 -> black
+0058   79D6 CD E6 79        call    sub_7C7A
+0059   79D9 E1              pop hl                      ; RED/BLUE/GREEN -> bg color
+0060   79DA CD E6 79        call    sub_7C7A
+0061   79DD 21 44 04        ld  hl, 0444h               ; 4/4/4 -> gray
+0062   79E0 CD E6 79        call    sub_7C7A
+0063   79E3 21 77 07        ld  hl, 0777h               ; 7/7/7 -> white
+0064   79E6             ; ==============================
+0065   79E6             sub_7C7A:
+0066   79E6 C5              push    bc
+0067   79E7 0E 9A           ld  c, 9Ah
+0068   79E9 ED 69           out (c), l
+0069   79EB E3              ex  (sp), hl
+0070   79EC E3              ex  (sp), hl
+0071   79ED ED 61           out (c), h
+0072   79EF C1              pop bc
+0073   79F0 C9              ret
+0074   79F1             ; ==============================
+0075   79F1             init_VDP:
+0076   79F1 06 08           ld  b, 8
+0077   79F3 21 02 7C        ld  hl, tab_7C94            ; 08h -> R#0
+0078   79F6             loc_7C8A:
+0079   79F6 56              ld  d, (hl)                 ; R#n
+0080   79F7 23              inc hl
+0081   79F8 5E              ld  e, (hl)                 ; Data
+0082   79F9 23              inc hl
+0083   79FA CD 7A 7B        call    wr_dat2reg
+0084   79FD 10 F7           djnz    loc_7C8A
+0085   79FF C9              ret
+0086   7A00             ; ==============================
+0087   7A00             startProg:                      ; 3A00h of MSXKANJI.ROM, 7A00h of MSX memory    <---------------------
+0088   7A00 F3              di
+0089   7A01 CD B1 7A        call    sub_7ADA            ; Init
+0090   7A04 CD 09 7A        call    sub_7A09            ; View
+0091   7A07 FB              ei
+0092   7A08 C9              ret                         ; Exit
+0093   7A09             loop4DOS:
+0094   7A09             ;   jr      loop4DOS            ; Loop test for MSXEX.COM
+0095   7A09             ;   
+0096   7A09             ; ==============================
+0097   7A09             ; View LOGO
+0098   7A09             sub_7A09:
+0099   7A09 21 FF 00        ld  hl, 00FFh               ;
+0100   7A0C CD 9E 7A        call    sub_7A9F            ;
+0101   7A0F             ;
+0102   7A0F 5C              ld  e, h
+0103   7A10 16 1A           ld  d, 1Ah                  ; R#26
+0104   7A12 CD 7A 7B        call    wr_dat2reg
+0105   7A15 5D              ld  e, l
+0106   7A16 16 1B           ld  d, 1Bh                  ; R#27
+0107   7A18 CD 7A 7B        call    wr_dat2reg
+0108   7A1B             ;
+0109   7A1B CD 82 7A        call    sub_7A83            ; Wait 2 VR
+0110   7A1E             ;
+0111   7A1E 11 63 01        ld  de, 0163h
+0112   7A21 CD 7A 7B        call    wr_dat2reg          ; 63h -> R#1
+0113   7A24 21 E1 00        ld  hl, 00E1h
+0114   7A27 11 F6 FF        ld  de, 0FFF6h
+0115   7A2A             loc_7A2A:
+0116   7A2A 13              inc de                      ;
+0117   7A2B 06 05           ld  b, 5
+0118   7A2D             loc_7A2D:
+0119   7A2D C5              push    bc
+0120   7A2E D5              push    de
+0121   7A2F CD 48 7A        call    sub_7A48
+0122   7A32 D1              pop de
+0123   7A33 C1              pop bc
+0124   7A34 19              add hl, de
+0125   7A35 10 F6           djnz    loc_7A2D
+0126   7A37             ;\------------------------------
+0127   7A37 7B              ld  a, e
+0128   7A38 B7              or  a
+0129   7A39 20 EF           jr  nz, loc_7A2A
+0130   7A3B             ;\------------------------------
+0131   7A3B 11 00 19        ld  de, 1900h
+0132   7A3E CD 7A 7B        call    wr_dat2reg          ; 00h -> R#25
+0133   7A41 11 1F 02        ld  de, 21Fh
+0134   7A44 CD 7A 7B        call    wr_dat2reg          ; 1Fh -> R#2
+0135   7A47 C9              ret
+0136   7A48             ; ==============================
+0137   7A48             sub_7A48:
+0138   7A48 E5              push    hl
+0139   7A49 CD 82 7A        call    sub_7A83            ; Wait 2 VR
+0140   7A4C AF              xor a
+0141   7A4D 95              sub l
+0142   7A4E 5F              ld  e, a
+0143   7A4F 3E 02           ld  a, 2
+0144   7A51 9C              sbc a, h
+0145   7A52 57              ld  d, a
+0146   7A53 CD 9E 7A        call    sub_7A9F
+0147   7A56 EB              ex  de, hl
+0148   7A57 CD 9E 7A        call    sub_7A9F
+0149   7A5A 01 9B 55        ld  bc, 559Bh
+0150   7A5D             loc_7A5D:
+0151   7A5D 3E 1A           ld  a, 1Ah                  ; Data 1Ah
+0152   7A5F D3 99           out (99h), a
+0153   7A61 3E 91           ld  a, 91h                  ; R#17 - Control register pointer
+0154   7A63 D3 99           out (99h), a
+0155   7A65 EB              ex  de, hl
+0156   7A66 DB 99           in  a, (99h)
+0157   7A68             loc_7A68:
+0158   7A68 DB 99           in  a, (99h)
+0159   7A6A E6 20           and 20h                     ; Bit 5 -
+0160   7A6C 28 FA           jr  z, loc_7A68             ; +1 byte free (jp -> jr)
+0161   7A6E             ;\------------------------------
+0162   7A6E ED 61           out (c), h
+0163   7A70 ED 69           out (c), l
+0164   7A72 10 E9           djnz    loc_7A5D
+0165   7A74             ;\------------------------------
+0166   7A74 E1              pop hl
+0167   7A75 11 00 1A        ld  de, 1A00h               ; 00h -> R#26
+0168   7A78 CD 7A 7B        call    wr_dat2reg
+0169   7A7B 11 00 1B        ld  de, 1B00h               ; 00H -> R#27
+0170   7A7E CD 7A 7B        call    wr_dat2reg
+0171   7A81 C9              ret
+0172   7A82             ; ==============================
+0173   7A82             ; WAIT 2 Vertical scanning line
+0174   7A82             sub_7A83:
+0175   7A82 3E 02           ld  a, 2                    ; S#2
+0176   7A84 D3 99           out (99h), a                ; Data = 02H
+0177   7A86 3E 8F           ld  a, 8Fh                  ; R#15 - Status register pointer
+0178   7A88 D3 99           out (99h), a
+0179   7A8A             loc_7A8B:
+0180   7A8A DB 99           in  a, (99h)
+0181   7A8C E6 40           and 40h                     ; Bit 6 - Flag VR
+0182   7A8E 28 FA           jr  z, loc_7A8B 
+0183   7A90             ;\------------------------------
+0184   7A90             loc_7A91:
+0185   7A90 DB 99           in  a, (99h)
+0186   7A92 E6 40           and 40h                     ; Bit 6 - Flag VR
+0187   7A94 20 FA           jr  nz, loc_7A91
+0188   7A96             ;\------------------------------
+0189   7A96 AF              xor a                       ; S#0
+0190   7A97 D3 99           out (99h), a
+0191   7A99 3E 8F           ld  a, 8Fh                  ; R#15 - Status register pointer
+0192   7A9B D3 99           out (99h), a
+0193   7A9D C9              ret
+0194   7A9E             ; ==============================
+0195   7A9E             ; hl=
+0196   7A9E             sub_7A9F:
+0197   7A9E 2B              dec hl
+0198   7A9F 7D              ld  a, l
+0199   7AA0 CB 3C           srl h
+0200   7AA2 1F              rra
+0201   7AA3 0F              rrca
+0202   7AA4 0F              rrca
+0203   7AA5 3C              inc a
+0204   7AA6 E6 3F           and 3Fh
+0205   7AA8 67              ld  h, a
+0206   7AA9 2C              inc l
+0207   7AAA 7D              ld  a, l
+0208   7AAB ED 44           neg
+0209   7AAD E6 07           and 7
+0210   7AAF 6F              ld  l, a
+0211   7AB0 C9              ret
+0212   7AB1             ; ==============================
+0213   7AB1             ; Init SCREEN memory and VDP registers
+0214   7AB1             sub_7ADA:
+0215   7AB1 CD 82 7A        call    sub_7A83            ; Wait 2 VR
+0216   7AB4             ; Set Mode Register #1
+0217   7AB4             ; BL = 0 Screen disabled
+0218   7AB4             ; IE0 = 1 Enable IE0
+0219   7AB4             ; M1,M2 = 00
+0220   7AB4             ; SI = 1 Sprite Size 16x16
+0221   7AB4             ; MA = 1 Sprite expansion Enable
+0222   7AB4             ;   ld  de, 0123h               ; 23h -> R#1
+0223   7AB4             ;   call    wr_dat2reg          ; +6 bytes free
+0224   7AB4             ;
+0225   7AB4 CD F1 79        call    init_VDP            ;
+0226   7AB7             ;
+0227   7AB7 3E 55           ld  a, 55h                  ;
+0228   7AB9 21 00 00        ld  hl, 0
+0229   7ABC 4D              ld  c, l
+0230   7ABD 45              ld  b, l
+0231   7ABE CD A3 7B        call    wr_VRAM             ; Init VRAM
+0232   7AC1             ;
+0233   7AC1 CD AD 79        call    sub_7C3E
+0234   7AC4             ; Set Text Color=0/Back drop color=5
+0235   7AC4 11 05 07        ld  de, 705h        ; 05H -> R#7
+0236   7AC7 CD 7A 7B        call    wr_dat2reg
+0237   7ACA             ;
+0238   7ACA 21 00 78        ld  hl, 7800h               ; Sprite color table
+0239   7ACD 01 30 00        ld  bc, 30h
+0240   7AD0 3E FF           ld  a, 0FFh                 ; pattern of 1st 8 pixel in left mask ( 0FFh )
+0241   7AD2 CD A3 7B        call    wr_VRAM
+0242   7AD5 21 30 78        ld  hl, 7830h
+0243   7AD8 01 10 00        ld  bc, 10h
+0244   7ADB 3E F0           ld  a, 0F0h                 ; pattern of 2nd 8 pixel in left mask ( 0F0h )  <---------------------
+0245   7ADD CD A3 7B        call    wr_VRAM
+0246   7AE0 21 00 74        ld  hl, 7400h
+0247   7AE3 3E 05           ld  a, 5
+0248   7AE5 01 00 02        ld  bc, 200h
+0249   7AE8 CD A3 7B        call    wr_VRAM
+0250   7AEB 21 1A 7C        ld  hl, tab_7AB2            ;
+0251   7AEE 11 00 76        ld  de, 7600h
+0252   7AF1 01 28 00        ld  bc, 28h
+0253   7AF4 CD B5 7B        call    sub_7BE5
+0254   7AF7             ;
+0255   7AF7 11 03 19        ld  de, 1903h               ; 03H -> R#25
+0256   7AFA CD 7A 7B        call    wr_dat2reg
+0257   7AFD 11 3F 02        ld  de, 023Fh               ; 3FH -> R#2
+0258   7B00 CD 7A 7B        call    wr_dat2reg
+0259   7B03             ;
+0260   7B03 11 00 2D        ld  de, 2D00h               ; 00H -> R#45
+0261   7B06 CD 7A 7B        call    wr_dat2reg
+0262   7B09 16 2A           ld  d, 2Ah                  ; 00H -> R#42
+0263   7B0B CD 7A 7B        call    wr_dat2reg
+0264   7B0E 14              inc d                       ; 00H -> R#43
+0265   7B0F CD 7A 7B        call    wr_dat2reg
+0266   7B12 16 27           ld  d, 27h                  ; 00H -> R#39
+0267   7B14 CD 7A 7B        call    wr_dat2reg
+0268   7B17 1E 20           ld  e, 20h                  ; Y dest of logo image => 20h by default        <---------------------
+0269   7B19 21 C9 7C        ld  hl, tab_7D3B            ; Table Logo Image
+0270   7B1C D9              exx
+0271   7B1D 21 3F 7C        ld  hl, tab_7CB4            ; Table Antialiasing bits
+0272   7B20 D9              exx
+0273   7B21             ;\------------------------------
+0274   7B21             loc_7B50:
+0275   7B21 3E 03           ld  a, 3
+0276   7B23 F5              push    af
+0277   7B24 01 2D 00        ld  bc, 2Dh                 ; X dest of logo image => 2Dh by default        <---------------------
+0278   7B27 16 26           ld  d, 26h                  ; R#38 - Y destination register
+0279   7B29 CD 7A 7B        call    wr_dat2reg
+0280   7B2C D9              exx
+0281   7B2D 06 08           ld  b, 8
+0282   7B2F 4E              ld  c, (hl)                 ; tab_7CB4
+0283   7B30 23              inc hl
+0284   7B31 D9              exx
+0285   7B32             ;\------------------------------
+0286   7B32             loc_7B61:
+0287   7B32 CD E8 7B        call    set_dest_X          ; R#36,37 - Dest X register
+0288   7B35 7E              ld  a, (hl)                 ; tab_7D3B
+0289   7B36 23              inc hl
+0290   7B37 FE FE           cp  0FEh                    ; End line ?
+0291   7B39 28 37           jr  z, loc_7BA1             ; Next Y
+0292   7B3B             ;
+0293   7B3B E5              push    hl
+0294   7B3C C5              push    bc
+0295   7B3D 01 A6 01        ld  bc, 422                 ; Logo width => 422 by default                  <---------------------
+0296   7B40 30 03           jr  nc, loc_7B74            ; a=0FFh Empty line
+0297   7B42 06 00           ld  b, 0
+0298   7B44 4F              ld  c, a
+0299   7B45             loc_7B74:
+0300   7B45 CD E4 7B        call    set_NDot_X          ; R#40,41 -> Number Dots X
+0301   7B48 E1              pop hl
+0302   7B49 09              add hl, bc
+0303   7B4A 4D              ld  c, l
+0304   7B4B 44              ld  b, h
+0305   7B4C E1              pop hl
+0306   7B4D F1              pop af
+0307   7B4E EE 03           xor 3
+0308   7B50 CD F3 7B        call    set_Color
+0309   7B53 F5              push    af
+0310   7B54 CD A0 79        call    Line_EX_COM
+0311   7B57 D9              exx
+0312   7B58 CB 21           sla c
+0313   7B5A 10 04           djnz    loc_7B8F
+0314   7B5C 06 08           ld  b, 8
+0315   7B5E 4E              ld  c, (hl)
+0316   7B5F 23              inc hl
+0317   7B60             loc_7B8F:
+0318   7B60 D9              exx
+0319   7B61 30 CF           jr  nc, loc_7B61
+0320   7B63 0B              dec bc
+0321   7B64 CD E8 7B        call    set_dest_X          ; R#36,37 - Dest X register
+0322   7B67 03              inc bc
+0323   7B68 3E 02           ld  a, 2                    ; BLUE
+0324   7B6A CD F3 7B        call    set_Color
+0325   7B6D CD FC 7B        call    PSET_EX_COM
+0326   7B70 18 C0           jr  loc_7B61
+0327   7B72             ;\------------------------------
+0328   7B72             loc_7BA1:
+0329   7B72 1C              inc e                       ; Next Y
+0330   7B73 F1              pop af
+0331   7B74 7E              ld  a, (hl)
+0332   7B75 FE FE           cp  0FEh
+0333   7B77 20 A8           jr  nz, loc_7B50
+0334   7B79 C9              ret
+0335   7B7A             ; ==============================
+0336   7B7A             wr_dat2reg:
+0337   7B7A F5              push    af
+0338   7B7B 7B              ld  a, e                    ; Data
+0339   7B7C D3 99           out (99h), a
+0340   7B7E 7A              ld  a, d                    ; Register
+0341   7B7F F6 80           or  80h
+0342   7B81 D3 99           out (99h), a
+0343   7B83 F1              pop af
+0344   7B84 C9              ret
+0345   7B85             ; ==============================
+0346   7B85             wait_CE:
+0347   7B85 3E 02           ld  a, 2
+0348   7B87 CD 8F 7B        call    rd_Stat_A
+0349   7B8A 0F              rrca                        ; Bit 0 (CE) - Command Execution Flag
+0350   7B8B 38 F8           jr  c, wait_CE
+0351   7B8D 07              rlca
+0352   7B8E C9              ret
+0353   7B8F             ; ==============================
+0354   7B8F             ; Read Status Register (A)
+0355   7B8F             rd_Stat_A:
+0356   7B8F D3 99           out (99h), a
+0357   7B91 3E 8F           ld  a, 8Fh                  ; R#15 - Status Register pointer
+0358   7B93 D3 99           out (99h), a
+0359   7B95 E5              push    hl
+0360   7B96 E1              pop hl
+0361   7B97 DB 99           in  a, (99h)                ; Read (Status Register)
+0362   7B99 F5              push    af
+0363   7B9A AF              xor a
+0364   7B9B D3 99           out (99h), a
+0365   7B9D 3E 8F           ld  a, 8Fh
+0366   7B9F D3 99           out (99h), a
+0367   7BA1 F1              pop af
+0368   7BA2 C9              ret
+0369   7BA3             ; ==============================
+0370   7BA3             ; Write VRAM
+0371   7BA3             ; A - byte
+0372   7BA3             ; HL - address
+0373   7BA3             ; BC - LEN
+0374   7BA3             wr_VRAM:
+0375   7BA3 F5              push    af
+0376   7BA4 CD CA 7B        call    sub_7BFA            ; Set VRAM access adress
+0377   7BA7 79              ld  a, c
+0378   7BA8 B7              or  a
+0379   7BA9 28 01           jr  z, loc_7BDB
+0380   7BAB 04              inc b
+0381   7BAC             loc_7BDB:
+0382   7BAC F1              pop af
+0383   7BAD             loc_7BDC:
+0384   7BAD D3 98           out (98h), a
+0385   7BAF 0D              dec c
+0386   7BB0 20 FB           jr  nz, loc_7BDC            ; +1 byte free (jp -> jr)
+0387   7BB2 10 F9           djnz    loc_7BDC
+0388   7BB4             ;\------------------------------
+0389   7BB4 C9              ret
+0390   7BB5             ; ==============================
+0391   7BB5             sub_7BE5:
+0392   7BB5 EB              ex  de, hl
+0393   7BB6 CD CA 7B        call    sub_7BFA
+0394   7BB9 EB              ex  de, hl
+0395   7BBA 79              ld  a, c
+0396   7BBB B7              or  a
+0397   7BBC 78              ld  a, b
+0398   7BBD 41              ld  b, c
+0399   7BBE 0E 98           ld  c, 98h                  ; Port Data VDP
+0400   7BC0 28 01           jr  z, loc_7BF3
+0401   7BC2 3C              inc a
+0402   7BC3             loc_7BF3:
+0403   7BC3 ED B3           otir
+0404   7BC5 3D              dec a
+0405   7BC6 20 FB           jr  nz, loc_7BF3
+0406   7BC8 EB              ex  de, hl
+0407   7BC9 C9              ret
+0408   7BCA             ; ==============================
+0409   7BCA             ; Set VRAM Access base adress
+0410   7BCA             sub_7BFA:
+0411   7BCA 7C              ld  a, h
+0412   7BCB E6 3F           and 3Fh
+0413   7BCD F6 40           or  40h
+0414   7BCF 08              ex  af, af'
+0415   7BD0 7C              ld  a, h
+0416   7BD1 E6 C0           and 0C0h
+0417   7BD3 07              rlca
+0418   7BD4 07              rlca
+0419   7BD5 D3 99           out (99h), a
+0420   7BD7 3E 8E           ld  a, 8Eh                  ; R#14 - VRAM Access Adress
+0421   7BD9 D3 99           out (99h), a
+0422   7BDB 7D              ld  a, l
+0423   7BDC D3 99           out (99h), a
+0424   7BDE 08              ex  af, af'
+0425   7BDF D3 99           out (99h), a
+0426   7BE1 E3              ex  (sp), hl
+0427   7BE2 E3              ex  (sp), hl
+0428   7BE3 C9              ret
+0429   7BE4             ; ==============================
+0430   7BE4             set_NDot_X:
+0431   7BE4 16 28           ld  d, 28h                  ; R#40,41 -> Number Dots X (28h by default)
+0432   7BE6 18 02           jr  loc_7C1A
+0433   7BE8             ; ==============================
+0434   7BE8             set_dest_X:
+0435   7BE8 16 24           ld  d, 24h                  ; R#36,37 - Dest X register
+0436   7BEA             loc_7C1A:
+0437   7BEA D5              push    de
+0438   7BEB 59              ld  e, c
+0439   7BEC CD 7A 7B        call    wr_dat2reg
+0440   7BEF 58              ld  e, b
+0441   7BF0 14              inc d
+0442   7BF1 18 04           jr  loc_7C27
+0443   7BF3             ; ==============================
+0444   7BF3             set_Color:
+0445   7BF3 D5              push    de
+0446   7BF4 5F              ld  e, a
+0447   7BF5 16 2C           ld  d, 2Ch                  ; R#44 - Color register
+0448   7BF7             loc_7C27:
+0449   7BF7 CD 7A 7B        call    wr_dat2reg
+0450   7BFA D1              pop de
+0451   7BFB C9              ret
+0452   7BFC             ; ==============================
+0453   7BFC             PSET_EX_COM:
+0454   7BFC D5              push    de
+0455   7BFD 1E 50           ld  e, 50h                  ; PSET Execution Command
+0456   7BFF C3 A3 79        jp  loc_7C2F                ; R#46 - Command Register
+0457   7C02             ; ==============================
+0458   7C02             ; TAB init VDP registers
+0459   7C02             tab_7C94:
+0460   7C02 00 08           .dw 0800h                   ; 08h -> R#0 Graphic 4 mode
+0461   7C04 01 23           .dw 2301h                   ; 23h -> R#1
+0462   7C06 08 28           .dw 2808h                   ; 28H -> R#8
+0463   7C08 09 00           .dw 0009h                   ; 00h -> R#9
+0464   7C0A             ; Pattern name table base address = 7C00h
+0465   7C0A 02 1F           .dw 1F02h                   ; 1FH -> R#2
+0466   7C0C             ; Sprite attribute table base address = 07780h
+0467   7C0C 05 EF           .dw 0EF05h                  ; 0EFH -> R#5
+0468   7C0E 0B 00           .dw 000Bh                   ; 00H -> R#11
+0469   7C10             ; Sprite pattern generator table base address = 07800h
+0470   7C10 06 0F           .dw 0F06h                   ; 0FH -> R#6
+0471   7C12             ; ==============================
+0472   7C12             ; TAB PALETTE REGISTERS 0       ; 0..1 by default
+0473   7C12             tab_7CA4:
+0474   7C12             ;   .dw 0007h                   ; Set Title ,1  (Blue - Black)
+0475   7C12             ;   .dw 0000h
+0476   7C12 07 00           .dw 0007h                   ; Blue bg
+0477   7C14             ;
+0478   7C14             ;   .dw 0420h                   ; Set Title ,2  (Green - Cyan)
+0479   7C14             ;   .dw 0227h
+0480   7C14 10 05           .dw 0510h                   ; Green bg
+0481   7C16             ;
+0482   7C16             ;   .dw 0272h                   ; Set Title ,3  (Red - Purple)
+0483   7C16             ;   .dw 0056h
+0484   7C16 61 00           .dw 0061h                   ; Red bg
+0485   7C18             ;
+0486   7C18             ;   .dw 0570h                   ; Set Title ,4  (Orange - Red)
+0487   7C18             ;   .dw 0070h
+0488   7C18 70 04           .dw 0470h                   ; Orange bg
+0489   7C1A             ; ==============================
+0490   7C1A             ; Sprite attribute
+0491   7C1A             tab_7AB2:                       ; Y,X,pattern,0
+0492   7C1A 1C E8 00 00     .db  1Ch, 0E8h, 0, 0        ; right mask position, X=0E8h by default        <---------------------
+0493   7C1E 1C E8 00 00     .db  1Ch, 0E8h, 0, 0        ; right mask position                           <---------------------
+0494   7C22 3C E8 00 00     .db  3Ch, 0E8h, 0, 0        ; right mask position                           <---------------------
+0495   7C26 3C E8 00 00     .db  3Ch, 0E8h, 0, 0        ; right mask position                           <---------------------
+0496   7C2A 5C E8 00 00     .db  5Ch, 0E8h, 0, 0        ; right mask position                           <---------------------
+0497   7C2E 5C E8 00 00     .db  5Ch, 0E8h, 0, 0        ; right mask position                           <---------------------
+0498   7C32 1C 00 04 00     .db  1Ch,    0, 4, 0        ; left mask position, X=0 by default
+0499   7C36 3C 00 04 00     .db  3Ch,    0, 4, 0        ; left mask position
+0500   7C3A 5C 00 04 00     .db  5Ch,    0, 4, 0        ; left mask position
+0501   7C3E D8              .db 0D8h                    ; .db 0D8h,    0, 0, 0 by default
+0502   7C3F             ; ==============================
+0503   7C3F             ; Table antialiasing bits
+0504   7C3F             tab_7CB4:                       ; tab_7CB4 is accross to sprite attribute       <---------------------
+0505   7C3F 00                .db %00000000
+0506   7C40 00                .db %00000000
+0507   7C41 00                .db %00000000
+0508   7C42 00                .db %00000000
+0509   7C43 00                .db %00000000
+0510   7C44 00                .db %00000000
+0511   7C45 00                .db %00000000
+0512   7C46 00                .db %00000000
+0513   7C47 00                .db %00000000
+0514   7C48 6E 00             .db %01101110, %00000000
+0515   7C4A 9F 00             .db %10011111, %00000000
+0516   7C4C 6F 00             .db %01101111, %00000000
+0517   7C4E 9F 00             .db %10011111, %00000000
+0518   7C50 6F 00             .db %01101111, %00000000
+0519   7C52 9F 00             .db %10011111, %00000000
+0520   7C54 6F 00             .db %01101111, %00000000
+0521   7C56 9F 00             .db %10011111, %00000000
+0522   7C58 6F 00             .db %01101111, %00000000
+0523   7C5A 9F 00             .db %10011111, %00000000
+0524   7C5C 6F 00             .db %01101111, %00000000
+0525   7C5E 9F 00             .db %10011111, %00000000
+0526   7C60 6F 00             .db %01101111, %00000000
+0527   7C62 FF 00             .db %11111111, %00000000
+0528   7C64 07 00             .db %00000111, %00000000
+0529   7C66 FC                .db %11111100
+0530   7C67 07 00             .db %00000111, %00000000
+0531   7C69 F4 C0             .db %11110100, %11000000
+0532   7C6B 07 00             .db %00000111, %00000000
+0533   7C6D F0 C0             .db %11110000, %11000000
+0534   7C6F 07 00             .db %00000111, %00000000
+0535   7C71 F4 C0             .db %11110100, %11000000
+0536   7C73 07 00             .db %00000111, %00000000
+0537   7C75 FC C0             .db %11111100, %11000000
+0538   7C77 07 00             .db %00000111, %00000000
+0539   7C79 FC C0             .db %11111100, %11000000
+0540   7C7B 0F 00             .db %00001111, %00000000
+0541   7C7D F3 00             .db %11110011, %00000000
+0542   7C7F 3C                .db %00111100
+0543   7C80 F3 00             .db %11110011, %00000000
+0544   7C82 3C                .db %00111100
+0545   7C83 F3 00             .db %11110011, %00000000
+0546   7C85 3C                .db %00111100
+0547   7C86 87 30             .db %10000111, %00110000
+0548   7C88 7B C0             .db %01111011, %11000000
+0549   7C8A 87 30             .db %10000111, %00110000
+0550   7C8C 7B C0             .db %01111011, %11000000
+0551   7C8E 86 30             .db %10000110, %00110000
+0552   7C90 7B C0             .db %01111011, %11000000
+0553   7C92 86 30             .db %10000110, %00110000
+0554   7C94 7A C0             .db %01111010, %11000000
+0555   7C96 86 30             .db %10000110, %00110000
+0556   7C98 78 C0             .db %01111000, %11000000
+0557   7C9A 86 24             .db %10000110, %00100100
+0558   7C9C 7A F0             .db %01111010, %11110000
+0559   7C9E 86 3C             .db %10000110, %00111100
+0560   7CA0 7F C0             .db %01111111, %11000000
+0561   7CA2 80 F0             .db %10000000, %11110000
+0562   7CA4 7F C0             .db %01111111, %11000000
+0563   7CA6 D4 F0             .db %11010100, %11110000
+0564   7CA8 2F C0             .db %00101111, %11000000
+0565   7CAA D4 F0             .db %11010100, %11110000
+0566   7CAC 2F C0             .db %00101111, %11000000
+0567   7CAE D4 F0             .db %11010100, %11110000
+0568   7CB0 2F C0             .db %00101111, %11000000
+0569   7CB2 D4 F0             .db %11010100, %11110000
+0570   7CB4 2F C0             .db %00101111, %11000000
+0571   7CB6 D4 F0             .db %11010100, %11110000
+0572   7CB8 2F C0             .db %00101111, %11000000
+0573   7CBA D4 F0             .db %11010100, %11110000
+0574   7CBC 2F C0             .db %00101111, %11000000
+0575   7CBE D4 60             .db %11010100, %01100000
+0576   7CC0 00                .db %00000000
+0577   7CC1 00                .db %00000000
+0578   7CC2 00                .db %00000000
+0579   7CC3 00                .db %00000000
+0580   7CC4 00                .db %00000000
+0581   7CC5 00                .db %00000000
+0582   7CC6 00                .db %00000000
+0583   7CC7 00                .db %00000000
+0584   7CC8 00                .db %00000000
+0585   7CC9             ; ==============================
+0586   7CC9             ; Table LOGO
+0587   7CC9             ; 0FFh - Empty line
+0588   7CC9             ; 0FEh - New line
+0589   7CC9             ; 0FEh,0FEh - End LOGO
+0590   7CC9             ; Width line = 422 dots
+0591   7CC9             tab_7D3B:                       ;                                               <---------------------
+0592   7CC9 FF FE             .db 255, 254
+0593   7CCB FF FE             .db 255, 254
+0594   7CCD FF FE             .db 255, 254
+0595   7CCF FF FE             .db 255, 254
+0596   7CD1 FF FE             .db 255, 254
+0597   7CD3 FF FE             .db 255, 254
+0598   7CD5 FF FE             .db 255, 254
+0599   7CD7 FF FE             .db 255, 254
+0600   7CD9 FF FE             .db 255, 254
+0601   7CDB 231D1D1C309F      .db 35, 29, 29, 28, 48, 159, 43, 40, 11, 254
+0601   7CE1 2B280BFE
+0602   7CE5 231D1C1E2AA5      .db 35, 29, 28, 30, 42, 165, 41, 41, 11, 254
+0602   7CEB 29290BFE
+0603   7CEF 221F1B1E26AB      .db 34, 31, 27, 30, 38, 171, 37, 41, 13, 254
+0603   7CF5 25290DFE
+0604   7CF9 221F1A2022AF      .db 34, 31, 26, 32, 34, 175, 35, 41, 14, 254
+0604   7CFF 23290EFE
+0605   7D03 212119201FB4      .db 33, 33, 25, 32, 31, 180, 31, 41, 16, 254
+0605   7D09 1F2910FE
+0606   7D0D 212118221BB8      .db 33, 33, 24, 34, 27, 184, 29, 41, 17, 254
+0606   7D13 1D2911FE
+0607   7D17 2023172219BC      .db 32, 35, 23, 34, 25, 188, 26, 40, 19, 254
+0607   7D1D 1A2813FE
+0608   7D21 2023162417BE      .db 32, 35, 22, 36, 23, 190, 23, 41, 20, 254
+0608   7D27 172914FE
+0609   7D2B 1F25152415C2      .db 31, 37, 21, 36, 21, 194, 20, 40, 22, 254
+0609   7D31 142816FE
+0610   7D35 1F25142613C4      .db 31, 37, 20, 38, 19, 196, 17, 41, 23, 254
+0610   7D3B 112917FE
+0611   7D3F 1E27132612C7      .db 30, 39, 19, 38, 18, 199, 14, 41, 24, 254
+0611   7D45 0E2918FE
+0612   7D49 1E27122810C9      .db 30, 39, 18, 40, 16, 201, 12, 40, 26, 254
+0612   7D4F 0C281AFE
+0613   7D53 1D2911280FCC      .db 29, 41, 17, 40, 15, 204, 8, 41, 27, 254
+0613   7D59 08291BFE
+0614   7D5D 1D2A0F2A0DCE      .db 29, 42, 15, 42, 13, 206, 6, 40, 29, 254
+0614   7D63 06281DFE
+0615   7D67 1C2B0E2B0CD1      .db 28, 43, 14, 43, 12, 209, 2, 41, 30, 254
+0615   7D6D 02291EFE
+0616   7D71 1C2C0D2C0BFA      .db 28, 44, 13, 44, 11, 250, 32, 254
+0616   7D77 20FE
+0617   7D79 1B2D0C2D0A26      .db 27, 45, 12, 45, 10, 38, 132, 80, 33, 254
+0617   7D7F 845021FE
+0618   7D83 1B2E0B2E0923      .db 27, 46, 11, 46, 9, 35, 68, 38, 31, 76, 35, 254
+0618   7D89 44261F4C23FE
+0619   7D8F 1A2F0A2F0921      .db 26, 47, 10, 47, 9, 33, 140, 74, 36, 254
+0619   7D95 8C4A24FE
+0620   7D99 1A3009300820      .db 26, 48, 9, 48, 8, 32, 71, 38, 34, 70, 38, 254
+0620   7D9F 4726224626FE
+0621   7DA5 193108310821      .db 25, 49, 8, 49, 8, 33, 143, 68, 39, 254
+0621   7DAB 8F4427FE
+0622   7DAF 193207320723      .db 25, 50, 7, 50, 7, 35, 68, 38, 37, 65, 40, 254
+0622   7DB5 4426254128FE
+0623   7DBB 183306330726      .db 24, 51, 6, 51, 7, 38, 141, 62, 42, 254
+0623   7DC1 8D3E2AFE
+0624   7DC5 183405340746      .db 24, 52, 5, 52, 7, 70, 32, 38, 40, 59, 43, 254
+0624   7DCB 2026283B2BFE
+0625   7DD1 17350435074B      .db 23, 53, 4, 53, 7, 75, 106, 56, 45, 254
+0625   7DD7 6A382DFE
+0626   7DDB 17360336074E      .db 23, 54, 3, 54, 7, 78, 23, 38, 43, 53, 46, 254
+0626   7DE1 17262B352EFE
+0627   7DE7 163702370850      .db 22, 55, 2, 55, 8, 80, 102, 50, 48, 254
+0627   7DED 663230FE
+0628   7DF1 167108521126      .db 22, 113, 8, 82, 17, 38, 46, 47, 49, 254
+0628   7DF7 2E2F31FE
+0629   7DFB 15720954632C      .db 21, 114, 9, 84, 99, 44, 51, 254
+0629   7E01 33FE
+0630   7E03 157309550C26      .db 21, 115, 9, 85, 12, 38, 49, 41, 52, 254
+0630   7E09 312934FE
+0631   7E0D 14740A55612A      .db 20, 116, 10, 85, 97, 42, 52, 254
+0631   7E13 34FE
+0632   7E15 14750B55090E      .db 20, 117, 11, 85, 9, 14, 70, 45, 51, 254
+0632   7E1B 462D33FE
+0633   7E1F 13760C555B30      .db 19, 118, 12, 85, 91, 48, 49, 254
+0633   7E25 31FE
+0634   7E27 131F0137011F      .db 19, 31, 1, 55, 1, 31, 13, 84, 7, 14, 67, 51, 48, 254
+0634   7E2D 0D54070E433330FE
+0635   7E35 12200236021E      .db 18, 32, 2, 54, 2, 30, 16, 82, 86, 54, 46, 254
+0635   7E3B 105256362EFE
+0636   7E41 121F0335031F      .db 18, 31, 3, 53, 3, 31, 18, 80, 5, 38, 40, 57, 45, 254
+0636   7E47 1250052628392DFE
+0637   7E4F 11200434041E      .db 17, 32, 4, 52, 4, 30, 21, 78, 81, 60, 43, 254
+0637   7E55 154E513C2BFE
+0638   7E5B 111F0533051F      .db 17, 31, 5, 51, 5, 31, 24, 74, 4, 38, 38, 62, 42, 254
+0638   7E61 184A0426263E2AFE
+0639   7E69 10200632061E      .db 16, 32, 6, 50, 6, 30, 29, 70, 77, 66, 40, 254
+0639   7E6F 1D464D4228FE
+0640   7E75 101F0731071F      .db 16, 31, 7, 49, 7, 31, 60, 38, 3, 38, 35, 68, 39, 254
+0640   7E7B 3C260326234427FE
+0641   7E83 0F200830081E      .db 15, 32, 8, 48, 8, 30, 64, 34, 74, 72, 37, 254
+0641   7E89 40224A4825FE
+0642   7E8F 0F1F092F091F      .db 15, 31, 9, 47, 9, 31, 65, 32, 3, 38, 32, 74, 36, 254
+0642   7E95 41200326204A24FE
+0643   7E9D 0E200A2E0A1E      .db 14, 32, 10, 46, 10, 30, 65, 32, 71, 78, 34, 254
+0643   7EA3 4120474E22FE
+0644   7EA9 0E1F0B2D0B1F      .db 14, 31, 11, 45, 11, 31, 64, 32, 3, 38, 29, 40, 1, 39, 33, 254
+0644   7EAF 402003261D28012721FE
+0645   7EB9 0D200C2C0C1E      .db 13, 32, 12, 44, 12, 30, 62, 34, 68, 41, 4, 39, 31, 254
+0645   7EBF 3E22442904271FFE
+0646   7EC7 0D1F0D2B0D1F      .db 13, 31, 13, 43, 13, 31, 57, 38, 3, 14, 50, 41, 6, 39, 30, 254
+0646   7ECD 3926030E322906271EFE
+0647   7ED7 0C200E2A0E7D      .db 12, 32, 14, 42, 14, 125, 66, 40, 10, 39, 28, 254
+0647   7EDD 42280A271CFE
+0648   7EE3 0C1F0F290F7C      .db 12, 31, 15, 41, 15, 124, 4, 14, 47, 41, 12, 39, 27, 254
+0648   7EE9 040E2F290C271BFE
+0649   7EF1 0B201028107B      .db 11, 32, 16, 40, 16, 123, 64, 40, 16, 39, 25, 254
+0649   7EF7 4028102719FE
+0650   7EFD 0B1F1127117A      .db 11, 31, 17, 39, 17, 122, 5, 38, 20, 41, 18, 39, 24, 254
+0650   7F03 05261429122718FE
+0651   7F0B 0A1F13251378      .db 10, 31, 19, 37, 19, 120, 63, 40, 22, 39, 22, 254
+0651   7F11 3F28162716FE
+0652   7F17 0A1F13251377      .db 10, 31, 19, 37, 19, 119, 7, 38, 17, 41, 24, 39, 21, 254
+0652   7F1D 07261129182715FE
+0653   7F25 091F15231575      .db 9, 31, 21, 35, 21, 117, 62, 40, 28, 39, 19, 254
+0653   7F2B 3E281C2713FE
+0654   7F31 091F15231574      .db 9, 31, 21, 35, 21, 116, 9, 38, 15, 39, 31, 39, 18, 254
+0654   7F37 09260F271F2712FE
+0655   7F3F 081F17211771      .db 8, 31, 23, 33, 23, 113, 62, 40, 34, 39, 16, 254
+0655   7F45 3E28222710FE
+0656   7F4B 081F17211770      .db 8, 31, 23, 33, 23, 112, 12, 38, 12, 39, 37, 39, 15, 254
+0656   7F51 0C260C2725270FFE
+0657   7F59 071F191F196D      .db 7, 31, 25, 31, 25, 109, 62, 40, 40, 39, 13, 254
+0657   7F5F 3E2828270DFE
+0658   7F65 071F191F196A      .db 7, 31, 25, 31, 25, 106, 17, 38, 9, 39, 43, 39, 12, 254
+0658   7F6B 112609272B270CFE
+0659   7F73 061F1B1D1B66      .db 6, 31, 27, 29, 27, 102, 65, 40, 46, 39, 10, 254
+0659   7F79 41282E270AFE
+0660   7F7F 061F1B1D1B63      .db 6, 31, 27, 29, 27, 99, 23, 38, 6, 39, 49, 39, 9, 254
+0660   7F85 17260627312709FE
+0661   7F8D 051F1D1B1D5F      .db 5, 31, 29, 27, 29, 95, 68, 40, 52, 39, 7, 254
+0661   7F93 4428342707FE
+0662   7F99 051F1D1B1D5A      .db 5, 31, 29, 27, 29, 90, 31, 38, 2, 40, 55, 39, 6, 254
+0662   7F9F 1F260228372706FE
+0663   7FA7 FF FE             .db 255, 254
+0664   7FA9 FF FE             .db 255, 254
+0665   7FAB FF FE             .db 255, 254
+0666   7FAD FF FE             .db 255, 254
+0667   7FAF FF FE             .db 255, 254
+0668   7FB1 FF FE             .db 255, 254
+0669   7FB3 FF FE             .db 255, 254
+0670   7FB5 FF FE             .db 255, 254
+0671   7FB7 FF FE             .db 255, 254
+0672   7FB9 FE                .db 254
+0673   7FBA             ; ==============================
+0674   7FBA             end_logo:                       ; fillers -> file lenght will be 1.635 bytes    <---------------------
+0675   7FBA FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0676   7FBD FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0677   7FC0 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0678   7FC3 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0679   7FC6 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0680   7FC9 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0681   7FCC FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0682   7FCF FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0683   7FD2 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0684   7FD5 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0685   7FD8 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0686   7FDB FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0687   7FDE FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0688   7FE1 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0689   7FE4 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0690   7FE7 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0691   7FEA FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0692   7FED FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0693   7FF0 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0694   7FF3 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0695   7FF6 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0696   7FF9 FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0697   7FFC FF FF FF          .db 0FFh, 0FFh, 0FFh                           
+0698   7FFF FF                .db 0FFh
+0699   8000             ;\------------------------------
+0700   8000                 .end
+0701   8000             
+tasm: Number of errors = 0
