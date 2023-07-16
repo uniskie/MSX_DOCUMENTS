@@ -1,5 +1,7 @@
 # A1GT用 差し替えロゴ：MSX++
 
+![](../image/MSXplusplus_a1gt.png)
+
 HRA!さんの作成されたA1GT用のロゴ表示BIOS差し替え環境で使用できる画像ファイルです。
 
 https://github.com/hra1129/Alternate_BIOS/tree/main/boot_logo
