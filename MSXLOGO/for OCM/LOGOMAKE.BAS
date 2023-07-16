@@ -3,7 +3,7 @@
 20 ' *** base on [MSX3 LOGO GENERATOR by KdL 2014.05.21] ***
 30 SCREEN 0: KEY OFF: COLOR 2,0,0: WIDTH 80: LOCATE,4: FILES "MSX?????.SC6
 60 DEFINTA-Z: X1=422: Y1=80: DIM A(X1+1)
-70 LOCATE,0: PRINT"Unofficial MSX3 Logo v2.12 by KdL (2014.05.21)": PRINT
+70 LOCATE,0: PRINT"Unofficial MSX++ Logo by uniskie (2023.07.16)": PRINT
 80 INPUT"Input a file name or RETURN for default MSX++ logo ";F$ :IF F$="" THEN F$="msxpp"
 85 IF F$="MSXPP" OR F$="msxpp" THEN X1=400: Y1=76
 86 IF F$="MSXEX" OR F$="msxex" THEN X1=422: Y1=80
