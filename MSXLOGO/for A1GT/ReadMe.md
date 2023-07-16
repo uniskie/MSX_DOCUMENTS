@@ -13,3 +13,5 @@ OpenMSXなどで使う formware ファイルの場合、
 
 1. altbios_boot_logo.bin ...$4B900
 2. A1GTOPT.ROM ...$48000h
+
+画像の改変流用はご自由に。
