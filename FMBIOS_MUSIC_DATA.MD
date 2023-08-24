@@ -24,7 +24,11 @@
 
 ## ROMヘッダ
 
-4018Hに"OPLL" (4バイト)があったらFM-BIOS ROM。
+401CHに"OPLL" (4バイト)があったらFM-BIOS ROM。
+
+おまけ  
+4018Hに"PAC2OPLL" → FMPAC  
+4018Hに"APRLOPLL" → 内蔵MSX-MUSIC  
 
 ## FM-BIOS ENTRY
 
