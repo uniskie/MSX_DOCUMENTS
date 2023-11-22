@@ -11,6 +11,7 @@ OpenMSXでMSX0 M5stack Core2から吸い出したROMで起動するための定�
 2. [MSX0_M5stack_Core2_MSX2.xml](MSX0_M5stack_Core2_MSX2.xml)
 3. [MSX0_M5stack_Core2_MSX2+.xml](MSX0_M5stack_Core2_MSX2+.xml)
 
+---
 
 ## MSX0 Slot構成
 
@@ -27,18 +28,53 @@ OpenMSXでMSX0 M5stack Core2から吸い出したROMで起動するための定�
 | Slot 3-2 | BIOS_SUB  | KANJI     | KANJI    | -------- |
 | Slot 3-3 | --------  | DISK      | DISK     | -------- |
 
-## DOS2 : 
+## MSX-DOS1 ROM
 
+  DOS1はslot3-3のDISK ROMです。
+
+  DOS2は追加で別スロットに実装されています。
+
+## MSX-DOS2 ROM
+
+```
   4000H - 7FFFH
   BANK SELECT: 6000H
   BANK COUNT: 4
+```
 
   ※ 割り込み許可状態でバンク0以外にしていると暴走します
 
-## IOT:
+  カートリッジ版ver2.20をベースに修正を加えたもののようで、
+  bank3は漢字ドライバになっています。
 
-  4000H-5FFFh : CALL文拡張（DEVICE拡張もあるが動作しない）
+  （ターボRなどのDOS2内蔵機種ではbank3がDOS1になっています）
+
+  MSX0からはbank3の漢字BASICドライバは使用しておらず、
+  slot3-2にある漢字BASICを使用していると思われます。
+
+## IOT ROM
+
+```
+  4000H-5FFFh : CALL文拡張（DEVICE拡張もあるが動作しない）  
   6000H-7FFFH : おそらくメモリマップドI/O
+```
+
+
+- 実装上の問題 （ver 0.05.04）
+
+  CALL IOTFINDでは、受け取り用変数として配列変数（配列先頭要素）を渡す形になっています。
+
+  実は、この命令では**暴走**や**メモリ破壊**を起こす場合があるので注意が必要です。
+
+  - 渡された変数が配列かどうかのチェックが入っていない  
+    → 配列ではない変数を渡す  
+    → **エラーで停止せずにメモリを破壊する**
+
+  - 要素数のチェックがされていない  
+    → 用意した配列要素数を超えるデータを取得する  
+    → **エラーで停止せずにメモリを破壊する**
+  
+  **場合によっては暴走します。**
 
 ## DISK ROM
 
@@ -56,13 +92,17 @@ OpenMSXでMSX0 M5stack Core2から吸い出したROMで起動するための定�
 
   ExtentionsからNextor搭載カートリッジを使用するのが確実だと思います。
 
-  個人的に簡単でお勧めなのは```Carnivore2```Extentionです。  
-  ただし、MSX-MUSICやSCCマッパーRAMなど追加機能がついているので、
-  それを使ってしまうとMSX0で動かないと思います。
+  - おすすめ
 
-  （CatapultのHard Disk Driveにイメージファイルを指定して使用します）
+    個人的に簡単でお勧めなのは```Carnivore2```Extentionです。  
+    設定はダウンロードしたファイルを所定の位置に配置するだけで準備完了。  
+    あとは、CatapultからHard Disk Driveへイメージファイルを指定して起動すればOKです。
+
+    ただし、MSX-MUSICや大容量マッパRAMなど追加機能がついているので、
+    それを使ってしまうとMSX0で動かないと思います。
+
  
-### 外付けFDD 
+### Extension: 外付けFDD 
 
 **要吸出し**
 
@@ -77,7 +117,7 @@ OpenMSXでMSX0 M5stack Core2から吸い出したROMで起動するための定�
   - Toshiba HX-F101PE
   - Yamaha FD-05/FD-051
 
-###  SD/HDD系
+### Extension: SD/HDD系
 
   - CatapultからHDDイメージでHDDイメージファイル指定可能
 
@@ -156,6 +196,8 @@ OpenMSXでMSX0 M5stack Core2から吸い出したROMで起動するための定�
       -->
 ```
 
+---
+
 ## File list
 
 |Name               |SHA1                                    |Bytes   |
@@ -177,12 +219,41 @@ Total  12 Files  589,824 Bytes
 
 ---
 
-## ROMの吸出し
+## ROMイメージの取得 (自動)
 
-　ROMを自分で吸い出してください。  
-吸い出したROMは、MSX0を所有している所有者のみが使用できます。
+hra!さんのdump toolが手軽で良いかと思います。
 
-漢字フォントROM以外は基本的に```saverom.com```で可能です。
+https://github.com/hra1129/for_MSX0/tree/main/dump_tool/for_msx0_bios
+
+**取得したROMファイルは、MSX0所有者のみが使用できます。**
+
+- ダンプされるファイル名との対応
+
+  |dump name   |Name               |SHA1                                    |Bytes   |
+  |------------|-------------------|----------------------------------------|------- |
+  |msx0bios.rom|MSX0_MSX1_MAIN.ROM |64BFD8D76E7C9578D7A4CBE95AEB30E7F3482366| 32,768 |
+  |msx0ext.rom |MSX0_MSX1_SUB.ROM  |488B66ED303EF8645414F3681361427C2FB5B09A| 16,384 |
+  |msx0bios.rom|MSX0_MSX2_MAIN.ROM |80772A4BE733EB59ED8CE4E79C44EB03F4C3C5D6| 32,768 |
+  |msx0ext.rom |MSX0_MSX2_SUB.ROM  |488B66ED303EF8645414F3681361427C2FB5B09A| 16,384 |
+  |msx0bios.rom|MSX0_MSX2P_MAIN.ROM|5F8CF3B01C5C8A91503949482024B94585BFD26D| 32,768 |
+  |msx0ext.rom |MSX0_MSX2P_SUB.ROM |17D5112666450FAAEBA85E1055A6504D4804EA01| 16,384 |
+  |msx0xbas.rom|MSX0_XBASIC.ROM    |AF0319E594E170B791703F0ECE184C0805F15E2C| 32,768 |
+  |msx0dos.rom |MSX0_DISK.ROM      |82B374E37D47781AF4B46DFA456CAA2885C501EB| 32,768 |
+  |msx0dos2.rom|MSX0_DOS2.ROM      |BCC68F70DC430B0D47749D48C13522D29E36285B| 65,536 |
+  |msx0iot.rom |MSX0_IOT.ROM       |ACC8E4EADAA733C2D91B035935D17A93B7125E9E| 16,384 |
+  |msx0kdr.rom |MSX0_KANJI.ROM     |DCC3A67732AA01C4F2EE8D1AD886444A4DBAFE06| 32,768 |
+  |msx0kfn.rom |MSX0_KANJI_FONT.ROM|5AFF2D9B6EFC723BC395B0F96F0ADFA83CC54A49|262,144 |
+
+
+---
+
+## ROMイメージの取得 (手作業)
+
+ROMファイルは自分の所有するMSX0から取得してください。
+
+**取得したROMファイルは、MSX0所有者のみが使用できます。**
+
+漢字フォントROM以外は基本的に```saverom.com```で保存可能です。
 
 http://bifi.msxnet.org/msxnet/utils/saverom
 
