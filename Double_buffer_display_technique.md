@@ -758,4 +758,6 @@ SCREEN1の場合、カラーテーブルもダブルバッファにする事が�
 
 - 記事：[FREEDOM FIGHTER SMOOTH SCROLLING](https://thegeps.blogspot.com/2022/04/freedom-fighter-smooth-scrolling-eng.html)  
   [MSXdev’20: #18 – Freedom Fighter](https://msxdev.org/2020/07/30/msxdev20-18-pacificfreedom-fighter/)で実装されているスムーズスクロールでもダブルバッファリングを使用しているそうです。  
+実際に行われているのはベースアドレスの変更では無く、文字コード0～29をページ0、128～157をページ1と見立てて、表示に使用していないページのキャラクターパターンを書き換えてから、表示する文字コードをパターン書き換え済み文字コードに入れ替えると言う方法です。  
+この方法であればMSX1のVRAM32KBでも綺麗なパターン書き換え表示が可能です。  
   ***（※注 FREEDOM FIGHTERは、PALモードで実行しないと暴走しますので、エミュレータ等で```C-BOIS MSX1 EU```などを使用して起動してください。）***
