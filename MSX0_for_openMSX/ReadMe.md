@@ -13,6 +13,46 @@ OpenMSXでMSX0 M5stack Core2から吸い出したROMで起動するための定�
 
 ---
 
+## MSX0のI/Oポート
+
+https://github.com/uniskie/MSX_MISC_TOOLS/tree/main/for_MSX0#msx0-io%E3%83%9D%E3%83%BC%E3%83%88
+
+- PORT 8 : IOT操作（入出力）
+- PORT 16: ターミナルコンソールへの出力（出力）
+
+の動作についてはOpenMSX本体側で対応が必要になります。
+
+変則的な方法ですが、スクリプトからdebug機能を使用してI/Oポートアクセスにフックをかける方法もあります。
+
+> ## 例）I/Oの8番を読み取った時に強制で10を返す
+> 
+>   **※ IN A,(?)専用**
+> ```
+> debug set_watchpoint read_io 8 {} {reg pc ${::wp_last_address}; skip_instruction; reg a 10}
+> ```
+> - 補足
+>   
+>   ```reg pc ${::wp_last_address}; skip_instruction;```  ... ```IN A,(?)```コマンドをスキップする
+>
+>   openMSXの内部処理はIN A,(?)命令の途中で停止しているため、（この状態で```reg A 10```を実行してAレジスタの値を書き換えたとしても）処理を続行するとAレジスタがI/Oから読みだした値で上書きされてしまいます。
+> 
+>   その対策として、一旦実行アドレスを現在の```IN A,(?)```命令の位置に再セットしたのちに、その次の命令までスキップします。
+> 
+>   こうすることで、AレジスタへのI/O読み出しをスキップしできるので、```reg A 10```を実行した状態（Aレジスタの値=10）で処理を続行できます。
+
+>  ## I/Oの8番への書き込みをフックして処理```msx0::write_io_8```を呼び出す
+> ```
+> debug set_watchpoint write_io 8 {} {msx0::write_io_8}
+> ```
+> OUT (?),A専用であれば、関数```msx0::write_io_8```の中でレジスタAを読み出して処理を行うことが出来ます。
+>
+> 書き込みフックについては、
+> ```OpenMSX\share\scripts\_scc_toys.tcl(240)``` 付近などが参考になるかもしれません。  
+> PSGでの演奏をSCCで鳴らすスクリプトがあります。  
+> （Menuボタン → Advanced → Toys And Utilities → psg2scc で有効化/無効化できます。）
+
+---
+
 ## MSX0 Slot構成
 
 |          | 0x0000    | 0x4000    | 0x8000   | 0xC000   |
