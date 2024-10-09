@@ -20,7 +20,7 @@ itokenさん制作のMAMEベースのチップ音源向けMIDIコントロール
 物を揃えれば、PCからMIDI制御でMSXやMD実機演奏したり、エミュレータで遊びながらチップ制御情報を実機にリアルタイム転送して演奏させる事も出来ます。
 
 略称はMAmi、MAMI、mamiです。
-![MAmidiMEmo](MAmidiMEmo.png)
+![MAmidiMEmo](img/MAmidiMEmo.png)
 
 
 ### MAmiの実機演奏機能
@@ -171,13 +171,13 @@ MAmiはFTDIをBit–Bang モードで使用し、MSXに対して7bitパラレル
 
 - 自作例：FTDI FT232HQ、DSUB9pinメス基板、テストワイヤとテストピンソケットで組み換えしやすくした結果、ケースに収まらなくて困っている物  
 
-  ![自作ドングル例](home-made-dongle.jpg)
+  ![自作ドングル例](img/home-made-dongle.jpg)
 
   たまにはずみで線が抜けたりします🤤
 
 ### 要注意：VCC端子の入力/出力モードについて
 
-![alt text](vcc-jumper.png)
+![alt text](img/vcc-jumper.png)
 
 MAmidiMEmoでの使用では、FTDI FT232RがMSX側からの+5V給電で動作することを想定しています。
 
@@ -473,14 +473,33 @@ OpenMSXからMAmiへの接続が上手くいかない場合は、
 
 おめでとうございます。
 
-- スナッチャー with VSIF  
-   <video controls src="img/snatcher_vsif.mp4" title="スナッチャー with VSIF"></video>
+- [幻影都市 with VSIF](img/illution_city_vsif.mp4)
+  
+  https://github.com/user-attachments/assets/c5d2a7ca-e51f-4879-8bf6-3d8b6f778264
 
-- グラディウス2 with VSIF  
-  <video controls src="img/gradius2_vsif.mp4" title="グラディウス2 with VSIF"></video>
 
-- 幻影都市 with VSIF
-  <video controls src="img/illution_city_vsif.mp4" title="Title"></video>
+### SCC音源 の 違い
+
+SCC特有のノイズは音色データ読み取り時に  
+SCCチップ側から読み取れないタイミングがあることが原因で、  
+そのタイミングが2種類あるとの事だそうです。
+
+1. MSXのプログラム実行状態に関係するタイミング（プログラム実行状態で変化）
+2. 関係ないサイクル（ある程度周期的）
+
+この場合、2だけ現物と一致する形ですが、エミュレータよりは全然音の違いが少ないと思います。  
+（2が原因の波形変化は常に起きている物なので）
+
+例えばグラディウス2β版だと音が微妙に違ったりするのは1のほうの違いなんでしょうかね。
+
+
+- [スナッチャー with VSIF](img/snatcher_vsif.mp4)
+
+  https://github.com/user-attachments/assets/0da5e1cc-998a-42d6-901b-2e3cac482df0
+
+- [グラディウス2 with VSIF](img/gradius2_vsif.mp4)
+ 
+  https://github.com/user-attachments/assets/4ba3d576-e093-4402-9fca-171a66a9f670
 
 ----
 
@@ -493,10 +512,17 @@ https://x.com/uniskie/status/1590672732685238274
 1. パロディウス：タコ（主人公）の通常ショット
 2. グラディウス：レーザー
 
-- パロディウス with VSIF
-  <video controls src="img/parodius_vsif.mp4" title="パロディウス with VSIF"></video>
+- [パロディウス with VSIF](img/parodius_vsif.mp4)
 
-これらは一瞬だけミキサーでミュートし、数ステート後に再度ONという処理が入っているため、MAmi VSIFの速度ではちょっと追いつきません。
+  https://github.com/user-attachments/assets/da230690-58fd-40cc-a211-a7fddf8632c1
+
+これらは
+
+1. 一瞬だけミキサーでミュート
+2. 数ステート後にミュート解除
+
+という処理が入っているため、MAmi VSIFの速度ではちょっと追いつきません。
+
 そのため一瞬音がハッキリ消えるので音がもたついたように感じます。
 
 FT232Hで制作したVSIF dongleであれば多少緩和されることを確認していますが、完全には解決しないようです。
@@ -512,7 +538,11 @@ FT232Hで制作したVSIF dongleであれば多少緩和されることを確認
 
 完全にわすれてた
 
+- ポーズをかけると音が鳴りっぱなしになる
+- ステートロードをするとSCC波形がおかしくなりがち
+
 対応してません
 
-面倒くさそうｗ
+面倒くさそう🤤
+
 
