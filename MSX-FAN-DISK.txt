@@ -1,0 +1,50 @@
+*TAB8*
+■ すぺしゃる
+MSXFAN 1991-10 DISK 01  ガゼルの塔DEMO
+                        ソーサリアンリレー
+MSXFAN 1992-01 DISK 03  幻影音楽観 （幻影都市ミュージックモード）
+MSXFAN 1992-01 DISK 04  CARDです（ペアーズ＆カードコンストラクション）
+MSXFAN 1992-04 DISK 07  上海体験版              SHANGHAI.COM    SHANG*.*
+MSXFAN 1992-06 DISK 09  プリンセスメーカーデモ
+MSXFAN 1992-07 DISK 10  キャンペーン版大戦略Ⅱ兵器データベース
+MSXFAN 1992-09 DISK 12  キャンペーン版大戦略Ⅱユニットエディタ
+MSXFAN 1992-12 DISK 15  マイクロキャビン・スーパーカルトクイズ体験版（ザタワーオブキャビンより）
+MSXFAN 1993-01 DISK 16  とっかえジグソーパズル（ザタワーオブキャビンより）
+
+■ オールディーズ
+MSXFAN 1991-11 DISK 02  あーぱーみゃあどっく    （要・解凍）    AMYADOCK.DSK
+MSXFAN 1992-02 DISK 05* パイパニック            BLOAD"PAIPANIC.BIN",R
+MSXFAN 1992-03 DISK 06* シャウトマッチ          SHOUT_M.COM
+MSXFAN 1992-05 DISK 08  あかんべドラゴン        （要・解凍）    AKANBE.DSK
+MSXFAN 1992-08 DISK 11  アメリカンサクセス      （要・解凍）    ASUCCESS.DSK
+MSXFAN 1992-10 DISK 13  ハイドライド            GAME.XB 
+                                                (DEMODATA.BIN PREPROG.BIN PROG.OBJ TITLE.XV8 VRAM-2.XV8)
+                                                (AUTOEXEC.XB MSXFAN.BIN LOADER.BIN)
+MSXFAN 1992-11 DISK 14* ウォーロイド            WARROID.COM
+MSXFAN 1993-02 DISK 17* レッドゾーン            BLOAR"REDZONE.BIN",R
+MSXFAN 1993-03 DISK 18* カレイジアスペルセウス  CP.COM
+MSXFAN 1993-04 DISK 19* テグザー                T.COM
+MSXFAN 1993-06 DISK 20* トップルジップ          TZ.COM
+MSXFAN 1993-08 DISK 21* 魔法使いウィズ          WIZ.COM         WIZ.BIN
+MSXFAN 1993-10 DISK 22* ザナック                ZANAC.COM       ZANAC.BIN
+MSXFAN 1993-12 DISK 23  ディーヴァ ソーマの杯   （要・解凍）    DAIVA5.BAS
+MSXFAN 1994-02 DISK 24  破邪の封印              （ディスク２）  HAJA.DSK
+MSXFAN 1994-04 DISK 25* 倉庫番                  BLOAD"SO.MEM",R
+MSXFAN 1994-06 DISK 26  軍人将棋                （要・解凍）    GUNJIN.DSK
+MSXFAN 1994-08 DISK 27  The Black Onyx          （ディスク２）  BLACKONY.DSK
+MSXFAN 1994-10 DISK 28  サイキックウォー        （要・解凍）    PSYCHIC.DSK
+MSXFAN 1994-12 DISK 29  ザナドゥ                （要・解凍）    XANADU.DSK
+MSXFAN 1995-02 DISK 30  ザ・ゴルフ              （要・解凍）    GOLF.DSK
+                        ミステリーハウス        （要・解凍）    MYSTERYH.DSK
+MSXFAN 1995-04 DISK 31  クリムゾン              （要・解凍）    CRYMSON.DSK
+                        ジャンプヒーロー        （要・解凍）    JUMPHERO.DSK
+MSXFAN 1995-06 DISK 32  あーくしゅ              （要・解凍）    ACUSHU.DKS
+MSXFAN 1995-08 DISK 33* ローラーボール          BLOAD"BALL.BIN" （ディスク２）
+
+■ ツールメモ
+MSXFAN 1992-08 DISK 11  SimpleASM体験版         SIMPLEAS.M SIMPLE.MCH GENBIN.BAS GENCOM.BAS SIMPLE13.DOC
+
+■ ファンダムメモ
+MSXFAN 1992-07 DISK 10  CALL MENU               4000h-7fffhに常駐
+MSXFAN 1992-08 DISK 11  LOST WING               縦シュー
+MSXFAN 1992-09 DISK 12  SST                     多色刷りキャラエディタ（要MSX2以上）
