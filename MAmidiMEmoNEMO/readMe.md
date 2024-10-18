@@ -1,6 +1,6 @@
 # MAmidiMEmo no MEMO
 
-OpenMSX for MAMI、MAmidiMEmo、MAmi-VSIF dongleを使用し、OpenMSXエミュレーション中の音を実機で鳴らすまでのメモ。
+openMSX for MAMI、MAmidiMEmo、MAmi-VSIF dongleを使用し、openMSXエミュレーション中の音を実機で鳴らすまでのメモ。
 
 SCC音源のノイズをエミュレーションできている物は存在しないため、スナッチャーやグラディウスの音がエミュレーションサウンドだと雰囲気が足りなくて寂しい。
 
@@ -34,7 +34,7 @@ VSIF接続で各種コンソールやマイコンの実機に搭載された音�
 MSX用であればMAmidiMEmo付属の```VSIF/VGM_msx.rom```を使用します
 
 > [!NOTE]
-> この機能とRPCサーバ機能を使ってOpenMSXの音を実機で演奏させる事が出来ます。
+> この機能とRPCサーバ機能を使ってopenMSXの音を実機で演奏させる事が出来ます。
 
 ### MAmiへの演奏入力
 
@@ -48,8 +48,9 @@ MSX用であればMAmidiMEmo付属の```VSIF/VGM_msx.rom```を使用します
 
    起動時に```-chip_server```オプションを付けて起動すると、RPC接続可能なサーバとして動作し、他のアプリケーションからMAmidiMEmo経由で音源制御をできる状態になります。
 
-   > [!NOTE]
-   > このRPCサーバ機能を利用するための改造をしたものが [openMSX for MAMI](#openmsx-for-mami) です
+> [!NOTE]
+> このRPCサーバ機能を利用するための改造をしたものが
+> [openMSX for MAMI](#openMSX-for-mami) です
 
 3. VGMPlayer
 
@@ -109,35 +110,42 @@ MAmi-VSIF dongle の基本は、FTDI社のUSB-UARTアダプタに搭載されて
 
 MSXに信号を送るので5Vで動作する事が要件で、5V電源入力モードがあることが望ましいとの事です。
 
-作者のitokenさんはFT2323RQをお勧めされています。
+作者のitokenさんは FT232RQ をお勧めされています。
+
+> [!NOTE]
+> 自作するとそれなりに大変なので、  
+> にがさんの完成品を入手するのがオススメです。  
+> とても楽だし、取り扱いも安全です。
 
 ### MAmi-VSIF dongle 自作の為に用意する物
 
-1. FTDI FT232RQ
+1. FTDI FT232RQ 
 2. ジョイスティックケーブル または、D-SUB 9pinメスコネクタと配線
 3. USBケーブル（タイプはFTDIにあうもの。付属していることが多い）
 
 > [!CAUTION]
-> **電源入力モードが無いFT232RQ**
+> #### **電源入力モードが無い FT232 にご注意！**
 > 
-> FT232RQを使用したキットでも電源出力モードしか設定できない物もありますので、電源入力モードがあるか確認してからご購入ください。
+> FT232シリーズ を使用したキットやケーブルの中には、電源出力モードしか設定できない物もありますので、電源入力モードがあるか確認してからご購入ください。
+> 
+> 設定変更できるかはFT232のチップではなく基板実装に依存します。
 > 
 > 例） [秋月電機通商 FT232RQ USBシリアル変換モジュールキット](https://akizukidenshi.com/catalog/g/g109951/) 
 
 > [!NOTE] 
-> **FT232の高速バージョン**
+> #### **FT232H (高速な上位モデル)の使用について**
 > 
-> FTDI FT232Rの代わりに、高速な上位モデルであるFTDI FT232Hなども使用できます。
+> FTDI FT232R の代わりに、高速な上位モデルである FTDI FT232H なども使用できます。
 > 
 > ただし、高速動作するものはそのままの設定ではMSXのZ80が追い付きません。  
 >
-> 例えばFT232Hを使用する場合は、```FtdiClockWidth```の設定を大きめの```35```にする必要があります。  
+> 例えば FT232H を使用する場合は、```FtdiClockWidth```の設定を大きめの```35```にする必要があります。  
 >
 > 実機がR800モードで動作しているのであれば ```FtdiClockWidth```を```20```まで減らすこともできます。  
 >
 > 参考: [R800モードでの使用](#r800モードでの使用)
 
-FT232RQかFT232HQあたりがお手ごろだと思います。
+FT232RQ か FT232HQ あたりがお手ごろだと思います。
 
 ### MAmi-VSIF dongle の 組み立て
 
@@ -158,36 +166,59 @@ MSX側（オス）コネクタ
  ＼9 8 7 6／
  ```  
 
-- VCC: MSXジョイスティック端子の5 (+5V)
-- GND: MSXジョイスティック端子の9 (GND)
-- TXD (D0): MSXジョイスティック端子の1
-- RXD (D1): MSXジョイスティック端子の2
-- RTS (D2): MSXジョイスティック端子の3
-- CTS (D3): MSXジョイスティック端子の4
-- DTR (D4): MSXジョイスティック端子の6
-- DSR (D6): MSXジョイスティック端子の7
+| FT232    | MSXジョイポート2 端子 |
+|:-------- |:--------------------- |
+| VCC      | 5 (+5V)               |
+| GND      | 9 (GND)               |
+| TXD (D0) | 1                     |
+| RXD (D1) | 2                     |
+| RTS (D2) | 3                     |
+| CTS (D3) | 4                     |
+| DTR (D4) | 6                     |
+| DSR (D6) | 7                     |
 
-MAmiはFTDIをBit–Bang モードで使用し、MSXに対して7bitパラレル送信を行う形になります。
+MAmiはFTDIをBit–Bang モードで使用し、  
+MSXに対して7bitパラレル送信を行う形になります。
 
-- 自作例：FTDI FT232HQ、DSUB9pinメス基板、テストワイヤとテストピンソケットで組み換えしやすくした結果、ケースに収まらなくて困っている物  
+- 自作例1 :
+  
+  FTDI FT232RQ、DSUB9ピンメスコネクタ加工、テストワイヤ、テストピンソケット
 
-  ![自作ドングル例](img/home-made-dongle.jpg)
+  ![自作ドングル1-組み立て前](img/home-made-dongle-1.jpg)
 
-  たまにはずみで線が抜けたりします🤤
+  ![自作ドングル1-組み立て後](img/home-made-dongle-2.jpg)
+
+  ※ テストワイヤで組み換えしやすくした結果🤤
+  - ケースに収まらなくて困っている
+  - たまに線が抜ける
+
+  ※ DSUB9ピンコネクタのエラ部分を削った結果🤤
+  - バラバラになったのでテープで無理やり接合
+  - ハンダで溶接は無理
+
+- 自作例2：
+  
+  FTDI FT232HQ、DSUB9pinメス基板、テストワイヤ、テストピンソケット
+
+  ![自作ドングル2](img/home-made-dongle-high.jpg)
+
+  ※ テストワイヤで組み換えしやすくした結果🤤
+  - ケースに収まらなくて困っている
+  - たまに線が抜ける
 
 ### 要注意：VCC端子の入力/出力モードについて
 
-![alt text](img/vcc-jumper.png)
+![VCCジャンパの注意](img/vcc-jumper.png)
 
-MAmidiMEmoでの使用では、FTDI FT232RがMSX側からの+5V給電で動作することを想定しています。
+MAmidiMEmoでの使用では、 FTDI FT232R がMSX側からの+5V給電で動作することを想定しています。
 
-FTDI FT232Rの出荷状態ではジャンパピンのVCCと5Vか3.3Vがショートされた状態が多いと思います。
+FTDI FT232R の出荷状態ではジャンパピンのVCCと5Vか3.3Vがショートされた状態が多いと思います。
 
-この状態だとFT232のVCCが入力ではなく出力モードになっていて**危険**ですので、**必ずショートピンを外してください。**
+この状態だと FT232 のVCCが入力ではなく出力モードになっていて**危険**ですので、**必ずショートピンを外してください。**
 
 > [!CAUTION]
 > 
-> - FT232のVCC端子が出力モードの場合、FT232は（MSXの電源と無関係に）USB給電で動作します。
+> - FT232 のVCC端子が出力モードの場合、 FT232 は（MSXの電源と無関係に）USB給電で動作します。
 >   この状態でMSXに接続すると損傷や不具合が出るかもしれません。
 > 
 > - MSXに接続せずに動作確認をしたい場合  
@@ -199,101 +230,128 @@ FTDI FT232Rの出荷状態ではジャンパピンのVCCと5Vか3.3Vがショー
 
 中にはジャンパピン自体が無いか、出力以外の設定が無い物もあります。
 
-その場合は仕方ないので、**FT232のVCCとMSXの+5Vの接続を外して**使用して下さい。
+その場合は仕方ないので、**FT232 のVCCとMSXの+5Vの接続を外して**使用して下さい。
 
 > [!WARNING]
 > ※ USB給電モード（VCC出力モード）での使用自体、**最悪、本体が壊れる**可能性があります。
 
-USB給電モードでFT232のVCC端子とMSXジョイポートの+5V端子が繋がっていると、**ジョイポート2を通してFT232から本体へ+5Vが給電されます。**
+USB給電モードで FT232 のVCC端子とMSXジョイポートの+5V端子が繋がっていると、**ジョイポート2 を通して FT232 から本体へ+5Vが給電されます。**
 
-この状態ではMSXの電源スイッチを切ってもMSXが動作し続けますし、FT232、MSX共にリスクがあります。
+この状態ではMSXの電源スイッチを切ってもMSXが動作し続けますし、 FT232 、MSX共にリスクがあります。
 
 ----
 
 ## MAmi-VSIF dongle の動作テスト
 
-
-(工事中)
-会話ログから抜粋
-
-
-
+参考：
 https://x.com/SNDR_SNDL/status/1590295847333670914
 
-あとMAmi側の問題かどうかの切り分けのため、一旦MSXからケーブルは外し(PCだけに接続し)、他の方の作られたテストツールで接続できるかどうかご確認いただけますでしょうか？
+### FTDI FT232から信号を出すツール
 
-Bit Bang Test  
+**Bit Bang Test**  
 https://feng3.nobody.jp/soft/bbt.html
 
+FTDI UARTケーブルのBit Bangモードを操作できるツールを使用します。
 
-https://x.com/SNDR_SNDL/status/1590345512976539649
+### PC側(FT232)単体のテスト
 
-結線は、先ほどのテストツールを使い(MSXには繋げず)、入出力設定のD0～D5をHi/Loさせ(1枚目)、アタリ端子側のHi/Lo状態を確認する(2枚目)と手っ取り早いはずです(電源はMSX側からではなくFTDI側から5Vを供給する用ジャンパを設定してください(3枚目、VCCを5Vにする)
+![alt text](img/BigBanTest.jpg)
 
+1. FTDI FT232 の電源はMSX側からではなくUSBから5Vを供給  
+   （FT232 のジャンパVCCと5Vをショート）
+2. FTDI FT2332 をPCのUSBポートに接続
+   
+3. FTDI FT2332 はMSXには繋げない
+   
+4. Bit Bang Test で接続確認
+   Bit Bang Testの「接続」ボタンを押して接続  
+   --> ボタンが「切断する」に変化すればOK
 
+5. Bit Bang Test で出力確認
+   1. Bitモードを```Asynchronus```に設定
+   
+   2. 入出力設定の```D0```～```D5```をHi/Lo切替  
+      例)
+      1. データビット```D0```～```D5```を出力に設定し全てLoで送信
+      2. ```D0```から```D5```について一つずつHiにして送信
+   
+   3. アタリ端子側のHi/Lo状態を確認  
+      例) テスターを用意して確認する場合  
+      - ```Hi```だと```5V```
+      - ```Lo```だと```0.9mV```
 
+### MSX側で入力を確認するツール
 
-ジャンパVCCと5Vをショート  
-BitモードAsynchronus  
-①データビットD0~D5を出力に設定し全てLoで送信  
-②D0からD5について一つずつHiにして送信  
-で、  
-それぞれHiだと5V、Loだと0.9mV  
-という感じでした。  
+**HIDTest**  
+ジョイポートの状態を表示するMSX用ツール
 
-（MSXにつなぐときはジャンパをショートさせていません）  
-
-
-https://x.com/SNDR_SNDL/status/1590536937081049088
-
-結線とFTDIのテストとしてMSXのhidtest.comを使うとMSX側の状態も確認できます(こちらが便利かも)。
-
-```
->hidtest /G 2
-```
-
-で起動、FTDIのD0～5がそれぞれ上,下,左,右,A,Bに対応してて、Loにして送信すると該当のボタンが押し下げられればOKとなります。
-
-
+ダウンロード先：
 FRS' MSX Page  
 https://frs.badcoffee.info/tools.html
 
-HIDtest v3.2 executable  
+HIDtest v3.2 executable 直接リンク  
 https://frs.badcoffee.info/files/HIDTEST.ZIP
 
+ジョイポート2の検査をする場合、DOSプロンプトから
+```
+>hidtest /G 2
+```
+で起動
 
 
+### MSXと接続してテスト
 
+![HIDtst](img/hid-test.jpg)
 
+参考：
+https://x.com/SNDR_SNDL/status/1590536937081049088
 
-HIDTEST3.2は ```hidtest /G 2```で起動。  
-D0~D5を出力HIでいったん出力。  
-D0～D5を順次LOWで出力で上下左右ABが順番にON  
-を確認しました。  
+1. FTDI FT232 の電源はMSX側から5Vを供給  
+   - FT232 のジャンパVCCをショートさせない
+   - ジャンパが無い場合はMSX側の5番ピン(5V)、FT232のVCCピンを接続しない
+2. FTDI FT2332 をPCのUSBポートに接続
+   
+3. FTDI FT2332 をMSXの **ジョイポート2** に接続
+   ![connect to msx](img/manual-vsif-msx-connect.png)
+   
+4. Bit Bang Test で接続確認
+   Bit Bang Testの「接続」ボタンを押して接続  
+   --> ボタンが「切断する」に変化すればOK
 
-MamiはPSGで  
-softowareからFTDI(VSIF MSX(FTDI))への変更。  
-15から10飛ばして100までやってみたのですが、暴走（リセットまたは画面の色が変わる等）しますね～  
+5. MSXを起動して、MSX-DOSからhidtestを実行
+   ```
+   >hidtest /G 2
+   ```
 
-あ、分かりました。  
-SX2をSDBIOSでturboR BIOS+T80（Z80モード）で起動してたのが原因かもです。  
+6. Bit Bang Test で出力確認
+   1. Bitモードを```Asynchronus```に設定
+   
+   2. 入出力設定の```D0```～```D5```をHi/Lo切替  
+      例)
+      1. データビット```D0```～```D5```を出力に設定し全てHiで送信
+      2. ```D0```から```D5```について一つずつLoにして送信
+   
+      3. MSXの```HIDtest```で **ジョイポート2**端子側のHi/Lo状態を確認  
+         **BitBangTest**を```D0```～```D5```を一つずつ順次Loにして**出力**する毎に  
+         **HIDtest**の表示が
+         **上 下 左 右 A B** の順番でONへ変化すればOK
 
-Nextorコアではなく、  
-SDを抜いて2MBモード(MSXDOS2)で起動したらPSGが鳴りました！  
-
-
-
-
-
-
-
-
+         | FT232    | MSXジョイポート2 端子 |
+         |:-------- |:--------------------- |
+         | VCC      | 5 (+5V)               |
+         | GND      | 9 (GND)               |
+         | TXD (D0) | 1                     |
+         | RXD (D1) | 2                     |
+         | RTS (D2) | 3                     |
+         | CTS (D3) | 4                     |
+         | DTR (D4) | 6                     |
+         | DSR (D6) | 7                     |
 
 ----
 
-## OpenMSX for MAMI
+## openMSX for MAMI
 
-MAMIの為に改造したOpenMSXです。
+MAMIの為に改造したopenMSXです。
 
 https://github.com/uniskie/openMSX/releases  
 こちらからダウンロードください。
@@ -305,10 +363,10 @@ https://github.com/uniskie/openMSX/
 https://uniskie.hatenablog.com/entry/ar1939918  
 をご参照ください。
 
-OpenMSXの設定や動作確認が終わったら、
-OpenMSXは一度終了させて下さい。
+openMSXの設定や動作確認が終わったら、
+openMSXは一度終了させて下さい。
 
-以降は、MAmidiMEmoを起動してからOpenMSXを起動する  
+以降は、MAmidiMEmoを起動してからopenMSXを起動する  
 という手順になります。
 
 ----
@@ -327,6 +385,9 @@ Windows PCのUSBポート→ MAmi-VSIF dongle for MSX → MSXのジョイポー�
 MAmiMEmoに添付の```VSIF/VGM_msx.rom```をMSX側で実行しておきます。  
 書き込み可能なROMやROMローダーで実行してください。
 
+![mami-vgm-play](img/mami-vgm.jpg)
+
+
 ### R800モードでの使用
 
 ROMイメージを書き込んだROMカートリッジで起動した場合は、Z80で動作します。
@@ -339,7 +400,6 @@ R800で動かしたい場合は
 1. Nextor/MSX-DOS2を R800モードで起動
 2. 各種ROMローダー(NSLOAD、MGLOAD、SofaRun)を使用して  
    ```VGM_msx.rom```を起動
-
 
 ## Windows側 の 送信準備
 
@@ -365,6 +425,7 @@ MAmiは最初音源が無い状態なので、音源の追加をしてくださ�
 を追加します。
 
 > [!NOTE]
+> 
 > **MSX-AUDIO**
 > 
 > MSX-AUDIOはopenMSX for MAMIでの対応をし忘れてたので使えません。
@@ -382,14 +443,14 @@ MAmiは最初音源が無い状態なので、音源の追加をしてくださ�
 
 2. ```FtdiClockWidth```
 
-   FTDI FT2323Rならデフォルトの```25```  
-   （MAmi-VSIF dongle for MSXはFTDI FT2323Rです）
+FTDI FT232 3Rならデフォルトの```25```  
+   （MAmi-VSIF dongle for MSXは FTDI FT232 3Rです）
 
 > [!NOTE]
 >
 > **FTDI FT323Hの場合**
 > 
-> FT232Hは速度自体が早いのでウェイトも多めに必要です。
+> FT232H は速度自体が早いのでウェイトも多めに必要です。
 > 1. MSXがZ80で動作中なら推奨値は```35```
 > 2. MSXがR800で動作中なら```20```～```25```  
 >    (推奨値未確定)
@@ -398,7 +459,7 @@ MAmiは最初音源が無い状態なので、音源の追加をしてくださ�
 >
 > **FT232R + R800モード**
 >
-> FTDI FT232Rの場合はMSXがR800で動作中でもFTDI FT232Rが追い付かないのでZ80向け同様に```25```推奨です。
+> FTDI FT232R の場合はMSXがR800で動作中でも FTDI FT232R が追い付かないのでZ80向け同様に```25```推奨です。
 
 > [!NOTE]
 >
@@ -429,8 +490,8 @@ MAmiは最初音源が無い状態なので、音源の追加をしてくださ�
 
 ### openMSX for MAMI の起動
 
-MAmidiMEmoが起動したのを確認したら、  
-次にopenMSX for MAMIを起動します。
+1. MAmidiMEmoが起動したのを確認したら、  
+2. 次にopenMSX for MAMIを起動します。
 
 > [!CAUTION] 
 > **この手順は守ってください。**
@@ -440,21 +501,21 @@ MAmidiMEmoが起動したのを確認したら、
 > [!NOTE]  
 > MAmiを複数起動している場合、2つ目以降は待ち受けポート番号が変わってしまうので、それらには接続できません。
 
-#### OpenMSX for MAMI と MAmidiMEmo の接続確認
+#### openMSX for MAMI と MAmidiMEmo の接続確認
 
-ここで一旦 OpenMSX for MAMI と MAmidiMEmo が接続されているかどうか確認してください。
+ここで一旦 openMSX for MAMI と MAmidiMEmo が接続されているかどうか確認してください。
 
 上手くいっていればMSXから音が鳴ると思いますが、上手く鳴らない時は問題の切り分けの為、MAmidiMEmo側に届いているかをまず確認します。
 
-1. Mamiの音源リストからPSGを選択
-2. SoundEngineをSoftware音源に一時変更
+1. Mamiの音源リストから```PSG```を選択
+2. ```SoundEngine```を```Software音源```に一時変更
 3. オシロスコープを表示
 4. openMSXでBEEP音を鳴らす  
    (BASICプロンプトでCTRL+G)
 
 等で確認するのが簡単です。
 
-OpenMSXからMAmiへの接続が上手くいかない場合は、
+openMSXからMAmiへの接続が上手くいかない場合は、
 
 1. MAmidiMEmoの起動時に```-chip_server```を付けて起動しているか
 2. MAmidiMEmoを多重起動していないか
@@ -467,7 +528,7 @@ OpenMSXからMAmiへの接続が上手くいかない場合は、
 
 以上で準備完了です。
 
-すべての準備が整っていれば、OpenMSXと同期して実機から音が出ると思います。
+すべての準備が整っていれば、openMSXと同期して実機から音が出ると思います。
 
 これで、実機でしか味わえない独特の厚みのあるSCC音源や、フィルタの聞いた太くて丸みのあるOPLLの音が楽しめます。
 
@@ -525,7 +586,37 @@ https://x.com/uniskie/status/1590672732685238274
 
 そのため一瞬音がハッキリ消えるので音がもたついたように感じます。
 
-FT232Hで制作したVSIF dongleであれば多少緩和されることを確認していますが、完全には解決しないようです。
+FT232H で制作したVSIF dongleであれば多少緩和されることを確認していますが、完全には解決しないようです。
+
+----
+
+## (おまけ) openMSXでVGM録音
+
+### openMSX コンソール
+
+```F10キー```でコンソールを出して各種コマンドを入力します。
+
+### vgm_rec コマンド
+
+- HELP表示
+  ```
+  help vgm_rec
+  ````
+
+- 録音開始
+  ```
+  vgm_rec start <MSX-Audio|MSX-Music|MoonSound|PSG|SCC>
+  ```
+
+- 現在録音中のトラックを区切って次のトラックに録音開始
+  ```
+  vgm_rec next
+  ```
+
+- 録音終了
+  ```
+  vgm_rec stop
+  ```
 
 ----
 
