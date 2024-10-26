@@ -377,6 +377,8 @@ https://x.com/SNDR_SNDL/status/1590536937081049088
 
 ## openMSX for MAMI
 
+![](img/openMSX-mgsp.png)
+
 MAMIの為に改造したopenMSXです。
 
 https://github.com/uniskie/openMSX/releases  
@@ -430,6 +432,8 @@ R800で動かしたい場合は
 ## Windows側 の 送信準備
 
 ### MAmidiMEmo の起動
+
+![](img/MAmidiMEmo.png)
 
 ```
 MAmidiMEmo.exe -chip_server
