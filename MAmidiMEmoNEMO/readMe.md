@@ -1,10 +1,10 @@
 # MAmidiMEmo no MEMO
 
-openMSX for MAMI、MAmidiMEmo、MAmi-VSIF dongleを使用し、openMSXエミュレーション中の音を実機で鳴らすまでのメモ。
+openMSX for MAMI、MAmidiMEmo、MAmi-VSIF dongle、MSX実機を繋ぎ、openMSXエミュレーションから実機の音源を制御して鳴らすまでのメモ。
 
 SCC音源のノイズをエミュレーションできている物は存在しないため、スナッチャーやグラディウスの音がエミュレーションサウンドだと雰囲気が足りなくて寂しい。
 
-そんな貴方に最適なソリューションを提供いたします。
+そんな貴方に最適なソリューションをご提案いたします。
 
 ----
 
@@ -23,20 +23,25 @@ itokenさん制作のMAMEベースのチップ音源向けMIDIコントロール
 ![MAmidiMEmo](img/MAmidiMEmo.png)
 
 
-### MAmiの実機演奏機能
+### MAmiMEmo (MAmi)の実機演奏機能
 
 VSIF接続で各種コンソールやマイコンの実機に搭載された音源チップをPCからリモートで制御する事が可能です。
 
-その場合は [VSIF dongle](#mami-vsif-dongle-for-msx) を使用してWindows PCと実機を接続します。
-
-実機側ではVSIFフォルダにある各機種用のROMや実行ファイルを実行してMAmidiMEmoからの音源制御コマンドを受信し実行します。
-
-MSX用であればMAmidiMEmo付属の```VSIF/VGM_msx.rom```を使用します
+1. [VSIF dongle](#mami-vsif-dongle-for-msx) を使って、Windows PCから実機のジョイポートへコマンドを送信します。
+2. MSXではMAmidiMEmo付属の```VSIF/VGM_msx.rom```を実行し、ジョイポートへ送られてくるコマンドを受信しながら実行する仕組みです。
 
 > [!NOTE]
-> この機能とRPCサーバ機能を使ってopenMSXの音を実機で演奏させる事が出来ます。
+> RPCという仕組みを使用してopenMSXからMAmidiMEmoへコマンドを送ると、OpenMSXからのコマンドをMSX実機が実行する形になります。
+>
+> (openMSX -> MAmidiMemo -> VSIF dongle -> MSX実機)
+> 
+> ![](img/workimage.png)
 
-### MAmiへの演奏入力
+> [!NOTE]
+> このRPC機能を利用するためにopenMSXを改造したものが
+> [openMSX for MAMI](#openMSX-for-mami) です
+
+### MAmiMEmo (MAmi)への演奏入力
 
 1. MIDI入力
 
@@ -48,10 +53,6 @@ MSX用であればMAmidiMEmo付属の```VSIF/VGM_msx.rom```を使用します
 
    起動時に```-chip_server```オプションを付けて起動すると、RPC接続可能なサーバとして動作し、他のアプリケーションからMAmidiMEmo経由で音源制御をできる状態になります。
 
-> [!NOTE]
-> このRPCサーバ機能を利用するための改造をしたものが
-> [openMSX for MAMI](#openMSX-for-mami) です
-
 3. VGMPlayer
 
    同梱のVGMPlayer.exeもVSIF対応で、ドングル接続した実機にVGMファイルを演奏させる事が出来ます。
@@ -61,7 +62,7 @@ MSX用であればMAmidiMEmo付属の```VSIF/VGM_msx.rom```を使用します
    ソフトウェア鍵盤も装備しています。  
    試しに鳴らしたい時にも使えます。
 
-### MAmiのSoftware音源
+### MAmiMEmo (MAmi)のSoftware音源
 
 MAMEベースのSoftware音源も搭載していますので、MAmidiMEmo単体でも音を鳴らすことができます。
 
@@ -90,14 +91,31 @@ MAMEベースのSoftware音源も搭載していますので、MAmidiMEmo単体�
 
 ## MAmi-VSIF dongle for MSX
 
-にがさん謹製「MAmi-VSIF dongle for MSX」  
+![](img/VSIF-dongles.jpg)
+左から順に
+- FTDI FT232RQを使用したスタンダード版の自作品
+- FTDI FT232HQを使用した高速版の自作品
+- にがさんが頒布されている完成品（FTDI FT232RQ採用）
+
+### にがさん謹製「MAmi-VSIF dongle for MSX」  
+
+![](img/niga-dongle.png)
+
 [MAmi-VSIF dongle for MSX 使用説明書](http://niga2.sytes.net/sp/mami_msx.pdf)
 
 これはPCからMSX/P6へジョイポート経由でデータを送信できるドングルです。
 
+> [!Note]
+> MAmi-VSIF dongle for MSXはFTDI社のFT232というUSB接続のシリアル通信（UART）インターフェースを使用しています。  
+> FTDIのUARTチップはパラレル送信モードも持っていて、それを使ってジョイポートへパラレル通信でコマンドを送ります。
+> コマンドは実機のジョイスティックポートへ送られるので、実機側はこれを監視しながらコマンドを実行する形です。
+>
+> メガドライブやSMS用も原理は同じものです。
+
+
 （ドングルはMSXとP6共通です）
 
-### 入手方法
+#### 入手方法
 
 - 通信販売：[家電のケンちゃん MAmi-VSIF dongle for MSX 販売ページ](https://www.kadenken.com/view/item/000000001540)
 - MSXイベントやX68Kイベントなどでの販売（委託販売が多いので適宜検索ください）
@@ -110,11 +128,13 @@ MAMEベースのSoftware音源も搭載していますので、MAmidiMEmo単体�
 
 ## MAmi-VSIF dongle の自作
 
+  ![自作ドングル1-組み立て前](img/home-made-dongle-1.jpg)
+
 完成済み MAmi-VSIF dongle for MSX が入手できない場合は、自作することもできます。
 
 MAmi-VSIF dongle の基本は、FTDI社のUSB-UARTアダプタに搭載されているBit Bang機能使い、パラレルデータを送る仕組みです。
 
-MSXに信号を送るので5Vで動作する事が要件で、5V電源入力モードがあることが望ましいとの事です。
+MSXに信号を送るので5Vで動作する事が要件で、**5V電源入力**モードがあることが望ましいとの事です。
 
 作者のitokenさんは FT232RQ をお勧めされています。
 
@@ -189,8 +209,6 @@ MSXに対して7bitパラレル送信を行う形になります。
 - 自作例1 :
   
   FTDI FT232RQ、DSUB9ピンメスコネクタ加工、テストワイヤ、テストピンソケット
-
-  ![自作ドングル1-組み立て前](img/home-made-dongle-1.jpg)
 
   ![自作ドングル1-組み立て後](img/home-made-dongle-2.jpg)
 
