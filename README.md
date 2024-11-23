@@ -47,7 +47,7 @@ MSX関連の色んなメモを置く場所です
 [FMBIOS_MUSIC_DATA.MD](FMBIOS_MUSIC_DATA.MD)  
 ... FMBIOS用音楽データのメモ
 
-[FMPAC_Memo.txt](FMPAC_Memo.txt)  
+[FMPAC_Memo.txt](FMPAC_Memo.md)  
 ... FMPAC OPLDRV BGMデータメモ
 
 [RTYPE_memo.md](RTYPE_memo.md)  

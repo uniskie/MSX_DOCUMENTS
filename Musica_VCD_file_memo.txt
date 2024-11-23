@@ -35,14 +35,14 @@ Address Map
 
 
 (detail word)
-+0: M: Ampllitude_Modulation(1) Vibrato(1) EG_Type(1) Key_Scale_Rate(1) Multiple(4)
-+1: C: Ampllitude_Modulation(1) Vibrato(1) EG_Type(1) Key_Scale_Rate(1) Multiple(4)
-+2: M: Key_Scale_Level(2) Total_Level(6)
-+3: C: Key_Scale_Level(2) 0(1) Distortion_Carrier(1) Distortion_Modulator(1) FeedBack(3)
-+4: M: Attack_Rate(4) Decay_Rate(4)
-+5: C: Attack_Rate(4) Decay_Rate(4)
-+6: M: Sustain_Level(4) Release_Rate(4)
-+7: C: Sustain_Level(4) Release_Rate(4)
++0: M: Ampllitude_Modulation(1), Vibrato(1), EG_Type(1), Key_Scale_Rate(1), Multiple(4)
++1: C: Ampllitude_Modulation(1), Vibrato(1), EG_Type(1), Key_Scale_Rate(1), Multiple(4)
++2: M: Key_Scale_Level(2), Total_Level(6)
++3: C: Key_Scale_Level(2), 0(1), Distortion_Carrier(1), Distortion_Modulator(1), FeedBack(3)
++4: M: Attack_Rate(4), Decay_Rate(4)
++5: C: Attack_Rate(4), Decay_Rate(4)
++6: M: Sustain_Level(4), Release_Rate(4)
++7: C: Sustain_Level(4), Release_Rate(4)
 
 (*) 0: address+3 bit5 is always 0.
 (*) M: Modulator
