@@ -1,7 +1,9 @@
 ﻿# ■ FMPACのバンク選択
 
-レジスタ: 7FF7h
 http://bifi.msxnet.org/msxnet/utils/saverom
+
+```
+レジスタ: 7FF7h
 SAVEROM FMPAC.ROM⏎
 Select Type: Custom
 Switch Address: 7FF7
@@ -9,6 +11,7 @@ Save Address: 4000
 Block Size: 4000
 First Block: 0
 Last Block: 3
+```
 
 # ■ FMPACの曲データ
 
