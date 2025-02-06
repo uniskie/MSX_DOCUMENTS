@@ -32,26 +32,30 @@ MSX関連の色んなメモを置く場所です
 - - - -
 ## 音楽：MuSICA 関連
 
-[MuSICA_DATA_MANUAL.txt](MuSICA_DATA_MANUAL.txt)  
+(※基本的に最新は https://github.com/uniskie/msx_music_data/tree/master/doc/ )
+
+[MuSICA_DATA_MANUAL.txt](https://github.com/uniskie/msx_music_data/tree/master/doc/MuSICA_DATA_MANUAL.txt)  
 ... ASCIIの音源ドライバ「MuSICA」のデータ仕様書 書き起こし
 
-[MuSICA_PROGMAM_MANUAL.txt](MuSICA_PROGMAM_MANUAL.txt)  
+[MuSICA_PROGMAM_MANUAL.txt](https://github.com/uniskie/msx_music_data/tree/master/doc/MuSICA_PROGMAM_MANUAL.txt)  
 ... ASCIIの音源ドライバ「MuSICA」のプログラム仕様書 書き起こし
 
-[Musica_VCD_file_memo.txt](Musica_VCD_file_memo.txt)  
+[Musica_VCD_file_memo.txt](https://github.com/uniskie/msx_music_data/tree/master/doc/Musica_VCD_file_memo.txt)  
 ... ASCIIの音源ドライバMuSICAの音声ファイル(VCDファイル)の解析メモ
 
 - - - -
 # 音楽：MSX-MUSIC / FMPAC / FM BIOS (OPLDRV) 関連
 
-[FMBIOS_MUSIC_DATA.MD](FMBIOS_MUSIC_DATA.MD)  
+(※基本的に最新は https://github.com/uniskie/msx_music_data/tree/master/doc/ )
+
+[FMBIOS_MUSIC_DATA.MD](https://github.com/uniskie/msx_music_data/tree/master/doc/FMBIOS_MUSIC_DATA.MD)  
 ... FMBIOS用音楽データのメモ
 
-[FMPAC_Memo.md](FMPAC_Memo.md)  
-... FMPAC OPLDRV BGMデータメモ
+[FMPAC_Memo.md](https://github.com/uniskie/msx_music_data/tree/master/doc/FMPAC_Memo.md)  
+... FMPAC OPLDRV (FMBIOS) BGMデータメモ
 
-[RTYPE_memo.md](RTYPE_memo.md)  
-... RTYPE OPLDRV BGMデータメモ
+[RTYPE_memo.md](https://github.com/uniskie/msx_music_data/tree/master/doc/RTYPE_memo.md)  
+... RTYPE OPLDRV (FMBIOS) BGMデータメモ
 
 https://github.com/uniskie/MSX_MISC_TOOLS/tree/main/OPLDRV_BGM_EXTRACT  
 ... FMPAC / RTYPE のカートリッジからOPLDRV用BGMデータを取り出すサンプルツール
@@ -59,13 +63,17 @@ https://github.com/uniskie/MSX_MISC_TOOLS/tree/main/OPLDRV_BGM_EXTRACT
 - - - -
 # 音楽：MGSDRV 関連
 
-[MGSDRV_MEMO.md](MGSDRV_MEMO.md)  
+(※基本的に最新は https://github.com/uniskie/msx_music_data/tree/master/doc/ )
+
+[MGSDRV_MEMO.md](https://github.com/uniskie/msx_music_data/tree/master/doc/MGSDRV_MEMO.md)  
 ... MGSDRVメモ ... F-Numberらしきものなど
 
 - - - -
 # 音楽：その他
 
-[tempo_list.md](tempo_list.md)  
+(※基本的に最新は https://github.com/uniskie/msx_music_data/tree/master/doc/ )
+
+[tempo_list.md](https://github.com/uniskie/msx_music_data/tree/master/doc/tempo_list.md)  
 ... 4分音符のフレーム数指定でのテンポと各音長のフレーム数リスト
 
 - - - -
