@@ -1,0 +1,190 @@
+{
+  "main": {
+    "id": "008387c4ee5e5531",
+    "type": "split",
+    "children": [
+      {
+        "id": "92335872d7ed0b5c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f2a2a1f88b8f303f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "MUSIC_DOC/MuSICA_Driver_Data_Manual.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "MuSICA_Driver_Data_Manual"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ca5dc59cc812b601",
+    "type": "split",
+    "children": [
+      {
+        "id": "b46206ea89bde399",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "97ceafe06d5a7c38",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "ファイルエクスプローラ"
+            }
+          },
+          {
+            "id": "55a32f6b3dd28472",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "検索"
+            }
+          },
+          {
+            "id": "d78a6b1a1f42a1aa",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "ブックマーク"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "a3d5ed90bd926589",
+    "type": "split",
+    "children": [
+      {
+        "id": "492847b60adafb30",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6c60aa33d921f76e",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "MUSIC_DOC/MuSICA_Driver_Data_Manual.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "MuSICA_Driver_Data_Manualへのバックリンク"
+            }
+          },
+          {
+            "id": "b4e6462dce557519",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "MUSIC_DOC/MuSICA_Driver_Data_Manual.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "MuSICA_Driver_Data_Manualからのアウトゴーイングリンク"
+            }
+          },
+          {
+            "id": "adc10f7a737aad6b",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "タグ"
+            }
+          },
+          {
+            "id": "bf4adfed63015b79",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "MUSIC_DOC/MuSICA_Driver_Data_Manual.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "MuSICA_Driver_Data_Manualのアウトライン"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:クイックスイッチャーを開く": false,
+      "graph:グラフビューを開く": false,
+      "canvas:新規キャンバスを作成": false,
+      "daily-notes:今日のデイリーノートを開く": false,
+      "templates:テンプレートを挿入": false,
+      "command-palette:コマンドパレットを開く": false
+    }
+  },
+  "active": "f2a2a1f88b8f303f",
+  "lastOpenFiles": [
+    "MUSIC_DOC/MuSICA VCD File Format.md",
+    "MUSIC_DOC/MGSDRV_MEMO.md",
+    "MUSIC_DOC/MuSICA_Driver_Data_Manual.md",
+    "MUSIC_DOC/MuSICA_Driver_Program_manual.md",
+    "MUSIC_DOC/ReadMe.md",
+    "MUSIC_DOC/RTYPE_memo.md",
+    "OpenMSX_TV_Shader/ReadMe.md",
+    "OpenMSX_TV_Shader/ReadMe_Eng.md",
+    "OpenMSX_TV_Shader/screenshot_file_place.png",
+    "OpenMSX_TV_Shader/screenshot_video_control.png",
+    "Double_buffer_display_technique.md",
+    "README.md",
+    "MUSIC_DOC/FMBIOS_MUSIC_DATA.md",
+    "MUSIC_DOC/tempo_list.md",
+    "MUSIC_DOC/FMPAC_Memo.md",
+    "MUSIC_DOC"
+  ]
+}

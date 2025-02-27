@@ -32,21 +32,21 @@ MSX関連の色んなメモを置く場所です
 - - - -
 ## 音楽：MuSICA 関連
 
-(※基本的に最新は https://github.com/uniskie/msx_music_data/tree/master/doc/ )
+(※ https://github.com/uniskie/msx_music_data/tree/master/doc/  へ移動しました。)
 
-[MuSICA_DATA_MANUAL.txt](https://github.com/uniskie/msx_music_data/tree/master/doc/MuSICA_DATA_MANUAL.txt)  
+[MuSICA_Driver_Data_Manual.md](https://github.com/uniskie/msx_music_data/tree/master/doc/MuSICA_Driver_Data_Manual.md)  
 ... ASCIIの音源ドライバ「MuSICA」のデータ仕様書 書き起こし
 
-[MuSICA_PROGMAM_MANUAL.txt](https://github.com/uniskie/msx_music_data/tree/master/doc/MuSICA_PROGMAM_MANUAL.txt)  
+[MuSICA_Driver_Program_manual.md](https://github.com/uniskie/msx_music_data/tree/master/doc/MuSICA_Driver_Program_manual.md)  
 ... ASCIIの音源ドライバ「MuSICA」のプログラム仕様書 書き起こし
 
-[Musica_VCD_file_memo.txt](https://github.com/uniskie/msx_music_data/tree/master/doc/Musica_VCD_file_memo.txt)  
+[MuSICA VCD File Format.md](https://github.com/uniskie/msx_music_data/tree/master/doc/MuSICA VCD File Format.md)  
 ... ASCIIの音源ドライバMuSICAの音声ファイル(VCDファイル)の解析メモ
 
 - - - -
 # 音楽：MSX-MUSIC / FMPAC / FM BIOS (OPLDRV) 関連
 
-(※基本的に最新は https://github.com/uniskie/msx_music_data/tree/master/doc/ )
+(※ https://github.com/uniskie/msx_music_data/tree/master/doc/  へ移動しました。)
 
 [FMBIOS_MUSIC_DATA.MD](https://github.com/uniskie/msx_music_data/tree/master/doc/FMBIOS_MUSIC_DATA.MD)  
 ... FMBIOS用音楽データのメモ
@@ -63,7 +63,7 @@ https://github.com/uniskie/MSX_MISC_TOOLS/tree/main/OPLDRV_BGM_EXTRACT
 - - - -
 # 音楽：MGSDRV 関連
 
-(※基本的に最新は https://github.com/uniskie/msx_music_data/tree/master/doc/ )
+(※ https://github.com/uniskie/msx_music_data/tree/master/doc/  へ移動しました。)
 
 [MGSDRV_MEMO.md](https://github.com/uniskie/msx_music_data/tree/master/doc/MGSDRV_MEMO.md)  
 ... MGSDRVメモ ... F-Numberらしきものなど

@@ -1,0 +1,191 @@
+﻿/* 見出し H1 */
+.inline-title h1,
+.HyperMD-header-1,          /* 編集中 */
+.markdown-preview-view h1   /* 閲覧表示 */
+{
+	border-bottom: double 5px !important;
+	margin-bottom: -0.25em !important;
+}
+
+/* 見出し H2 */
+.HyperMD-header-2,          /* 編集中 */
+.markdown-preview-view h2   /* 閲覧表示 */
+{
+	border-bottom: solid 2px !important;
+	margin-bottom: -0.25em !important;
+}
+
+/* 見出し H3 */
+.HyperMD-header-3,          /* 編集中 */
+.markdown-preview-view h3   /* 閲覧表示 */
+{
+	border-bottom: solid 1px !important;
+	margin-bottom: 0em !important;
+}
+
+/* 見出し H4 */
+.HyperMD-header-4,          /* 編集中 */
+.markdown-preview-view h4   /* 閲覧表示 */
+{
+	border-bottom: dashed 1px !important;
+	margin-bottom: 0.25em !important;
+}
+
+/* 見出し H5 */
+.HyperMD-header-5,          /* 編集中 */
+.markdown-preview-view h5   /* 閲覧表示 */
+{
+	border-bottom: dotted 1px !important;
+	margin-bottom: 0.25em !important;
+}
+
+body {
+	/*--h1-color: #882222; /* brown */
+	--h2-color: #aa3333; /* red */
+	--h3-color: #dd6622; /* orange */
+	--h4-color: #228888; /* green */
+	--h5-color: #226688; /* blue */
+	--h6-color: #aa6666; /* pink */
+
+	/* 編集中の引用背景 */
+	--blockquote-background-color: #f8f1f0;
+
+	/* リストアイテム 上下余白*/
+	--list-spacing: 0.25em;
+
+	/* 全体の余白 */
+	padding: 0em 0em 0em 0.5em;
+	
+	/* ファイル名、文書名 */
+	--inline-title-color: #805850;
+	--inline-title-size: 1.8em;
+	--inline-title-line-height: 0.5em;
+}
+
+/* ポップアッププレビューにに悪影響が出るので一旦OFF */
+/*/* ファイル名、文書名 */
+/*/*.view-content .markdown-source-view .inline-title,  /* 編集中 */
+/*/*.markdown-preview-view .mod-header .inline-title    /* 閲覧表示 */
+/*:not(.hover-popover) .inline-title /* ポップアップ除外 ←うまくいかない*/
+/*{
+/*	border-top:    double 6px;
+/*	border-bottom: double 6px;
+/*	      /* top left bottom right */
+/*	line-height: 1.5em;
+/*	padding-left: 0.5em;
+/*	color: black;
+/*	background-color: #ccddee;
+/*	border-color:     #112738;
+/*}
+*/
+
+/* 引用中のcode */
+.markdown-preview-view blockquote pre,  /* 閲覧表示 */
+.markdown-preview-view blockquote code  /* 閲覧表示 */
+{
+	background-color: #ece5e4 !important;
+}
+
+/* 
+編集画面 (テキスト)
+------------------------
+場所            指定方法
+------------------------
+通常の文字                      .CodeMirror pre.CodeMirror-line
+                                (.cm-s-obsidian でも可能だがテーマによっては反映されない)
+見出し全体                      .cm-header
+見出し2を指定                   .cm-header-2 (数値を変更すれば1～6まで指定可能)
+見出しの# (編集時)              .cm-formatting-header
+**強調 (太字)**                 .cm-s-obsidian .cm-strong
+*イタリック (斜体)*             .cm-em
+打ち消し線 (~~部分)             .cm-s-obsidian span.cm-formatting-strikethrough
+打ち消されたテキスト            .cm-s-obsidian span.cm-strikethrough
+ハイライト (==部分)             .cm-s-obsidian span.cm-formatting-highlight
+ハイライトされた文字            .cm-s-obsidian span.cm-highlight
+引用                            .cm-quote
+フロントマターの値部分          .cm-s-obsidian .cm-hmd-frontmatter
+
+編集画面 (その他)
+------------------------
+場所            指定方法
+------------------------
+インラインコード                .cm-s-obsidian span.cm-inline-code
+コードブロック                  .cm-s-obsidian pre.HyperMD-codeblock
+内部リンク                      .cm-s-obsidian span.cm-hmd-internal-link
+外部リンク (名称部分)           .cm-s-obsidian span.cm-link
+外部リンク (URL部分)            .cm-s-obsidian span.cm-url
+タグ 全体 (編集時)              .cm-s-obsidian .cm-hashtag
+タグ #部分 (編集時)             .cm-s-obsidian span.cm-hashtag-begin
+タグ #以外の部分 (編集時)       .cm-s-obsidian span.cm-hashtag-end
+エディタ画面の左右境界線        .CodeMirror-lines
+
+プレビュー画面 (テキスト)
+------------------------
+場所            指定方法
+------------------------
+見出し          (一括設定は無し？)
+見出し1を指定                   .markdown-preview-view h1
+**強調 (太字)**                 .markdown-preview-view strong
+*イタリック (斜体)*             .markdown-preview-view em
+打ち消し線                      .markdown-preview-view del
+ハイライト                      .markdown-preview-view mark
+引用                            .markdown-preview-view blockquote
+選択中のテキスト                ::selection
+水平線                          .markdown-preview-view hr
+
+プレビュー画面 (リンク、コード、タグ)
+------------------------
+場所            指定方法
+------------------------
+内部リンク                      .markdown-preview-view a.internal-link
+外部リンク                      .markdown-preview-view a.external-link
+インラインコード                .markdown-preview-view code
+コードブロックの背景            .markdown-preview-view pre
+コードブロックの文字            .markdown-preview-view pre code
+タグの全体的な見た目            .tag
+タグ名「complete」を指定        .tag[href^="#complete"]
+タグのピルボックス              a.tag
+
+プレビュー画面 (リスト、チェックボックス)
+------------------------
+場所            指定方法
+------------------------
+番号無しリスト 全体             ul
+番号無しリストの文字            ul li
+番号なしリストのBullet          ul li::marker
+番号付きリスト 全体             ol
+番号付きリストの文字            ol li
+番号付きリストの番号            ol li::marker
+チェックボックス (テキスト部)   .markdown-preview-view .task-list-item
+テキスト部分 (チェックジ)       .markdown-preview-view ul > li.task-list-item.is-checked
+チェックボックスの□部分        input[type=checkbox]
+□部分 (チェックされたとき)     input[type=checkbox]:checked
+
+その他
+------------------------
+場所            指定方法
+------------------------
+ダークテーマの既定値を設定           .theme-dark
+ライトテーマの既定値を設定           .theme-light
+アクティブなノートタイトル           .workspace-leaf.mod-active .view-header-title
+非アクティブなノートタイトル         .view-header-title
+ノートタイトルのアイコン             .view-header-icon
+ファイルエクスプローラ > ファイル名  .nav-file-title
+ファイルエクスプローラ > フォルダ名  .nav-folder-title
+ポップアップ プレビューウインドウ    .popover.hover-popover
+タグペイン > タグの名称部分          .tag-pane-tag
+タグペイン > 数の表記部分            .tag-pane-tag-count
+ツールバー (画面左端のリボン)        .workspace-ribbon.mod-left
+画面右端のリボン                     .workspace-ribbon.mod-right
+ステータスバー  .status-bar
+
+補足: 代表的な擬似クラス
+表記            意味
+:root           <html>要素を指す
+:not (A)        Aセレクターに一致しない要素
+:hover          マウスポインタを合わせたとき
+:link           未訪問のリンク
+:visited        既に訪問したリンク
+:checked        チェックボックスなどがONの状態
+
+*/

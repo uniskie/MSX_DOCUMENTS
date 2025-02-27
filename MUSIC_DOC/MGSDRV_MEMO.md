@@ -1,4 +1,7 @@
-﻿# MGSDRV
+﻿MGSDRV Ⓒ Ain./Gigamix 
+MGSDRV (C) Ain./Gigamix
+
+# MGSDRVの気になる事メモ
 
 https://gigamix.hatenablog.com/entry/mgsdrv/
 
@@ -14,28 +17,21 @@ https://twitter.com/ym2413/status/1223015404907290624
 
 ## デチューン
 
-```¥?```と```@¥?```の違いは？
+### ```¥数値 (-128～127)```
 
-（不確定：情報求む）
+- SCC/PSGならTONEレジスタ値
+- FM音源ならF-Number値
+- マイナス指定可能
 
-### ```¥?```
+### ```@¥数値 (0～255)```
 
-- SCC/PSGなら周波数そのままの差分
-
-- FM音源ならF-Numberの差分？
-
-### ```@¥?```
-
-- SCC/PSGなら周波数そのままの差分 * 8倍？
-
-- FM音源ならF-Numberの差分 * 16倍 ?
+- SCC/PSGならTONEレジスタ値の8倍？
+- FM音源ならF-Number値の16倍？
+- マイナス指定不可
 
 マニュアルの記述によると
 - PSG/SCCでは128で約半音
 - FM音源では255で半音
-
-とあるため、詳細は不明。
-
 
 ## F-NUMBER table ?
 
@@ -43,6 +39,7 @@ https://twitter.com/ym2413/status/1223015404907290624
 
 MGSDRV.COM
 file: 1737H-174FH
+
 | 音階  | F-Number | 16進数 | 音階差分 |
 |-------|----------|--------|----------|
 | o4 C  | 172      | 00ACH  | 0        |
