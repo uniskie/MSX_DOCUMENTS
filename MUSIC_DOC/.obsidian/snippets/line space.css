@@ -1,56 +1,56 @@
 ﻿/* 見出し H1 */
 .markdown-source-view .HyperMD-header-1, /* 編集中 */
-.markdown-preview-view h1   			 /* 閲覧表示 */
+.markdown-preview-view h1                /* 閲覧表示 */
 {
-	border-bottom: double 5px !important;
-	margin: 1m 0em !important;
-	line-height: 1.5em !important;
-	color: #882222;  /* brown */
+    border-bottom: double 5px !important;
+    margin: 1m 0em !important;
+    line-height: 1.5em !important;
+    color: #882222;  /* brown */
 }
 
 /* 見出し H2 */
 .markdown-source-view .HyperMD-header-2, /* 編集中 */
-.markdown-preview-view h2   			 /* 閲覧表示 */
+.markdown-preview-view h2                /* 閲覧表示 */
 {
-	border-bottom: solid 2px !important;
-	margin: 0.8em 0em !important;
-	color: #aa3333; /* red */
+    border-bottom: solid 2px !important;
+    margin: 0.8em 0em !important;
+    color: #aa3333; /* red */
 }
 
 /* 見出し H3 */
 .markdown-source-view .HyperMD-header-3, /* 編集中 */
-.markdown-preview-view h3				 /* 閲覧表示 */
+.markdown-preview-view h3                /* 閲覧表示 */
 {
-	border-bottom: solid 1px !important;
-	margin: 0.25em 0em !important;
-	color: #dd6622; /* orange */
+    border-bottom: solid 1px !important;
+    margin: 0.25em 0em !important;
+    color: #dd6622; /* orange */
 }
 
 /* 見出し H4 */
 .markdown-source-view .HyperMD-header-4, /* 編集中 */
-.markdown-preview-view h4  				 /* 閲覧表示 */
+.markdown-preview-view h4                /* 閲覧表示 */
 {
-	border-bottom: solid 1px !important;
-	margin: 0.25em 0em !important;
-	color: #228888; /* green */
+    border-bottom: solid 1px !important;
+    margin: 0.25em 0em !important;
+    color: #228888; /* green */
 }
 
 /* 見出し H5 */
 .markdown-source-view .HyperMD-header-5, /* 編集中 */
-.markdown-preview-view h5  				 /* 閲覧表示 */
+.markdown-preview-view h5                /* 閲覧表示 */
 {
-	border-bottom: dashed 1px !important;
-	margin: 0em 0em !important;
-	color: #226688; /* blue */
+    border-bottom: dashed 1px !important;
+    margin: 0em 0em !important;
+    color: #226688; /* blue */
 }
 
 /* 見出し H6 */
 .markdown-source-view .HyperMD-header-6, /* 編集中 */
-.markdown-preview-view h6				 /* 閲覧表示 */
+.markdown-preview-view h6                /* 閲覧表示 */
 {
-	border-bottom: dotted 1px !important;
-	margin: 0em 0em !important;
-	color: #aa6666; /* pink */
+    border-bottom: dotted 1px !important;
+    margin: 0em 0em !important;
+    color: #aa6666; /* pink */
 }
 
 
@@ -58,88 +58,113 @@
 .markdown-preview-view blockquote pre,  /* 閲覧表示 */
 .markdown-preview-view blockquote code  /* 閲覧表示 */
 {
-	background-color: #ece5e4 !important;
+    background-color: #ece5e4 !important;
 }
 
 body {
-	--h1-color: #882222; /* brown */
-	--h2-color: #aa3333; /* red */
-	--h3-color: #dd6622; /* orange */
-	--h4-color: #228888; /* green */
-	--h5-color: #226688; /* blue */
-	--h6-color: #aa6666; /* pink */
+    --h1-color: #882222; /* brown */
+    --h2-color: #aa3333; /* red */
+    --h3-color: #dd6622; /* orange */
+    --h4-color: #228888; /* green */
+    --h5-color: #226688; /* blue */
+    --h6-color: #aa6666; /* pink */
 
-	/* 編集中の引用背景 */
-	--blockquote-background-color: #f8f1f0;
+    /* 編集中の引用背景 */
+    --blockquote-background-color: #f8f1f0;
 
-	/* リストアイテム 上下余白*/
-	--list-spacing: 0.25em;
+    /* リストアイテム 上下余白*/
+    --list-spacing: 0.25em;
 
-	/* ファイル名、文書名 */
-	--inline-title-color: #805850;
-	--inline-title-size: 1.8em;
-	--inline-title-line-height: 0.5em;
+    /* ファイル名、文書名 */
+    --inline-title-color: #805850;
+    --inline-title-size: 1.8em;
+    --inline-title-line-height: 0.5em;
 }
 
 .view-content .markdown-source-view,
 .markdown-preview-view
 {
-	/* 全体の余白 */
-	      /* top right bottom left */
-	padding: 0.5em 1em 0.5em 1em;
-	      /* top&bottom right&left */
-	/*padding: 0em 0.75em;*/
+    /* 全体の余白 */
+          /* top right bottom left */
+    padding: 0.5em 1em 0.5em 1em;
+          /* top&bottom right&left */
+    /*padding: 0em 0.75em;*/
 }
 
 /* ポップアッププレビューにに悪影響が出るので一旦OFF */
 /* ファイル名、文書名 */
 /*.view-content .markdown-source-view .inline-title, /* 編集中 */
 /*.markdown-preview-view .mod-header .inline-title   /* 閲覧表示 */
-:not(.hover-popover) .inline-title /* ポップアップ除外 ←うまくいかない*/
+.inline-title:not(.markdown-rendered)  /* ポップアップ除外(暫定) */
 {
-	line-height: 1.5em !important;
-	padding-left: 0.5em !important;
-	color:            white !important;
-	background-color: black !important;
+    line-height: 1.5em !important;
+    padding-left: 0.5em !important;
+    color:            white !important;
+    background-color: black !important;
 
-	border-top:    double 6px !important;
-	border-bottom: double 6px !important;
-	border-color:     #505080  !important;
+    border-top:    double 6px !important;
+    border-bottom: double 6px !important;
+    border-color:     #505080  !important;
 }
 
+
+/* Obsidian用インデント
+   (1) 入れ子構造になっていない
+   (2) 表示範囲だけHTMLレンダリングされる
+   → 入れ込構造は無理。
+   見出しと本文だけ区別する。
+*/
+/* 編集中 */
+.markdown-source-view
+{
+  & :is(.HyperMD-header-2.cm-line,
+      .HyperMD-header-3.cm-line,
+      .HyperMD-header-4.cm-line,
+      .HyperMD-header-5.cm-line,
+      .HyperMD-header-6.cm-line
+     ) ~ div.cm-line:not(.HyperMD-header),
+    .HyperMD-header.cm-line ~ div.cm-embed-block
+  {
+    margin-left: 1em !important;
+  }
+}
+ /* 閲覧中 */
+.markdown-preview-view
+{
+  & :is(.el-h2,
+        .el-h3,
+        .el-h4,
+        .el-h5,
+        .el-h6
+     ) ~ :is(.el-p, .el-blockquote, .el-table, .el-ul, .el-ol, .el-pre)
+  {
+    margin-left: 1em !important;
+  }
+}
 
 /* インデント ： 
    Obsidianで効果なし。
    htmlエクスポートでは効果あり
  */
-.markdown-source-view .HyperMD-header-2 ~ *, /* 編集中 */
-.markdown-preview-view h2 ~ *   			 /* 閲覧表示 */
+div.el-h2.heading-wrapper div.heading-children
 {
-	margin-left: 1em !important;
+  margin-left: 1em !important;
 }
-
-.markdown-source-view .HyperMD-header-3 ~ *, /* 編集中 */
-.markdown-preview-view h3 ~ *   			 /* 閲覧表示 */
+div.el-h3.heading-wrapper div.heading-children
 {
-	margin-left: 1em !important;
+  margin-left: 1em !important;
 }
-
-.markdown-source-view .HyperMD-header-4 ~ *, /* 編集中 */
-.markdown-preview-view h4 ~ *   			 /* 閲覧表示 */
+div.el-h4.heading-wrapper div.heading-children
 {
-	margin-left: 1em !important;
+  margin-left: 1em !important;
 }
-
-.markdown-source-view .HyperMD-header-5 ~ *, /* 編集中 */
-.markdown-preview-view h5 ~ *  				 /* 閲覧表示 */
+div.el-h5.heading-wrapper div.heading-children
 {
-	margin-left: 1em !important;
+  margin-left: 1em !important;
 }
-
-.markdown-source-view .HyperMD-header-6 ~ *, /* 編集中 */
-.markdown-preview-view h6 ~ *                /* 閲覧表示 */
+div.el-h6.heading-wrapper div.heading-children
 {
-	margin-left: 1em !important;
+  margin-left: 1em !important;
 }
 
 /* 
