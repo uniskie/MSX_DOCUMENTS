@@ -146,23 +146,14 @@ body {
    Obsidianで効果なし。
    htmlエクスポートでは効果あり
  */
-div.el-h2.heading-wrapper div.heading-children
-{
-  margin-left: 1em !important;
-}
-div.el-h3.heading-wrapper div.heading-children
-{
-  margin-left: 1em !important;
-}
-div.el-h4.heading-wrapper div.heading-children
-{
-  margin-left: 1em !important;
-}
-div.el-h5.heading-wrapper div.heading-children
-{
-  margin-left: 1em !important;
-}
-div.el-h6.heading-wrapper div.heading-children
+div.el-h2.heading-wrapper div.heading-children,
+div.el-h3.heading-wrapper div.heading-children,
+div.el-h4.heading-wrapper div.heading-children,
+div.el-h5.heading-wrapper div.heading-children,
+div.el-h6.heading-wrapper div.heading-children,
+div.el-h7.heading-wrapper div.heading-children,
+div.el-h8.heading-wrapper div.heading-children,
+div.el-h9.heading-wrapper div.heading-children
 {
   margin-left: 1em !important;
 }
