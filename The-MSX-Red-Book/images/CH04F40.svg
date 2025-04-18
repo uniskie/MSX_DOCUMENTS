@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="190" baseProfile="full">
+  <rect width="100%" height="100%" fill="#fff"/>
+  <g font-family="Lucida Console, Monaco, monospace" font-size="11" text-anchor="middle">
+    <text x="170" y="60" transform="translate(10 20)">LO Cycle</text>
+    <text x="170" y="130" transform="translate(10 20)">HI Cycle</text>
+    <text x="57" y="5" transform="translate(10 20)">window</text>
+  </g>
+  <path fill="none" stroke="#000" d="M20 50h10v50h50V50h50v50h10M20 125h10v50h25v-50h25v50h25v-50h25v50h10M30 32V22h10m55 0h10v10"/>
+</svg>

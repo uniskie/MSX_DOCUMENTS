@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="325" height="145" baseProfile="full">
+  <rect width="100%" height="100%" fill="#fff"/>
+  <path fill="none" stroke="#000" d="M10 10h125v125H10zm180 0h125v125H190zm62 0v125m-62-63h125"/>
+  <g font-family="Lucida Console, Monaco, monospace" font-size="11">
+    <text transform="translate(17 25)">A</text>
+    <text x="15" transform="translate(17 25)">A</text>
+    <text x="30" transform="translate(17 25)">A</text>
+    <text x="45" transform="translate(17 25)">A</text>
+    <text x="60" transform="translate(17 25)">B</text>
+    <text x="75" transform="translate(17 25)">B</text>
+    <text x="90" transform="translate(17 25)">B</text>
+    <text x="105" transform="translate(17 25)">B</text>
+    <text y="15" transform="translate(17 25)">C</text>
+    <text x="15" y="15" transform="translate(17 25)">C</text>
+    <text x="30" y="15" transform="translate(17 25)">C</text>
+    <text x="45" y="15" transform="translate(17 25)">C</text>
+    <text x="60" y="15" transform="translate(17 25)">D</text>
+    <text x="75" y="15" transform="translate(17 25)">D</text>
+    <text x="90" y="15" transform="translate(17 25)">D</text>
+    <text x="105" y="15" transform="translate(17 25)">D</text>
+    <text x="125" transform="translate(17 25)">Byte 0</text>
+    <text x="125" y="15" transform="translate(17 25)">Byte 1</text>
+    <text x="201" y="20" transform="translate(17 25)">A</text>
+    <text x="264" y="20" transform="translate(17 25)">B</text>
+    <text x="201" y="83" transform="translate(17 25)">C</text>
+    <text x="264" y="83" transform="translate(17 25)">D</text>
+  </g>
+</svg>

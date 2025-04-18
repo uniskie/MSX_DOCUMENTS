@@ -30,6 +30,12 @@ MSX関連の色んなメモを置く場所です
 ... MSX-BASIC予約語リスト...テキストエディタの協調表示などに
 
 - - - -
+## The-MSX-Red-Book日本語訳（自動翻訳ベース）
+
+[README](The-MSX-Red-Book/README.md)  
+[the_msx_red_book_jp](The-MSX-Red-Book/the_msx_red_book_jp.md)  
+
+- - - -
 ## 音楽：MuSICA 関連
 
 (※ https://github.com/uniskie/msx_music_data/tree/master/doc/  へ移動しました。)

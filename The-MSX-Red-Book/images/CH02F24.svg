@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="235" height="268" baseProfile="full">
+  <rect width="100%" height="100%" fill="#fff"/>
+  <path fill="none" stroke="#000" d="M10 10h62v248H10zm0 62h62m-62 62h62m-62 62h62"/>
+  <g font-family="Lucida Console, Monaco, monospace" font-size="11" text-anchor="middle">
+    <text x="23" y="13" transform="translate(17 25)">8 Bytes</text>
+    <text x="23" y="27" transform="translate(17 25)">Block A</text>
+    <text x="23" y="75" transform="translate(17 25)">8 Bytes</text>
+    <text x="23" y="90" transform="translate(17 25)">Block B</text>
+    <text x="23" y="137" transform="translate(17 25)">8 Bytes</text>
+    <text x="23" y="152" transform="translate(17 25)">Block C</text>
+    <text x="23" y="199" transform="translate(17 25)">8 Bytes</text>
+    <text x="23" y="214" transform="translate(17 25)">Block D</text>
+  </g>
+  <path fill="none" stroke="#000" d="M100 10h125v125H100zm62 0v125m-62-63h125"/>
+  <g font-family="Lucida Console, Monaco, monospace" font-size="11" text-anchor="middle">
+    <text x="31" y="35" transform="translate(100 10)">A</text>
+    <text x="94" y="35" transform="translate(100 10)">C</text>
+    <text x="31" y="97" transform="translate(100 10)">B</text>
+    <text x="94" y="97" transform="translate(100 10)">D</text>
+  </g>
+</svg>

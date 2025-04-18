@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="355" height="595">
+  <rect width="100%" height="100%" fill="#fff"/>
+  <g font-family="Lucida Console, Monaco, monospace" font-size="11">
+    <text y="45" transform="translate(10 10)">HIMEM=F380H</text>
+    <text y="170" transform="translate(10 10)">NULBUF=F177H</text>
+    <text y="245" transform="translate(10 10)">FILTAB=F16AH</text>
+    <text y="287" transform="translate(10 10)">MEMSIZ=F168H</text>
+    <text y="303" transform="translate(10 10)">FRETOP=F168H</text>
+    <text y="320" transform="translate(10 10)">STKTOP=F0A0H</text>
+    <text y="395" transform="translate(10 10)">STREND=8003H</text>
+    <text y="445" transform="translate(10 10)">ARYTAB=8003H</text>
+    <text y="495" transform="translate(10 10)">VARTAB=8003H</text>
+    <text y="545" transform="translate(10 10)">TXTTAB=8001H</text>
+  </g>
+  <g font-family="Lucida Console, Monaco, monospace" font-size="11" text-anchor="middle">
+    <text y="30" transform="translate(245 10)">Workspace Area</text>
+    <text y="80" transform="translate(245 10)">I/O Buffer 1</text>
+    <text y="117" transform="translate(245 10)">FCB 1</text>
+    <text y="155" transform="translate(245 10)">I/O Buffer 0</text>
+    <text y="192" transform="translate(245 10)">FCB 0</text>
+    <text y="217" transform="translate(245 10)">F277H (FCB 1)</text>
+    <text y="242" transform="translate(245 10)">F16EH (FCB 0)</text>
+    <text y="267" transform="translate(245 10)">00H</text>
+    <text y="305" transform="translate(245 10)">String Storage Area</text>
+    <text y="355" transform="translate(245 10)">Z80 Stack</text>
+    <text y="430" transform="translate(245 10)">Array Storage Area</text>
+    <text y="480" transform="translate(245 10)">Variable Storage Area</text>
+    <text y="530" transform="translate(245 10)">Program Text Area</text>
+    <text y="567" transform="translate(245 10)">00H</text>
+  </g>
+  <path fill="none" stroke="#000" d="M145 10h200v375H145zm0 50h200m-200 50h200m-200 25h200m-200 50h200m-200 25h200m-200 25h200m-200 25h200m-200 25h200m-200 50h200m-200 75h200v175H145zm0 50h200m-200 50h200m-200 50h200m-250-9h40m-40-50h40m-40-50h40m-40-50h40m-40-75h40m-40-17h20v-16m-20 0h40m-40-42h40m-40-75h40M95 51h40"/>
+</svg>
