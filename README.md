@@ -35,6 +35,10 @@ MSX関連の色んなメモを置く場所です
 [README](The-MSX-Red-Book/README.md)  
 [the_msx_red_book_jp](The-MSX-Red-Book/the_msx_red_book_jp.md)  
 
+## tniASM v0.45 manual 日本語版（自動翻訳ベース）
+
+[tniasm_JP.md](tniasm_JP.md)
+
 - - - -
 ## 音楽：MuSICA 関連
 
