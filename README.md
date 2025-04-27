@@ -39,6 +39,16 @@ MSX関連の色んなメモを置く場所です
 
 [tniasm_JP.md](tniasm_JP.md)
 
+## テクハンWiki & Data-Pack wiki ローカル保存スクリプト
+
+PowerShell 5.1（Windows10）での動作を確認しています。
+
+[MSX-Wiki-Download/MSX2-Technical-HandBook/make_offline.ps1](MSX-Wiki-Download/MSX2-Technical-HandBook/make_offline.ps1)
+... [MSX書籍打ち込み計画①](https://gigamix.hatenablog.com/entry/text2web/)から発展した「MSX2テクニカルハンドブックWiki（MSX Datapack wiki）」をローカル保存して使用できるようにダウンロード&変換するスクリプトです
+
+[MSX-Wiki-Download/MSX-Datapack/make_offline.ps1](MSX-Wiki-Download/MSX-Datapack/make_offline.ps1)
+... テクハンwiki化計画に続いて、MSX Datapack wiki化計画で作成された「MSX-Datapack Wki」をローカル保存して使用できるようにダウンロード&変換するスクリプトです
+
 - - - -
 ## 音楽：MuSICA 関連
 
