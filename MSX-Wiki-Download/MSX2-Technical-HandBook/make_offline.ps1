@@ -1,60 +1,9 @@
-﻿##############################################################################
-$type = 'TechHan'
-$list = @(
-	@('BugTrack-techhan11',                         'BugTrack-techhan11'                         ),
-	@('BugTrack-techhan12',                         'BugTrack-techhan12'                         ),
-	@('BugTrack-techhan13',                         'BugTrack-techhan13'                         ),
-	@('BugTrack-techhan14',                         'BugTrack-techhan14'                         ),
-	@('FrontPage',                                  'FrontPage'                                  ),
-	@('Help',                                       'Help'                                       ),
-	@('修正履歴',                                   '修正履歴'                                   ),
-	@("まえがき",                                   "0-0 まえがき"                               ),
-	@("はじめに",                                   "0-1 はじめに"                               ),
-	@("本書を読む前に",                             "0-2 本書を読む前に"                         ),
-	@("1部 ｼｽﾃﾑ概要",                               "1部 システム概要"                           ),
-	@("1章 MSX1からMSX2へ",                         "1部-1章 MSX1からMSX2へ"                     ),
-	@("2章 MSX2システム概要",                       "1部-2章 MSX2システム概要"                   ),
-	@("2部 BASIC",                                  "2部 BASIC"                                  ),
-	@("1章 命令一覧",                               "2部-1章 命令一覧"                           ),
-	@("1.1 MSX BASIC ver2.0の命令",                 "2部-1章-1.1 MSX BASIC ver2.0の命令"         ),
-	@("1.2 MSX DISK-BASICの命令",                   "2部-1章-1.2 MSX DISK-BASICの命令"           ),
-	@("2章 MSX BASIC ver2.0 の変更点",              "2部-2章 MSX BASIC ver2.0 の変更点"          ),
-	@("3章 BASICの内部構造",                        "2部-3章 BASICの内部構造"                    ),
-	@("4章 マシン語とのリンク",                     "2部-4章 マシン語とのリンク"                 ),
-	@("5章 ソフトウェア開発上の諸注意",             "2部-5章 ソフトウェア開発上の諸注意"         ),
-	@("エラーコード一覧表",                         "2部-付録 エラーコード一覧表"                ),
-	@("3部 MSX-DOS",                                "3部 MSX-DOS"                                ),
-	@("1章 概要",                                   "3部-1章 概要"                               ),
-	@("2章 操作",                                   "3部-2章 操作"                               ),
-	@("3章 ディスクファイルの構造",                 "3部-3章 ディスクファイルの構造"             ),
-	@("4章 システムコールの使用法",                 "3部-4章 システムコールの使用法"             ),
-	@("第4部 VDPと画面表示",                        "4部 VDPと画面表示"                          ),
-	@("1章 MSX-VIDEOの構成",                        "4部-1章 MSX-VIDEOの構成"                    ),
-	@("2章 MSX-VIDEOのアクセス",                    "4部-2章 MSX-VIDEOのアクセス"                ),
-	@("3章 MSX2の画面モード",                       "4部-3章 MSX2の画面モード"                   ),
-	@("4章 画面表示に関する諸機能",                 "4部-4章 画面表示に関する諸機能"             ),
-	@("5章 スプライト",                             "4部-5章 スプライト"                         ),
-	@("6章 VDPコマンドの使用法",                    "4部-6章 VDPコマンドの使用法"                ),
-	@("第5部 BIOSによる周辺装置のアクセス",         "5部 BIOSによる周辺装置のアクセス"           ),
-	@("1章 PSGと音声出力",                          "5部-1章 PSGと音声出力"                      ),
-	@("2章 カセット･インターフェイス",              "5部-2章 カセット･インターフェイス"          ),
-	@("3章 キーボード・インターフェイス",           "5部-3章 キーボード・インターフェイス"       ),
-	@("4章 プリンタ・インターフェイス",             "5部-4章 プリンタ・インターフェイス"         ),
-	@("5章 汎用入出力インターフェイス",             "5部-5章 汎用入出力インターフェイス"         ),
-	@("6章 CLOCKとバッテリバックアップ・メモリ",    "5部-6章 CLOCKとバッテリバックアップ・メモリ"),
-	@("7章 スロットとカートリッジ",                 "5部-7章 スロットとカートリッジ"             ),
-	@("Appendix A.1 BIOS 一覧",                     "Appendix A.1 BIOS 一覧"                     ),
-	@("Appendix A.2 Math-Pack",                     "Appendix A.2 Math-Pack"                     ),
-	@("Appendix A.3 ビットマップトランスファ",      "Appendix A.3 ビットマップトランスファ"      ),
-	@("Appendix A.4 ワークエリア一覧",              "Appendix A.4 ワークエリア一覧"              ),
-	@("Appendix A.5 VRAM マップ",                   "Appendix A.5 VRAM マップ"                   ),
-	@("Appendix A.6 IO マップ",                     "Appendix A.6 IO マップ"                     ),
-	@("Appendix A.7 カートリッジ ハードウェア仕様", "Appendix A.7 カートリッジ ハードウェア仕様" ),
-	@("Appendix A.8 コントロールコード表",          "Appendix A.8 コントロールコード表"          ),
-	@("Appendix A.9 キャラクタコード表",            "Appendix A.9 キャラクタコード表"            ),
-	@("Appendix A.10 エスケープシーケンス表",       "Appendix A.10 エスケープシーケンス表"       )
-)
+﻿# ユニークデータ include
+.'./unique_data.ps1'
 
+##############################################################################
+# 共有データ
+##############################################################################
 $common_dl = @(
 	@(	'http://ngs.no.coocan.jp/doc/theme/kugi01/kugi01.css.js'
 		'..\theme\kugi01\kugi01.css.js'
@@ -83,28 +32,7 @@ $common_dl = @(
 )
 
 ##############################################################################
-
-#-----------------------------------------------------------------------------
-# ファイル名を修正する
-#-----------------------------------------------------------------------------
-foreach ($i in $list)
-{
-	$src = $i[0]
-	$dst = $i[1]
-
-	$s = $src + ".html"
-	$d = $dst + ".html"
-	if (Test-Path $s) {
-		Rename-Item -Path $s -NewName $d
-	}
-
-	$s = $src + ".md"
-	$d = $dst + ".md"
-	if (Test-Path $s) {
-		Rename-Item -Path $s -NewName $d
-	}
-}
-
+# ファイルスコープ オブジェクト
 ##############################################################################
 $cd = (Convert-Path .)
 $cgi_url = 'http://ngs.no.coocan.jp/doc/wiki.cgi/'
@@ -120,6 +48,10 @@ $enc  = [System.Text.Encoding]::GetEncoding("EUC-JP")
 
 $g_hash = @{}
 $g_img_hash = @{}
+
+##############################################################################
+# サブルーチン
+##############################################################################
 
 #-----------------------------------------------------------------------------
 # 左詰め
@@ -148,14 +80,24 @@ function decodeURI( $url ) {
 }
 
 #-----------------------------------------------------------------------------
-# ダウンロードメッセージ
+# ダウンロードメッセージの表示
 #-----------------------------------------------------------------------------
-function ShowDlMessage( $mes, $dst, $url) {
+function ShowDlMessage( $mes, $filepath, $url) {
 	if ($url.Length) {
-		Write-Host "${mes}: ${dst} ... url:${url}"
+		Write-Host "${mes}: ${filepath} ... url:${url}"
 	} else {
-		Write-Host "${mes}: ${dst}"
+		Write-Host "${mes}: ${filepath}"
 	}
+}
+
+#-----------------------------------------------------------------------------
+# サブフォルダを作成する
+#-----------------------------------------------------------------------------
+function MakeSubDir($name) {
+	$d = (Join-Path $cd $name)
+	if (Test-Path $d) { return }
+	$r = New-Item -Path $cd -Name $name -ItemType "Directory"
+	return
 }
 
 ##############################################################################
@@ -352,10 +294,10 @@ function get_img_utl( $text ) {
 		}
 		$dst = (Join-Path $img_dir $name)
 
-		#重複を無視
+		# 重複を無視
 		if ($g_img_hash[$dst] -eq $url) {continue}
 		if ($g_img_hash[$dst].Length) {
-			#違う値で既に存在
+			# 違う値で既に存在
 			ShowDlMessage ("[CAUTION] Different value") ($g_img_hash[$dst]) ($url)
 		}
 		$g_img_hash[$dst] = $url
@@ -374,6 +316,7 @@ function porc_html( $fname ) {
 	$eurl = @()
 	$img_list = @()
 
+	## テキスト読み込み
 	$fpath = (Join-Path $cd $fname)
 	try {
 		# EUCとしてテキストファイルを読み込む
@@ -388,7 +331,7 @@ function porc_html( $fname ) {
 	    }
     }
 
-	# 事前加工
+	## 事前加工
 	#  svgファイル表示タグをembedからimgに変更
 	$text = $text -replace 'embed class="wikiimage" type="image/svg\+xml"','img class="wikiimage"'
 	#  cgi pageコマンド削除
@@ -396,14 +339,18 @@ function porc_html( $fname ) {
 	#  cgi action SEARCH リンク削除
 	$text = $text -replace ('<a href="' + $type + '\?action=SEARCH[^>]+>([^<]+)</a>'), '$1'
 	$text = $text -replace ('# \[([^\]]+)\]\(' + $type + '\?action=SEARCH[^\)]+\)'), '# $1'
+	#  ソースコード対策（Markdownへのコピペ向け）
+	$text = $text -replace '<pre>', '<pre><code>'
+	$text = $text -replace '</pre>', '</code></pre>'
 
-	# 画像ダウンロードリストを取得
+
+	## 画像ダウンロードリストを取得
 	$img_list = get_img_utl $text
 
-	# 画像URLをimgフォルダへの相対パスへ変更
+	## 画像URLをimgフォルダへの相対パスへ変更
 	$text = $text -replace 'https?://[^"\)]*/([^"/>\)]+\.)(png|jpg|gif|jpeg|svg)', ($img_dir + '/$1$2')
 
-	# URL変換 ""で囲んでいる物のみ
+	## URL変換 (""で囲んでいる物のみ)
 	$eurl = get_encoded_urls $text
 	foreach ($i in $eurl) {
 		$s = '"' + ($i[0].replace(' ', '%20')) + '"'
@@ -411,7 +358,7 @@ function porc_html( $fname ) {
 		$text = $text.Replace( $s, $d )
 	}
 
-	# ファイル名変換 ""で囲んでいる物のみ
+	## ファイル名変換 (""で囲んでいる物のみ)
 	foreach ($i in $list) {
 		$s = '"'+$i[0].replace(' ', '%20')+'.html"'
 		$d = '"'+$i[1].replace(' ', '%20')+'.html"'
@@ -428,11 +375,26 @@ function porc_html( $fname ) {
 ##############################################################################
 # メイン処理
 ##############################################################################
-function MakeSubDir($name) {
-	$d = (Join-Path $cd $name)
-	if (Test-Path $d) { return }
-	$r = New-Item -Path $cd -Name $name -ItemType "Directory"
-	return
+
+#-----------------------------------------------------------------------------
+# ファイル名を修正する
+#-----------------------------------------------------------------------------
+foreach ($i in $list)
+{
+	$src = $i[0]
+	$dst = $i[1]
+
+	$s = $src + ".html"
+	$d = $dst + ".html"
+	if (Test-Path $s) {
+		Rename-Item -Path $s -NewName $d
+	}
+
+	$s = $src + ".md"
+	$d = $dst + ".md"
+	if (Test-Path $s) {
+		Rename-Item -Path $s -NewName $d
+	}
 }
 
 #-----------------------------------------------------------------------------
@@ -464,7 +426,9 @@ $img_list_file = 'download_image.ps1'
 
 $img_list = @()
 
+#-----------------------------------------------------------------------------
 # 共通画像
+#-----------------------------------------------------------------------------
 if ($common_dl.Length) {
 	$img_list += ,@{
 		target = "common"
@@ -478,7 +442,9 @@ if ($common_dl.Length) {
 	writeDownloadList $common_dl $img_list_file
 }
 
+#-----------------------------------------------------------------------------
 # ファイル毎に処理
+#-----------------------------------------------------------------------------
 foreach ($target in $list) {
 
 	$src_file = 'org\' + $target[0] + '.html'

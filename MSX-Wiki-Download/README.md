@@ -2,15 +2,15 @@
 
 PowerShell 5.1（Windows10）での動作を確認しています。
 
-[MSX2-Technical-HandBook/make_offline.ps1](MSX2-Technical-HandBook/make_offline.ps1)
+[MSX2-Technical-HandBook/`make_offline.ps1`](MSX2-Technical-HandBook/`make_offline.ps1`)
 ... [MSX書籍打ち込み計画①](https://gigamix.hatenablog.com/entry/text2web/)から発展した「MSX2テクニカルハンドブックWiki（MSX Datapack wiki）」をローカル保存して使用できるようにダウンロード&変換するスクリプトです
 
-[MSX-Datapack/make_offline.ps1](MSX-Datapack/make_offline.ps1)
+[MSX-Datapack/`make_offline.ps1`](MSX-Datapack/`make_offline.ps1`)
 ... テクハンwiki化計画に続いて、MSX Datapack wiki化計画で作成された「MSX-Datapack Wki」をローカル保存して使用できるようにダウンロード&変換するスクリプトです
 
 ## 実行方法
 
-「make_offline.ps1」を右クリックして 「PowerShellで実行」
+「`make_offline.ps1`」を右クリックして 「PowerShellで実行」
 
 PowerShell-SEをインストールしている場合は、ダブルクリックしてPowerShell-SEから実行も可能です
 
@@ -18,13 +18,22 @@ PowerShell-SEをインストールしている場合は、ダブルクリック�
 
 ## 生成される物
 
-- カレントフォルダに変換後のhtml
-- ../theme フォルダにスタイルシートや共通画像ファイル
-- org フォルダに元のhtml
+- 無加工のhtml → org フォルダ
+- 変換後のhtml → カレント フォルダ (`make_offline.ps1`と同じフォルダ）
+- スタイルシートや共通画像ファイル → ../theme フォルダ
 
 各サブフォルダは自動で生成されます。
 
-## 処理内容
+## Poewrshell スクリプト解説
+
+- `make_offline.ps1`  
+  → メイン処理。これを実行する。  
+     (テクハンwikiとDatapack wikiで共通)
+
+- `unique_data.ps1`  
+  → リネームリストなどテクハンwikiとDatapack wikiで異なる部分の定義
+
+### 処理内容
 
 1. トップページをダウンロード
 
@@ -48,7 +57,7 @@ PowerShell-SEをインストールしている場合は、ダブルクリック�
 	   このあと、カレントフォルダへの保存する際にファイル名を変更して保存するので、
 	   それに合わせてリンクも書き換え
 
-5. 書き換えた各ページファイルをカレントフォルダ（make_offline.ps1を実行したフォルダ）に保存
+5. 書き換えた各ページファイルをカレントフォルダ（`make_offline.ps1`を実行したフォルダ）に保存
    その際、部や章の順番になるようにファイル名に変更して保存
 
 6. 抽出した画像URLをダウンロード
