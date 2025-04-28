@@ -8,6 +8,14 @@ PowerShell 5.1（Windows10）での動作を確認しています。
 [MSX-Datapack/`make_offline.ps1`](MSX-Datapack/`make_offline.ps1`)
 ... テクハンwiki化計画に続いて、MSX Datapack wiki化計画で作成された「MSX-Datapack Wki」をローカル保存して使用できるようにダウンロード&変換するスクリプトです
 
+## 数式について
+
+MSX-Datapack WikiはLATEX数式の表示にGoogle Chart Apiを使用していますが、サービスが終了しているので表示されません。
+
+本スプリプトでオフライン番に変換する際に[KATEX](https://github.com/KaTeX/KaTeX)を使用するように変更します。  
+ただし、KATEXでの数式表示はオンライン接続が必要です。  
+これはブラウザセキュリティポリシーの都合で、他に完全オフラインで使用できるLATEX表示jaxascriptライブラリがあればそちらに切り替えたい所です。
+
 ## 実行方法
 
 「`make_offline.ps1`」を右クリックして 「PowerShellで実行」
@@ -30,8 +38,12 @@ PowerShell-SEをインストールしている場合は、ダブルクリック�
   → メイン処理。これを実行する。  
      (テクハンwikiとDatapack wikiで共通)
 
-- `unique_data.ps1`  
+- `_unique_data.ps1`  
   → リネームリストなどテクハンwikiとDatapack wikiで異なる部分の定義
+- `_hook.ps1`  
+  → 追加置換処理  
+  （obsidianにコピペしてmd化するための準備）
+  （githubに上げている物は何もせずに戻ります）
 
 ### 処理内容
 

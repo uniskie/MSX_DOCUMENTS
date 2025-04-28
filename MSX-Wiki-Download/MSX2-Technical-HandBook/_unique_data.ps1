@@ -1,8 +1,13 @@
 ﻿##############################################################################
 # テクハン wiki 用データ
 ##############################################################################
+$title = 'テクハンwiki'
 $type = 'TechHan'
 $list = @(
+#	@('BugTrack-techhan11',                         'BugTrack-techhan11'                         ),
+#	@('BugTrack-techhan12',                         'BugTrack-techhan12'                         ),
+#	@('BugTrack-techhan13',                         'BugTrack-techhan13'                         ),
+#	@('BugTrack-techhan14',                         'BugTrack-techhan14'                         ),
 	@('FrontPage',                                  'FrontPage'                                  ),
 	@('Help',                                       'Help'                                       ),
 	@('修正履歴',                                   '修正履歴'                                   ),
