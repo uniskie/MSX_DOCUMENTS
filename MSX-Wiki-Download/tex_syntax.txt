@@ -1,0 +1,219 @@
+﻿
+%-----------------------------------------------------------------------------
+%## MathJax
+%-----------------------------------------------------------------------------
+
+%## 四則演算(＋－×÷)
+
+ +                        加算
+ -                        減算
+ \times                   乗算
+ \cdot                    乗算
+ \div                     除算
+ /                        除算
+ \pm                      プラスマイナス
+
+%## 分数
+
+ \frac                    分数
+ \dfrac                   分数(大き目に表示)
+ \left(
+ \right)                  括弧の高さを中身に合わせる
+
+%## 数
+
+ \dot                     循環小数
+ \ldots                   無限小数
+ \infty                   無限大
+
+%## 累乗・階乗・平方根・累乗根など
+
+ ^                        累乗
+ !                        階乗
+ \sqrt                    平方根
+ \sqrt                    累乗根
+ _                        下付き文字
+ \log                     対数
+ \sin
+ \cos
+ \tan                     タンジェント
+
+%## 総和・総乗・積分・極限
+
+ \sum                     総和(コンパクト)
+ \prod                    総乗(コンパクト)
+ \int                     積分(コンパクト)
+ \lim                     極限(コンパクト)
+ \displaystyle
+
+%## 配列
+
+ \begin{array}
+ \end{array}              配列
+ \begin{subarray}
+ \end{subarray}           小さな配列
+ begin{pmatrix}
+ end{pmatrix}             括弧を用いた行列
+ begin{bmatrix}
+ end{bmatrix}             カギ括弧を用いた行列
+ begin{Bmatrix}
+ end{Bmatrix}             中括弧を用いた行列
+ begin{vmatrix}
+ end{vmatrix}             縦棒を用いた行列
+ begin{Vmatrix}
+ end{Vmatrix}             二重縦棒を用いた行列
+
+%## 改行
+
+ begin{eqnarray}
+ end{eqnarray}            改行
+ \[length]                改行幅。負数も指定可能
+
+%## 方程式
+
+ begin{eqnarray}
+ end{eqnarray}            \= の位置合わせ
+ \left. \{                (中括弧の{}場合エスケープが必要）
+ \right.                  連立方程式
+
+%## 比較演算子
+
+ \gt
+ \lt
+ \geq
+ \leq
+ \geqq
+ \leqq
+ \gg
+ \ll                      大小
+ =                        等号
+ \neq                     不等号
+ \fallingdotseq           ほぼ等しいseq
+
+%## 集合
+
+ \subset
+ \subseteeq
+ \subseteqq               部分集合
+ \supset
+ \supseteq
+ \supseteqq               上位集合
+ \not
+ \subset
+ \not
+ \subseteq                部分集合の否定
+ \cap
+ \cup                     集合の交わり、集合の結び
+
+%## スタイル
+
+ \color                   フォント色
+ \colorbox                背景色
+ \fcolorbox               背景色と枠線
+ \bbox                    背景色、パディング、惑星を細かく指定
+
+%## フォント
+
+ \Huge
+ \huge
+ \LARGE
+ \Large
+ \large
+ \normalsize
+ \small
+ \scriptsize
+ \tiny                    文字の大きさ
+ \mathrm                  ローマン
+ \mathbf                  太字
+ \mathit                  イタリック
+ \mathsf                  サンセリフ
+ \mathtt                  タイプライター
+ \mathbb                  中抜き
+ \mathscr                 スクリプト
+ \mathcal                 カリグラフィー
+ \mathfrak                フラクトゥール
+ \rm                      ROMAN体
+
+%## 空白
+
+ \!                       空白無し
+ \                        狭い空白
+ \quad                    少し広い空白
+ \qquad                   広い空白
+ \hspace{*length*}        長さ指定の空白
+ \,
+ \:
+ \>
+ \;                       それぞれ幅の異なるスペース
+
+%## ギリシャ文字
+
+ \alpha                   アルファ
+ \beta                    ベータ
+ \gamma                   ガンマ
+ \delta                   デルタ
+ \epsilon                 イプシロン
+ \varepsilon              イプシロン
+ \zeta                    ゼータ
+ \eta                     イータ
+ \theta                   シータ
+ \vartheta                シータ
+ \iota                    イオタ
+ \kappa                   カッパ
+ \lambda                  ラムダ
+ \mu                      ミュー
+ \nu                      ニュー
+ \xi                      クシー
+ o                        オミクロン
+ \pi                      パイ
+ \varpi                   パイ
+ \rho                     ロー
+ \varrho                  ロー
+ \sigma                   シグマ
+ \varsigma                シグマ
+ \tau                     タウ
+ \upsilon                 ユプシロン
+ \phi                     ファイ
+ \varphi                  ファイ
+ \chi                     カイ
+ \psi                     プシー
+ \omega                   オメガ
+ A                        アルファ
+ B                        ベータ
+ \Gamma                   ガンマ
+ \varGamma                ガンマ
+ \Delta                   デルタ
+ \varDelta                デルタ
+ E                        イプシロン
+ Z                        ゼータ
+ H                        イータ
+ \Theta                   シータ
+ \varTheta                シータ
+ I                        タウ/td>
+ K                        カッパ
+ \Lambda                  ラムダ
+ \varLambda               ラムダ
+ M                        ミュー
+ N                        ニュー
+ \Xi                      クシー
+ O                        オミクロン
+ \Pi                      パイ
+ \varPi                   パイ
+ P                        ロー
+ \Sigma                   シグマ
+ \varSigma                シグマ
+ T                        タウ
+ \Upsilon                 ユプシロン
+ \varUpsilon              ユプシロン
+ \Phi                     ファイ
+ \varPhi                  ファイ
+ X                        カイ
+ \Psi                     プシー
+ \varPsi                  プシー
+ \Omega                   オメガ
+ \varOmega                オメガ
+
+%## その他
+
+ %                        コメント
+ \phantom                 見えない文字。数値の桁そろえなどに利用

@@ -3,13 +3,18 @@
 
 # 追加処理 include
 # function hook_initialize()
-# function hook_modify_html( $text ) : return $text
+# function hook_modify_html( $text )
 .'./_hook.ps1'
 
-# LATEX 追加処理 include
-# function latex_initialize()
-# function latex_modify_html( $text ) : return $text
-.'./_latex.ps1'
+# TeX 追加処理 include
+# function get_TeXlib_name()
+# function decode_TeX( $text )
+# function add_TeX_lib_header( $text )
+# function download_katex_modules()
+# function TeX_initialize()
+# function TeX_modify_html( $text )
+# function log_TeX( $tex_list )
+.'./_TeX.ps1'
 
 #Add-Type -AssemblyName System;
 #Add-Type -AssemblyName System.IO;
@@ -18,12 +23,31 @@ $sjis = [System.Text.Encoding]::GetEncoding("Shift_JIS")
 $euc  = [System.Text.Encoding]::GetEncoding("EUC-JP")
 $utf8_bom = New-Object System.Text.UTF8Encoding $True
 $utf8 = New-Object System.Text.UTF8Encoding $False
+#-----------------------------------------------------------------------------
+# 文字エンコードを設定する
+#-----------------------------------------------------------------------------
+function set_encode( $encname, $enc ) {
+    chcp $enc.CodePage
+    $PSDefaultParameterValues['*:Encoding'] = $encname
+    $global:OutputEncoding = $enc
+    try{ [console]::OutputEncoding = $enc } catch {}
+    $Host.UI.RawUI.WindowTitle = "Windows PowerShell (" +  $OutputEncoding.WebName + ")"
+}
+set_encode 'utf8' $utf8
 
 ##############################################################################
 # グローバル定数
 ##############################################################################
 $cd = (Convert-Path .)
 $cgi_url = 'http://ngs.no.coocan.jp/doc/wiki.cgi/'
+
+#-----------------------------------------------------------------------------
+$type_datapack  = 'datapack'
+$type_techhan   = 'TechHan'
+$url_datapack   = $cgi_url + $type_datapack
+$url_techhan    = $cgi_url + $type_techhan
+
+#-----------------------------------------------------------------------------
 $org_dir = 'org'
 $img_dir = 'img'
 $theme_dir = '..\theme\kugi01'
@@ -41,29 +65,6 @@ $img_list_file = 'download_image.ps1'
 # 共有データ
 ##############################################################################
 $common_dl = @(
-    ## katex
-    @(  'https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.css'
-        '..\theme\katex\katex.css'
-    ),
-    @(  'https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.js'
-        '..\theme\katex\katex.js'
-    ),
-    @(  'https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css'
-        '..\theme\katex\katex.min.css'
-    ),
-    @(  'https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js'
-        '..\theme\katex\katex.min.js'
-    ),
-    @(  'https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.mjs'
-        '..\theme\katex\katex.mjs'
-    ),
-    @(  'https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js'
-        '..\theme\katex\auto-render.min.js'
-    ),
-    @(  'https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.mjs'
-        '..\theme\katex\auto-render.mjs'
-    ),
-
     ## common for MSX-Datapack Wiki / MSX Tecnical Hand Book Wiki
     @(  'http://ngs.no.coocan.jp/doc/theme/kugi01/kugi01.css.js'
         '..\theme\kugi01\kugi01.css.js'
@@ -95,11 +96,42 @@ $common_dl = @(
 ##############################################################################
 # サブルーチン
 ##############################################################################
+function getOppositeUrl($url)
+{
+    if ($url -eq $url_datapack) { return $url_techhan  }
+    if ($url -eq $url_techhan)  { return $url_datapack }
+    return ''
+}
+
+function convert2Dir($url)
+{
+    if ($url -eq $url_datapack) {
+        $dir = '..\MSX-Datapack'
+        if (Test-Path $dir) {return $dir}
+        $dir = '..\..\MSX-Datapack\html'
+        if (Test-Path $dir) {return $dir}
+    }
+    if ($url -eq $url_techhan) {
+        $dir = '..\MSX2-Technical-HandBook'
+        if (Test-Path $dir) {return $dir}
+        $dir = '..\..\MSXテクニカルハンドブック\html'
+        if (Test-Path $dir) {return $dir}
+    }
+    return ''
+}
+
+function getOppositeLocal($url)
+{
+    $url = (convert2Dir(getOppositeUrl($url))).Replace('\','/')
+    $url= $url + '/FrontPage.html'
+    return $url
+}
 
 #-----------------------------------------------------------------------------
 # 左詰め
 #-----------------------------------------------------------------------------
-function leftAlignStr ($str, $len) {
+function leftAlignStr ($str, $len) 
+{
     $l = $sjis.GetByteCount($str)
     $pad = $len - $l
     if ($pad -lt 1) {
@@ -111,8 +143,8 @@ function leftAlignStr ($str, $len) {
 #-----------------------------------------------------------------------------
 # URLデコード
 #-----------------------------------------------------------------------------
-function decodeURI( $url ) {
-    $unicode = [Text.Encoding]::Unicode
+function decodeURI( $url ) 
+{
     $ret = [System.Web.HttpUtility]::UrlDecode($url, $euc)
 
     #2段デコードが必要なケースがある
@@ -125,7 +157,8 @@ function decodeURI( $url ) {
 #-----------------------------------------------------------------------------
 # ダウンロードメッセージの表示
 #-----------------------------------------------------------------------------
-function ShowDlMessage( $mes, $filepath, $url) {
+function ShowDlMessage( $mes, $filepath, $url) 
+{
     if ($url.Length) {
         Write-Host "${mes}: ${filepath} ... url:${url}"
     }
@@ -137,7 +170,8 @@ function ShowDlMessage( $mes, $filepath, $url) {
 #-----------------------------------------------------------------------------
 # サブフォルダを作成する
 #-----------------------------------------------------------------------------
-function MakeSubDir($name) {
+function MakeSubDir($name) 
+{
     $d = (Join-Path $cd $name)
     if (Test-Path $d) { return }
     $ret = (New-Item -Path $cd -Name $name -ItemType "Directory")
@@ -147,16 +181,18 @@ function MakeSubDir($name) {
 #-----------------------------------------------------------------------------
 # 通常文字列を正規表現エスケープする
 #-----------------------------------------------------------------------------
-function regexEscape( $s ) {
-    # [().\^$|?*+{
-    return ($s -replace '([\[\(\)\.\\\^\$\|\?\*\+\{])', '\$1')
+function regexEscape( $s ) 
+{
+    # []().\^$|?*+{}
+    return ($s -replace '([\[\]\(\)\.\\\^\$\|\?\*\+\{\}])', '\$1')
 }
 
 
 ##############################################################################
 # オリジナルのダウンロード
 ##############################################################################
-function downloadOriginal ($cgi_url, $type, $root_dir, $sub_dir, $log) {
+function downloadOriginal ($index_url, $type, $root_dir, $sub_dir, $log) 
+{
     #-----------------------------------------------------------------------------
     # index.htmlのダウンロード
     #-----------------------------------------------------------------------------
@@ -201,10 +237,10 @@ function downloadOriginal ($cgi_url, $type, $root_dir, $sub_dir, $log) {
     if ($urls.Success) {
 
         # リストファイル作成
-        '# PowerShell で実行してください。'  > $log
-        'Add-Type -AssemblyName System.Web' >> $log
-        ''                                  >> $log
-        '$list = @('                        >> $log
+        '# PowerShell で実行してください。'      > $log
+        'Add-Type -AssemblyName System.Web'     >> $log
+        ''                                      >> $log
+        '$dl_list = @('                         >> $log
 
         # URL毎の処理
         foreach ($i in $urls) {
@@ -234,16 +270,15 @@ function downloadOriginal ($cgi_url, $type, $root_dir, $sub_dir, $log) {
             #リストファイルに追加
             $n = (leftAlignStr ("'"+$name+"'") 52)
             $u = "'"+$url+"'"
-            "    @(${n}, ${u}),"                     >> $log
+            "    ,@{dst=${n}; url=${u}}"                        >> $log
         }
-        '    @("","")'                               >> $log
-        ')'                                          >> $log
-        ''                                           >> $log
-        'foreach ($i in $list) {'                    >> $log
-        '    if ($i[0] -eq "") {continue}'           >> $log
-        '    "Download: {0}" -f $i[1]'               >> $log
-        '    Invoke-WebRequest $i[0] -OutFile $i[1]' >> $log
-        '}'                                          >> $log
+        ')'                                                     >> $log
+        ''                                                      >> $log
+        'foreach ($i in $dl_list) {'                            >> $log
+        '    if ($i["url"] -eq "") {continue}'                  >> $log
+        '    "Download: {0}" -f $i["dst"]'                      >> $log
+        '    Invoke-WebRequest $i["url"] -OutFile $i["dst"]'    >> $log
+        '}'                                                     >> $log
 
 
         return
@@ -259,7 +294,8 @@ function downloadOriginal ($cgi_url, $type, $root_dir, $sub_dir, $log) {
 # @(元のURL、拡張子補正+デコードしたURL) 
 # の配列
 #-----------------------------------------------------------------------------
-function get_encoded_urls( $text ) {
+function get_encoded_urls( $text ) 
+{
     $ret = @()
     $hash = @{}
 
@@ -312,7 +348,8 @@ function get_encoded_urls( $text ) {
 #-----------------------------------------------------------------------------
 # リスト出力
 #-----------------------------------------------------------------------------
-function writeDownloadList( $list, $dstfile ) {
+function writeDownloadList( $list, $dstfile ) 
+{
     $ls = @()
     if ($list.Count) {
         foreach ($i in $list) {
@@ -329,7 +366,8 @@ function writeDownloadList( $list, $dstfile ) {
 #-----------------------------------------------------------------------------
 # 画像URL抽出
 #-----------------------------------------------------------------------------
-function get_img_utl( $text, [ref]$img_hash_ref ) {
+function get_img_utl( $text, [ref]$img_hash_ref ) 
+{
     $ret = @()
 
     $urls = [regex]::Matches( $text, 'https?://[^"\n\)]+\.(png|jpeg|jpg|gif|svg)')
@@ -376,7 +414,8 @@ function get_img_utl( $text, [ref]$img_hash_ref ) {
 #-----------------------------------------------------------------------------
 ## テキスト読み込み
 #-----------------------------------------------------------------------------
-function readFile( $fname ) {
+function readFile( $fname ) 
+{
     $fpath = (Join-Path $cd $fname)
     try {
         # EUCとしてテキストファイルを読み込む
@@ -393,13 +432,14 @@ function readFile( $fname ) {
 #-----------------------------------------------------------------------------
 # htmlファイルを処理する
 #-----------------------------------------------------------------------------
-function porc_html( $src_file, [ref]$img_hash_ref ) {
+function porc_html( $src_file, [ref]$img_hash_ref ) 
+{
     $text = ""
     $eurl = @()
     $img_list = @()
     $tex_list = @()
 
-    ## テキスト読み込み
+    #------ テキスト読み込み ------
     $text = (readFile $src_file)
 
     if ($text -eq $Null) {
@@ -410,12 +450,12 @@ function porc_html( $src_file, [ref]$img_hash_ref ) {
         }
     }
 
-    ### latex変換
-    $rp = (latex_modify_html $text)
+    #------ TeX変換 -------------
+    $rp = (TeX_modify_html $text)
     $text = $rp["text"]
     $tex_list = $rp["tex_list"]
 
-    ### 事前加工
+    #------ 前加工 ----------------
 
     #  svgファイル表示タグをembedからimgに変更
     $text = $text -replace 'embed class="wikiimage" type="image/svg\+xml"','img class="wikiimage"'
@@ -452,17 +492,18 @@ function porc_html( $src_file, [ref]$img_hash_ref ) {
     $bs = (regexEscape "<a href=`"${cgi_url}${type}/../")
     $text = $text -replace ($bs + '([^"]+)"[^>]*>([^<]+)</a>'), '[$2|$1]'
 
-
-    ### 追加加工処理
+    #------ 追加加工 --------------
     $text = (hook_modify_html $text)
 
-    ### 画像ダウンロードリストを取得
+    #------ URL抽出 ---------------
+
+    # 画像ダウンロードリストを取得
     $img_list = (get_img_utl $text $img_hash_ref)
 
-    ### 画像URLをimgフォルダへの相対パスへ変更
+    # 画像URLをimgフォルダへの相対パスへ変更
     $text = $text -replace 'https?://[^"\)]*/([^"/>\)]+\.)(png|jpg|gif|jpeg|svg)', ($img_dir + '/$1$2')
 
-    ### URL変換 (""で囲んでいる物のみ)
+    # URL変換 (""で囲んでいる物のみ)
     $eurl = (get_encoded_urls $text)
     foreach ($i in $eurl) {
         $s = '"' + ($i[0].replace(' ', '%20')) + '"'
@@ -470,12 +511,24 @@ function porc_html( $src_file, [ref]$img_hash_ref ) {
         $text = $text.Replace( $s, $d )
     }
 
-    ### ファイル名変換 (""で囲んでいる物のみ)
-    foreach ($i in $list) {
+    #------ 後加工 ----------------
+
+    #------ ページリンク変換 (""で囲んでいる物のみ)
+    foreach ($i in $page_list) {
         $s = '"'+$i[0].replace(' ', '%20')+'.html"'
         $d = '"'+$i[1].replace(' ', '%20')+'.html"'
         $text = $text.Replace( $s, $d )
+        $s = '"'+$i[0].replace(' ', '%20')+'"'
+        $text = $text.Replace( $s, $d )
     }
+    #------ 別wikiへのリンク加工 --
+    $text= $text.Replace($opp_url, $opp_top)
+
+
+    #綴り修正
+    $text = ($text -replace "APPENEX","AAPPENDIX")
+    $text = ($text -replace "APPENDEX","AAPPENDIX")
+
 
     return @{
         text = $text
@@ -488,8 +541,9 @@ function porc_html( $src_file, [ref]$img_hash_ref ) {
 #-----------------------------------------------------------------------------
 # ファイル名を修正する
 #-----------------------------------------------------------------------------
-function rename_all() {
-    foreach ($i in $list)
+function rename_all() 
+{
+    foreach ($i in $page_list)
     {
         $src = $i[0]
         $dst = $i[1]
@@ -511,7 +565,8 @@ function rename_all() {
 #-----------------------------------------------------------------------------
 # 全てのhtmlファイルを処理
 #-----------------------------------------------------------------------------
-function proc_all( $common_dl ) {
+function proc_all( $common_dl ) 
+{
     #-----------------------------------------------------------------------------
     # html 解析＆変換＆抽出
     #-----------------------------------------------------------------------------
@@ -520,7 +575,7 @@ function proc_all( $common_dl ) {
     '# PowerShell で実行してください。'  > $img_list_file
     'Add-Type -AssemblyName System.Web' >> $img_list_file
     ""                                  >> $img_list_file
-    '$list = @('                        >> $img_list_file
+    '$dl_list = @('                     >> $img_list_file
 
     $img_hash = @{}
     $img_list = @()
@@ -546,7 +601,7 @@ function proc_all( $common_dl ) {
     #-----------------------------------------------------------------------------
     # ファイル毎に処理
     #-----------------------------------------------------------------------------
-    foreach ($target in $list) {
+    foreach ($target in $page_list) {
         $src = $target[0]
         $dst = $target[1]
 
@@ -597,7 +652,7 @@ function proc_all( $common_dl ) {
     '    @{dst=""; url=""}'                                  >> $img_list_file
     ')'                                                      >> $img_list_file
     ''                                                       >> $img_list_file
-    'foreach ($i in $imgl) {'                                >> $img_list_file
+    'foreach ($i in $dl_list) {'                             >> $img_list_file
     '    if ($i["dst"] -eq "") {continue}'                   >> $img_list_file
     '    if (Test-Path $i["dst"]) {'                         >> $img_list_file
     '        "Already Downloaded: {0}" -f $i["dst"]'         >> $img_list_file
@@ -617,7 +672,8 @@ function proc_all( $common_dl ) {
 #-----------------------------------------------------------------------------
 # イメージファイルのダウンロード実行
 #-----------------------------------------------------------------------------
-function download_images( $img_list ) {
+function download_images( $img_list ) 
+{
     foreach ($t in $img_list) {
         $target = $t["target"]
         if ($t["list"].Count -eq 0) {continue}
@@ -637,10 +693,13 @@ function download_images( $img_list ) {
     }
 }
 
-
 ##############################################################################
 # メイン処理
 ##############################################################################
+
+$index_url      = $cgi_url + $type
+$opp_url        = getOppositeUrl( $index_url )
+$opp_top        = getOppositeLocal( $index_url )
 
 $img_list = @()
 $tex_list = @()
@@ -648,7 +707,7 @@ $tex_list = @()
 #### TEST ####
 #$testfile = "4部-9章 YJK方式.html"
 #$text = (readFile $testfile)
-#$ret = (convert_latex $text ([ref]$tex_list))
+#$ret = (convert_TeX $text ([ref]$tex_list))
 #$text = $ret["text"]
 #$tex_list
 #return
@@ -657,7 +716,7 @@ $tex_list = @()
 # 初期化の追加処理
 #-----------------------------------------------------------------------------
 hook_initialize
-latex_initialize
+TeX_initialize
 
 #-----------------------------------------------------------------------------
 # すべてリネーム
@@ -691,34 +750,6 @@ download_images $img_list
 #-----------------------------------------------------------------------------
 # TEX式 ログ出力
 #-----------------------------------------------------------------------------
-$tex_list_count = 0
-$tex_log_file = "tex_log.txt"
-foreach ($t in $tex_list) {
-    $list = $t["list"]
-    $tex_list_count += $list.Count
-}
-if ($tex_list_count) {
-    Write-Host "# ---------------------------"
-    Write-Host("# TEX renderer: " + (get_latexlib_name))
-    Write-Host "# ---------------------------"
-    "# lTEX LIST ----------------" > $tex_log_file
-    foreach ($t in $tex_list) {
-        $list = $t["list"]
-        $target = $t["target"]
-        if ($list.Count) {
-            Write-Host ("## ${target} : count = " + $list.Count)
-            "#-------------------" >> $tex_log_file
-            "## ${target}"         >> $tex_log_file
-            foreach ($i in $list) {
-                $org = $i["org"]
-                $dec = $i["dec"]
-                #Write-Host "  (src: ${org})"
-                #Write-Host "${dec}"
-                ""  >> $tex_log_file
-                "orign  : ${org}"  >> $tex_log_file
-                "decoded: ${dec}"  >> $tex_log_file
-            }
-        }
-    }
-    Write-Host "LATEX logged in ${tex_log_file}"
-}
+log_TeX $tex_list
+
+#Write-Host "終了しました。ENTERキーを押してください。";Read-Host

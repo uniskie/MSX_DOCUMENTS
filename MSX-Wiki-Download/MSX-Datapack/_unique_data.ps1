@@ -3,7 +3,7 @@
 ##############################################################################
 $title = 'MSX Datapack wiki化計画'
 $type = 'datapack'
-$list = @(
+$page_list = @(
 	@('FrontPage'                                   , 'FrontPage'                                        ),
 	@('Help'                                        , 'Help'                                             ),
 	@('修正履歴'                                    , '修正履歴'                                         ),

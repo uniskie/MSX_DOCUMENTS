@@ -3,7 +3,7 @@
 ##############################################################################
 $title = 'テクハンwiki'
 $type = 'TechHan'
-$list = @(
+$page_list = @(
 #	@('BugTrack-techhan11',                         'BugTrack-techhan11'                         ),
 #	@('BugTrack-techhan12',                         'BugTrack-techhan12'                         ),
 #	@('BugTrack-techhan13',                         'BugTrack-techhan13'                         ),
