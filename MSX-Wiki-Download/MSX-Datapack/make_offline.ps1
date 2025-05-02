@@ -535,7 +535,11 @@ function porc_html( $src_file, [ref]$img_hash_ref )
     $text = ($text -replace "APPENEX","AAPPENDIX")
     $text = ($text -replace "APPENDEX","AAPPENDIX")
 
-
+    #------ サイドバーへ元ページへのリンク追加 --
+    $old = '<div class="sidebar">' + "`n" + '<p>'
+    $new = $old + '<a href="' + $cgi_url + $type + '" target="_blank">元サイト</a><br>'
+    $text = $text.Replace( $old, $new )
+        
     return @{
         text = $text
         eurl = $eurl
