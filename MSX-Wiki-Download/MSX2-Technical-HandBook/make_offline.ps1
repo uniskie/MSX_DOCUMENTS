@@ -48,9 +48,12 @@ $url_datapack   = $cgi_url + $type_datapack
 $url_techhan    = $cgi_url + $type_techhan
 
 #-----------------------------------------------------------------------------
-$org_dir = 'org'
-$img_dir = 'img'
-$theme_dir = '..\theme\kugi01'
+$org_dir   = 'org'
+$img_dir   = 'img'
+$theme_dir = Join-Path 'theme' 'kugi01'
+
+$theme_org = '.././theme/'
+$theme_new = 'theme/'
 
 $dir_list = @(
     $org_dir
@@ -67,29 +70,29 @@ $img_list_file = 'download_image.ps1'
 $common_dl = @(
     ## common for MSX-Datapack Wiki / MSX Tecnical Hand Book Wiki
     @(  'http://ngs.no.coocan.jp/doc/theme/kugi01/kugi01.css.js'
-        '..\theme\kugi01\kugi01.css.js'
+        (Join-Path $theme_dir 'kugi01.css.js')
     ),
     @(  'http://ngs.no.coocan.jp/doc/theme/kugi01/kugi01.css'
-        '..\theme\kugi01\kugi01.css'
+        (Join-Path $theme_dir 'kugi01.css')
     ),
     @(  'http://ngs.no.coocan.jp/doc/theme/kugi01/jquery-1.12.4.min.js'
-        '..\theme\kugi01\jquery-1.12.4.min.js'
+        (Join-Path $theme_dir 'jquery-1.12.4.min.js')
     ),
 
     @(  'http://ngs.no.coocan.jp/doc/theme/kugi01/ic_menu_white_36dp.png'
-        '..\theme\kugi01\ic_menu_white_36dp.png'
+        (Join-Path $theme_dir 'ic_menu_white_36dp.png')
     ),
     @(  'http://ngs.no.coocan.jp/doc/theme/kugi01/ic_more_vert_white_36dp.png'
-        '..\theme\kugi01\ic_more_vert_white_36dp.png'
+        (Join-Path $theme_dir 'ic_more_vert_white_36dp.png')
     ),
     @(  'http://ngs.no.coocan.jp/doc/theme/kugi01/ic_search_white_36dp.png'
-        '..\theme\kugi01\ic_search_white_36dp.png'
+        (Join-Path $theme_dir 'ic_search_white_36dp.png')
     ),
     @(  'http://ngs.no.coocan.jp/doc/theme/kugi01/ic_fontsize_white_36dp.png'
-        '..\theme\kugi01\ic_fontsize_white_36dp.png'
+        (Join-Path $theme_dir 'ic_fontsize_white_36dp.png')
     ),
     @(  'http://ngs.no.coocan.jp/doc/theme/kugi01/ic_toc_white_36dp.png'
-        '..\theme\kugi01\ic_toc_white_36dp.png'
+        (Join-Path $theme_dir 'ic_toc_white_36dp.png')
     )
 )
 
@@ -512,6 +515,9 @@ function porc_html( $src_file, [ref]$img_hash_ref )
     }
 
     #------ 後加工 ----------------
+    
+    #------ theme リンクの変更
+    $text = $text.Replace( '"' + $theme_org, '"' + $theme_new )
 
     #------ ページリンク変換 (""で囲んでいる物のみ)
     foreach ($i in $page_list) {

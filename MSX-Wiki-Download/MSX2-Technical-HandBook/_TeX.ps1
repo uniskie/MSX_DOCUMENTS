@@ -5,27 +5,49 @@
 # function get_TeXlib_name()
 # function decode_TeX( $text )
 # function add_TeX_lib_header( $text )
-# function download_katex_modules()
+# function download_KATEX_modules()
+# function download_MathJax_modules()
 # function TeX_initialize()
 # function TeX_modify_html( $text )
 # function log_TeX( $tex_list )
 ##############################################################################
 
 # 初期化：
-$use_MathJax=0;$use_KATEX=0;$use_KATEX_ECMAScript=0;$use_KATEX_offline=0
+$use_MathJax=0;$use_KATEX=0;$use_KATEX_ECMAScript=0;$use_offline_TeXLib=0
 
+#-----------------------------------------------------------------------------
+# お好みでどちらか
 #$use_MathJax            = $True     ;# MathJaxを使用する (機能豊富・古い)
 $use_KATEX              = $True     ;# KATEXを使用する (軽量・新しい)
+#-----------------------------------------------------------------------------
 
-#$use_KATEX_ECMAScrip    = $True     ;# ECMAScriptモジュール版を使用する（古いブラウザ向け）
-#$use_KATEX_offline      = $True     ;# KATEXをオフラインで使用する (動作しない)
+$use_offline_TeXLib     = $True     ;# KATEX/MathJaxをオフラインで使用する(推奨)
+
+#-----------------------------------------------------------------------------
+#$use_KATEX_ECMAScript   = $True     ;# ECMAScriptモジュール版を使用する（古いブラウザ向け）(オフラインだとエラー)
+$KATEX_ver = '0.16.22'              ;# KATEX version
+$MathJax_ver = '4.0.0-beta.7'       ;# MathJax version
+#-----------------------------------------------------------------------------
 
 ##############################################################################
 if ($use_KATEX) {
-$katex_dist_url    = 'https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/'
-$katex_dir         = '..\theme\katex'
-$katex_contrib_dir = $katex_dir + '\contrib'
-$katex_fonts_dir   = $katex_dir + '\fonts'
+    $KATEX_dist_url     = 'https://cdn.jsdelivr.net/npm/KATEX@' + $KATEX_ver + '/dist/'
+    $KATEX_zip_url      = 'https://github.com/KATEX/KATEX/releases/download/v' + $KATEX_ver + '/katex.zip'
+    $KATEX_root         = '.'
+    #$KATEX_root         = '.\theme'
+    $KATEX_dir          = (Join-Path $KATEX_root 'KATEX')
+}
+
+if ($use_MathJax) {
+    $MathJax_dist_url   = 'https://cdn.jsdelivr.net/npm/MathJax@3/es5/'
+    $MathJax_arc_name   = 'MathJax-' + $MathJax_ver
+    $MathJax_zip_url    = 'https://github.com/MathJax/MathJax/archive/refs/tags/' + $MathJax_ver + '.zip'
+    $MathJax_root       = '.'
+    #$MathJax_root       = '.\theme'
+    $MathJax_parent     = 'MathJax@3'
+    $MathJax_parent_dir = (Join-Path $MathJax_root $MathJax_parent)
+    $MathJax_sub        = 'es5'
+    $MathJax_dir        = (Join-Path $MathJax_parent $MathJax_sub)
 }
 $delim_s = '$'
 $delim_e = '$'
@@ -44,6 +66,7 @@ elseif ($use_MathJax) {
     $delim_le = '\]'
 }
 
+
 #-----------------------------------------------------------------------------
 function get_TeXlib_name() 
 {
@@ -58,74 +81,93 @@ function get_TeXlib_name()
 #-----------------------------------------------------------------------------
 function add_TeX_lib_header( $text ) 
 {
+    $newline = "`n"
     if ($type -eq 'datapack') {
         if ($use_KATEX) {
-            $s = "<title>"
-            if ($use_KATEX_offline) {
-                $b = "../theme/katex/"
-            } else {
-                $b = $katex_dist_url
-            }
-
             # $...$がインライン $$...$$が改行
             # \(...\)がインライン \[...\]が改行
             $config = @(
                 '      // customised options'
                 '      // • auto-render specific keys, e.g.:'
                 '      delimiters: ['
-                '          {left: ''$$'' , right: ''$$'' , display: true},'
-                '          {left: ''$''  , right: ''$''  , display: false},'
+                # $は16進数表現とぶつかるので使わない
+                #'          {left: ''$$'' , right: ''$$'' , display: true},'
+                #'          {left: ''$''  , right: ''$''  , display: false},'
                 '          {left: ''\\('', right: ''\\)'', display: false},'
                 '          {left: ''\\['', right: ''\\]'', display: true}'
                 '      ],'
                 '      // • rendering keys, e.g.:'
                 '      throwOnError : false'
-            ) -join "`n"
+            ) -join $newline
 
+            if ($use_offline_TeXLib) {
+                $b = $KATEX_dir.Replace('\', '/') + '/'
+            } else {
+                $b = $KATEX_dist_url
+            }
+
+            $s = "<title>"
+            $d = '<link rel="stylesheet" href="' + $b + 'KATEX.min.css"'
+            if (-not $use_offline_TeXLib) {
+                $d += ' integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP"'
+                $d += ' crossorigin="anonymous"'
+            }
+            $d += '>' + $newline
             if ($use_KATEX_ECMAScript) {
-                $d = @(
-                '<link rel="stylesheet" href="' + $b + 'katex.min.css"'
-                '    integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP"'
-                '    crossorigin="anonymous">'
-                '<script type="module">'
-                '    import renderMathInElement from "' + $b + 'contrib/auto-render.mjs";'
-                '    renderMathInElement(document.body);'
-                '    renderMathInElement(document.body, {'
-                "${config}"
-                '    });'
-                '</script>'
-                ''
-                ) -join "`n"
+                if ($use_offline_TeXLib) {
+                    Write-Host '[警告]'
+                    Write-Host '（TeXライブラリのオフライン使用）'
+                    Write-Host '$use_offline_TeXLib = $true の時は'
+                    Write-Host '$use_KATEX_ECMAScript = $true ではセキュリティエラーが出ます。'
+                    Write-Host '#$use_KATEX_ECMAScript = $true に（コメントアウト）してください。'
+                    Write-Host 'ENTERキーを押してください。';Read-Host
+                }
+                $d += @(
+                    '<script type="module">'
+                    '    import renderMathInElement from "' + $b + 'contrib/auto-render.mjs";'
+                    '    renderMathInElement(document.body);'
+                    '    renderMathInElement(document.body, {'
+                    "${config}"
+                    '    });'
+                    '</script>'
+                    '') -join $newline
             }
             else {
-                $d = @(
-                '<link rel="stylesheet" href="' + $b + 'katex.min.css"'
-                '    integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP"'
-                '    crossorigin="anonymous">'
-                '<script defer src="' + $b + 'katex.min.js"'
-                '    integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6"'
-                '    crossorigin="anonymous"></script>'
-                '<script defer src="' + $b + 'contrib/auto-render.min.js"'
-                '    integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh"'
-                '    crossorigin="anonymous"></script>'
-                '<script>'
-                '    document.addEventListener("DOMContentLoaded", function() {'
-                '        renderMathInElement(document.body, {'
-                "${config}"
-                '        });'
-                '    });'
-                '</script>'
-                ''
-                '<title>'
-                ) -join "`n"
+                $d += '<script defer src="' + $b + 'KATEX.min.js"'
+                if (-not $use_offline_TeXLib) {
+                    $d += ' integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6"'
+                    $d += ' crossorigin="anonymous"'
+                }
+                $d += '></script>' + $newline
+                $d += '<script defer src="' + $b + 'contrib/auto-render.min.js"'
+                if (-not $use_offline_TeXLib) {
+                    $d += ' integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh"'
+                    $d += ' crossorigin="anonymous"'
+                }
+                $d += '></script>' + $newline
+                $d += @(
+                    '<script>'
+                    '    document.addEventListener("DOMContentLoaded", function() {'
+                    '        renderMathInElement(document.body, {'
+                    "${config}"
+                    '        });'
+                    '    });'
+                    '</script>'
+                    ''
+                    '<title>') -join $newline
             }
             $text = $text.Replace($s, $d)
         }
         elseif ($use_MathJax) {
+            if ($use_offline_TeXLib) {
+                $b = $MathJax_dir.Replace('\', '/') + '/'
+            } else {
+                $b = $MathJax_dist_url
+            }
             $s = "<title>"
             $d = @(
             '<script type="text/javascript" id="MathJax-script" async'
-            '  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">'
+            '  src="' + $b + 'tex-mml-chtml.js">'
             'MathJax.Hub.Config({'
             '  tex2jax: {'
             '    inlineMath:['
@@ -153,92 +195,78 @@ function add_TeX_lib_header( $text )
 
 ###############################################################################
 # KATEX モジュール＆リソースのダウンロード
-# オフラインではCROSエラーで使えないので現象意味はない
-function download_katex_modules() 
+function download_KATEX_modules() 
 {
-    # KATEX フォルダの作成
-    $dir_list = @(
-        $katex_dir
-        $katex_contrib_dir
-        $katex_fonts_dir
-    )
-    foreach ($i in $dir_list) {
-        MakeSubDir $i
+    if ($KATEX_root -ne '.') {
+        MakeSubDir $KATEX_root
     }
 
-    # KATEX フォントのダウンロード
-    $font_list = @(
-        'KaTeX_AMS-Regular'
-        'KaTeX_Caligraphic-Bold'
-        'KaTeX_Caligraphic-Regular'
-        'KaTeX_Fraktur-Bold'
-        'KaTeX_Fraktur-Regular'
-        'KaTeX_Main-Bold'
-        'KaTeX_Main-BoldItalic'
-        'KaTeX_Main-Italic'
-        'KaTeX_Main-Regular'
-        'KaTeX_Math-BoldItalic'
-        'KaTeX_Math-Italic'
-        'KaTeX_SansSerif-Bold'
-        'KaTeX_SansSerif-Italic'
-        'KaTeX_SansSerif-Regular'
-        'KaTeX_Script-Regular'
-        'KaTeX_Size1-Regular'
-        'KaTeX_Size2-Regular'
-        'KaTeX_Size3-Regular'
-        'KaTeX_Size4-Regular'
-        'KaTeX_Typewriter-Regular'
-    )
-    foreach ($i in $font_list) {
-        $urlb = $katex_dist_url + 'fonts/' + $i
-        $path = (Join-Path $katex_fonts_dir $i)
-        $ext_list = @('.ttf', '.woff', '.woff2')
-        foreach ($ext in $ext_list) {
-            $url = $urlb + $ext
-            $dst = $path + $ext
-            if (Test-Path ($dst)) {
-                #ShowDlMessage ("Already Downloaded") ($dst) ""
-            }
-            else {
-                ShowDlMessage ("Download") ($dst) ""
-                Invoke-WebRequest $url -OutFile $dst
-            }
-        }
-    }
+    $zip_path = Join-Path $KATEX_root ("KATEX_v${KATEX_ver}.zip")
 
-    # KATEX モジュールのダウンロード
-    $module_list = @(
-        'katex.css'
-        'katex.js'
-        'katex.min.css'
-        'katex.min.js'
-        'katex.mjs'
-        'contrib/auto-render.js'
-        'contrib/auto-render.min.js'
-        'contrib/auto-render.mjs'
-        'contrib/copy-tex.js'
-        'contrib/copy-tex.min.js'
-        'contrib/copy-tex.mjs'
-        'contrib/mathtex-script-type.js'
-        'contrib/mathtex-script-type.min.js'
-        'contrib/mathtex-script-type.mjs'
-        'contrib/mhchem.js'
-        'contrib/mhchem.min.js'
-        'contrib/mhchem.mjs'
-        'contrib/render-a11y-string.js'
-        'contrib/render-a11y-string.min.js'
-        'contrib/render-a11y-string.mjs'
-    )
-    foreach ($i in $module_list) {
-        $url = $katex_dist_url + $i
-        $dst = (Join-Path $katex_dir $i)
-        $dst = $dst.Replace('/', '\')
-        if (Test-Path ($dst)) {
-            #ShowDlMessage ("Already Downloaded") ($dst) ""
+    Write-Host "Download: ${KATEX_zip_url}"
+    Write-Host "      to: ${zip_path}"
+
+    if (Test-Path $zip_path) {
+        Write-Host "${zip_path} is alreadt downloaded"
+    }
+    else {
+        Invoke-WebRequest $KATEX_zip_url -OutFile $zip_path
+
+        if (Test-Path $zip_path) {
+            try {
+                Expand-Archive -Path $zip_path -DestinationPath $KATEX_root -Force
+                Write-Host "Expanded zip to: ${KATEX_dir}"
+                #Write-Host (Get-ChildItem -Path $KATEX_dir -Recurse -File -Name)
+            } catch {
+                Write-Host "Expand error occurred:"
+                Write-Host $_
+            }
         }
         else {
-            ShowDlMessage ("Download") ($dst) ""
-            Invoke-WebRequest $url -OutFile $dst
+            Write-Host "[ERROR] failure download ${KATEX_zip_url}"
+        }
+    }
+}
+
+###############################################################################
+# MathJax モジュール＆リソースのダウンロード
+function download_MathJax_modules() 
+{
+    if ($MathJax_dir -ne '.') {
+        MakeSubDir $MathJax_dir
+    }
+
+    $dirs = [regex]::Match($MathJax_dir, '^(.+)/([^/]+)$')
+    $parent = $dirs.Groups[0].Value
+    $sub    = $dirs.Groups[1].Value
+
+    $zip_path = Join-Path $MathJax_root ($MathJax_arc_name + '.zip')
+
+    Write-Host "Download: ${MathJax_zip_url}"
+    Write-Host "      to: ${zip_path}"
+
+    if (Test-Path $zip_path) {
+        Write-Host "${zip_path} is alreadt downloaded"
+    }
+    else {
+        Invoke-WebRequest $MathJax_zip_url -OutFile $zip_path
+
+        if (Test-Path $zip_path) {
+            try {
+                Expand-Archive -Path $zip_path -DestinationPath $MathJax_parent_dir -Force
+                Write-Host "Expanded zip to: ${MathJax_parent_dir}"
+                
+                #フォルダ名変更 MathJax@3\MathJax-v??.??\ -> MathJax@3\es5\
+                if (Test-Path $MathJax_dir) { Remove-Item $MathJax_dir }
+                $expanded_path = Join-Path $MathJax_parent_dir $MathJax_arc_name
+                Rename-Item -Path $expanded_path -NewName $MathJax_sub
+            } catch {
+                Write-Host "Expand error occurred:"
+                Write-Host $_
+            }
+        }
+        else {
+            Write-Host "[ERROR] failure download ${MathJax_zip_url}"
         }
     }
 }
@@ -251,8 +279,11 @@ function TeX_initialize()
 {
     if ($type -eq 'datapack') {
         #if (False)
-        if ($use_KATEX -and $use_KATEX_offline) {
-            download_katex_modules
+        if ($use_KATEX -and $use_offline_TeXLib) {
+            download_KATEX_modules
+        }
+        if ($use_MathJax -and $use_offline_TeXLib) {
+            download_MathJax_modules
         }
     }
 }
@@ -278,7 +309,7 @@ function TeX_initialize()
 # \E         
 # \om        \omega の短縮（MathJax/KATEX非対応）
 # \beta      
-# \hat       \widehat のほうが安全？
+# \hat       源本に近いのは\hat。 \widehatだと派手過ぎる
 #-----------------------------------------------------------------------------
 function modfy_TeX( $text )
 {
@@ -288,7 +319,8 @@ function modfy_TeX( $text )
     }
 
     # 頭に\mathrmは無い方が表示が安定するので除去
-    $text = [regex]::Replace( $text, '^\s*\\mathrm', '')
+    # 大文字小文字の区別の為に -creplace
+    $text = $text -creplace '^\s*\\mathrm', ''
 
     ## F =( fmus \times 218 / fsam) /2b-1 を修正
     #$old = 'F =( fmus \times 218 / fsam) /2b-1'
@@ -303,35 +335,33 @@ function modfy_TeX( $text )
     #$text = [regex]::Replace( $text, '\\hat\s*(?![A-Za-z\\])', '')
     
     # Google chart 省略記法っぽいものを補正
-    $text = [regex]::Replace( $text, '\\De(?![A-Za-z])',    '\Delta')
-    $text = [regex]::Replace( $text, '\\tim(?![A-Za-z])',   '\times')
-    $text = [regex]::Replace( $text, '\\om(?![A-Za-z])',    '\omega')
-    $text = [regex]::Replace( $text, '\\overl(?![A-Za-z])', '\overline')
+    # 大文字小文字の区別の為に -creplace
+    $text = $text -creplace '\\De(?![A-Za-z])',    '\Delta'
+    $text = $text -creplace '\\tim(?![A-Za-z])',   '\times'
+    $text = $text -creplace '\\om(?![A-Za-z])',    '\omega'
+    $text = $text -creplace '\\overl(?![A-Za-z])', '\overline'
+   #$text = $text -creplace '\\hat(?![A-Za-z])',   '\widehat'
 
     ## \hspaceの修正 (全体に問題多めなのでそれぞれ個別ケースに対処)
     $old = '\\ \hspace{141em}';# +J2(I) \{ \sin(\om c+ 2\om m)t+\sin (\om c-2\om m)t+ ...... ]'
-    if ($use_KATEX) {
-        $new = '\\';# +J2(I) \{ \sin(\om c+ 2\om m)t+\sin (\om c-2\om m)t+ ...... ]'
-    }else{
-        $new = '\\ \hspace{2em}';# +J2(I) \{ \sin(\om c+ 2\om m)t+\sin (\om c-2\om m)t+ ...... ]'
-    }
+    $new = '\\ \hspace{1em}';# +J2(I) \{ \sin(\om c+ 2\om m)t+\sin (\om c-2\om m)t+ ...... ]'
     $text = $text.Replace( $old, $new )
     $text = $text.Replace( '\hspace{150}', '\hspace{26em}' )
     $text = $text.Replace( '\hspace{141em}', '\hspace{4em}' )
     $text = $text.Replace( '\hspace{10}', '\hspace{4em}' ) ;#TeX_modify_htmlで対処済みだけど念のため
 
     ## 連立方程式の括弧
-    $alt    = 'array'
-    $pos    = '{l}'
+    $alt         = 'array'
+    $pos         = '{l}'
     $begin_check = '\\begin\{(?<alt>[^\}]+)\}(?<pos>\{[lcr]\})?'
-    $begin      = '\begin{'+$alt+'}'+$pos
-    $ldelim     = '\\'
-    $end        = '\end{'+$alt+'}'
+    $begin       = '\begin{'+$alt+'}'+$pos
+    $ldelim      = '\\'
+    $end         = '\end{'+$alt+'}'
 
-    $left_check = '\left. \{'
-    $left       = '\left \{'
-    $righ_check = '\right'
-    $right      = '\right.'
+    $left_check  = '\left. \{'
+    $left        = '\left \{'
+    $righ_check  = '\right'
+    $right       = '\right.'
 
     # 改行（\\ `n）がある場合はマルチライン処理
     if ($text -match (regexEscape($ldelim))) {
@@ -391,9 +421,9 @@ function modfy_TeX( $text )
         ,@('(?<!\\)\{','(?<!\\)\}' ,'}')
         ,@('(?<!\\)\(','(?<!\\)\)' ,')')
     ) | foreach {
-        $ks = $_[0]
-        $ke = $_[1]
-        $ke_r = $_[2]
+        $ks      = $_[0]
+        $ke      = $_[1]
+        $ke_r    = $_[2]
         $kakko_s = [regex]::Matches($text, $ks).Count
         $kakko_e = [regex]::Matches($text, $ke).Count
         if ($kakko_e -lt $kakko_s) 
@@ -405,8 +435,22 @@ function modfy_TeX( $text )
             }
         }
     }
+
     # Obsidian向けに前後の余白削除
-    return $text.Trim()
+    $text = $text.Trim()
+
+    #管理しやすいように余白削除
+    $text = $text -replace '\s+' ,' '
+    $text = $text -replace '\{\s' ,'{'
+    $text = $text -replace '\s\}' ,'}'
+    $text = $text -replace '\(\s' ,'('
+    $text = $text -replace '\s\)' ,')'
+    $text = $text -replace '\{\s' ,'{'
+    $text = $text -replace '\s\}' ,'}'
+    $text = $text -replace '\[\s' ,'['
+    $text = $text -replace '\s\]' ,']'
+
+    return $text
 }
 
 #-----------------------------------------------------------------------------
@@ -430,9 +474,7 @@ function decode_TeX( $text )
         $tag_br = $i.Groups['br']
             
         $d = [System.Web.HttpUtility]::UrlDecode($t, $euc)
-        #$d = $d.Trim();# 前後の余白削除
         $t = (modfy_TeX $d)
-        $t = $t.Trim();# 前後の余白削除
 
         #Write-Host $i;###DEBUG###
         #Write-Host $d;###DEBUG###
