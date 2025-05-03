@@ -615,7 +615,7 @@ function proc_all( $common_dl )
         $src = $target[0]
         $dst = $target[1]
 
-        #if ($dst -ne '4部-9章 YJK方式') { continue }
+        #if ($dst -ne '7部-4章-5 Y8950(MSX-AUDIO)') { continue }
 
         $src_file = (Join-Path $org_dir ($src + '.html'))
         $out_file = $dst + '.html'

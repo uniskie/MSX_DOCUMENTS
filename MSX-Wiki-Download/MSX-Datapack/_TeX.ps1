@@ -23,6 +23,8 @@ $use_KATEX              = $True     ;# KATEXを使用する (軽量・新しい)
 
 $use_offline_TeXLib     = $True     ;# KATEX/MathJaxをオフラインで使用する(推奨)
 
+$replace_svg_to_TeX    = $True      ;# 7部-4章-5 Y8950(MSX-AUDIO) の式svgをTeXに置き換える
+
 #-----------------------------------------------------------------------------
 #$use_KATEX_ECMAScript   = $True     ;# ECMAScriptモジュール版を使用する（古いブラウザ向け）(オフラインだとエラー)
 $KATEX_ver = '0.16.22'              ;# KATEX version
@@ -66,6 +68,7 @@ elseif ($use_MathJax) {
     $delim_le = '\]'
 }
 
+$charts_api_url = 'http://chart.apis.google.com/chart?cht=tx&chl='
 
 #-----------------------------------------------------------------------------
 function get_TeXlib_name() 
@@ -203,13 +206,13 @@ function download_KATEX_modules()
 
     $zip_path = Join-Path $KATEX_root ("KATEX_v${KATEX_ver}.zip")
 
-    Write-Host "Download: ${KATEX_zip_url}"
-    Write-Host "      to: ${zip_path}"
-
     if (Test-Path $zip_path) {
-        Write-Host "${zip_path} is alreadt downloaded"
+        Write-Host "${zip_path} is already downloaded."
     }
     else {
+        Write-Host "Download: ${KATEX_zip_url}"
+        Write-Host "      to: ${zip_path}"
+
         Invoke-WebRequest $KATEX_zip_url -OutFile $zip_path
 
         if (Test-Path $zip_path) {
@@ -374,7 +377,7 @@ function modfy_TeX( $text )
         $alt_b = $bm.Groups['alt']
         if ($alt_b.Success) {
             # \begin に対応する \end
-            $end = '\end[' + $alt_b.Value + ']'
+            $end = '\end{' + $alt_b.Value + '}'
         }
         if ($bm.Success) {
             if ($use_left) {
@@ -454,53 +457,148 @@ function modfy_TeX( $text )
 }
 
 #-----------------------------------------------------------------------------
+# TeX式を囲む (インライン、マルチライン自動判定)
+#-----------------------------------------------------------------------------
+function enclose_TeX( $tex )
+{
+    if ($tex.Length -le 0) {
+        # 長さ less than 0 (0以下)なら削除
+        $new = ''
+    }
+    elseif ($tex -match '(\n|\\\\)') {
+        # 途中改行あり
+        $new = $tag_p.Value + $delim_ls + $tex + $delim_le
+    }
+    elseif ($tag_p.Success -and $tag_br.Success) {
+        # 独立行
+        $new = $tag_p.Value + $delim_ls + $tex + $delim_le
+    }
+    else {
+        # インライン
+        $new = $tag_p.Value + $delim_s + $tex + $delim_e + $tag_br
+    }
+    return $new
+}
+
+#-----------------------------------------------------------------------------
+# 式svgをTeX式に置き換える
+# 7部-4章-5 Y8950(MSX-AUDIO) の式svgをTeXに置き換える （力業）
+#-----------------------------------------------------------------------------
+function svg_to_TeX( $text ) 
+{
+    #$text >> log.txt
+
+    # Google Charts APIへのリクエストへ置換
+    # Tex変換リストに入れたいのでこちら
+    function _to_( $text, $url, $tex )
+    {
+        $src = (regexEscape '<embed class="wikiimage" type="image/svg+xml" src="')
+        $src += (regexEscape ('http://ngs.no.coocan.jp/doc/img/datapack/' + $url))
+        $src += '" alt="(?<alt>[^"]+)"[^>]+>'
+        $tex = [System.Web.HttpUtility]::UrlEncode($tex, $euc)
+        $dst = '<img src="' + $charts_api_url + $tex + '" alt="${alt}">'
+        $text = $text -replace $src, $dst
+        #Write-Host $src
+        #Write-Host $dst
+        return $text
+    }
+
+    ## Tex変換リストに入れずに直接置換
+    #function _to_Tex( $text, $url, $tex )
+    #{
+    #    $src = '<p><img[^>]+src="[^"]+/' + (regexEscape $url) + '"[^>]+><br>' + $newline + '</p>'
+    #    $dst = (enclose_TeX $tex)
+    #    $text = $text -replace $src, $dst
+    #    return $text
+    #}
+
+    # <p><img class="wikiimage" src="img/4.5%20Y8950(MSX-AUDIO).式7.8.svg" alt="式7.8.svg" width="340" height="23"><br> 
+    # </p>
+    #
+    # F=Asin(ωct+Isin ωmt)
+    #
+    # \noindent
+    # \begin{math}
+    # F =  A\sin(\omega ct + I\sin \omega mt )
+    # \end{math}
+    $url = '4%252E5%2BY8950%2528MSX%252DAUDIO%2529.%25BC%25B07.8.svg'
+    #$url = '4.5%20Y8950(MSX-AUDIO).式7.8.svg'
+    $tex = 'F = A\sin(\omega ct + I\sin \omega mt )'
+    $text = (_to_ $text $url $tex)
+
+    # <p><img class="wikiimage" src="img/4.5%20Y8950(MSX-AUDIO).式7.9.svg" alt="式7.9.svg" width="680" height="50"><br> 
+    # </p>
+    #
+    # F=A[J0(I)sinωct + J1(I) {sin(ωc+ωm)t-sin(ωc-ωm)t} 
+    #                  + J2(I) {sin(ωc+2ωm)t+sin(ωc-2ωm)t+......]
+    #
+    # \noindent
+    # \begin{math}
+    # F =  A\sin(\omega ct + 
+    #                   J_1(I) \{ \sin(\omega c+\omega m  )t-\sin(\omega c-\omega m)t \} + \\
+    #                   J_2(I) \{ \sin(\omega c+ 2\omega m)t+\sin(\omega c-2\omega m)t + .... ]
+    # \end{math}
+    $url = '4%252E5%2BY8950%2528MSX%252DAUDIO%2529.%25BC%25B07.9.svg'
+    #$url = '4.5%20Y8950(MSX-AUDIO).式7.9.svg'
+    $tex =  '\begin{aligned}'
+    $tex += 'F = A\sin\omega ct'
+    $tex += '     & + J_1(I) \{ \sin(\omega c+\omega m )t-\sin(\omega c-\omega m)t \} \\'
+    $tex += '     & + J_2(I) \{ \sin(\omega c+ 2\omega m)t+\sin(\omega c-2\omega m)t + .... ]'
+    $tex += '\end{aligned}'
+    $text = (_to_ $text $url $tex)
+
+    # <p><img class="wikiimage" src="img/4.5%20Y8950(MSX-AUDIO).式7.10.svg" alt="式7.10.svg" width="280" height="23"><br> 
+    # </p>
+    #
+    # F=Asin(ωct+βF)
+    #
+    # \noindent
+    # \begin{math}
+    # F =  A\sin(\omega ct + \beta F )
+    # \end{math}
+    $url = '4%252E5%2BY8950%2528MSX%252DAUDIO%2529.%25BC%25B07.10.svg'
+    #$url = '4.5%20Y8950(MSX-AUDIO).式7.10.svg'
+    $tex = 'F = A\sin(\omega ct + \beta F )'
+    $text = (_to_ $text $url $tex)
+
+    return $text
+}
+
+#-----------------------------------------------------------------------------
 # Google Chart APIへのリクエストをデコードして TeX式を得る
 #-----------------------------------------------------------------------------
 function decode_TeX( $text ) 
 {
-    #Write-Host "convert_TeX"
+    #Write-Host "decode_TeX"
+
+    $text = (svg_to_TeX $text) ;# SVG化された数式を逆変換
 
     $tex_list = @()
 
-    $base = (regexEscape '<img src="http://chart.apis.google.com/chart?cht=tx&chl=')
+    $base = (regexEscape $charts_api_url)
 
-    $m = [regex]::Matches($text, ('(?<p><p>)?' + $base + '(?<TeX>[^"]+)"[^>]*>(?<br><br>)?'))
+    $m = [regex]::Matches($text, ('(?<p><p>)?<img[^>]+src="' + $base + '(?<TeX>[^"]+)"[^>]*>(?<br><br>)?'))
     #$m = [regex]::Matches($text, ($base+"(?<TeX>[^`"]+)`"[^>]*>"))
 
     foreach ($i in $m) {
 
-        $t = $i.Groups['TeX']
+        $tex = $i.Groups['TeX']
         $tag_p  = $i.Groups['p']
         $tag_br = $i.Groups['br']
             
-        $d = [System.Web.HttpUtility]::UrlDecode($t, $euc)
-        $t = (modfy_TeX $d)
+        $d = [System.Web.HttpUtility]::UrlDecode($tex, $euc)
+        $tex = (modfy_TeX $d)
 
         #Write-Host $i;###DEBUG###
         #Write-Host $d;###DEBUG###
-        #Write-Host $t;###DEBUG###
+        #Write-Host $tex;###DEBUG###
 
-        if ($t.Length -le 0) {
-            # 長さ less than 0 (0以下)なら削除
-            $new = ''
-        }
-        elseif ($t -match '(\n|\\\\)') {
-            # 途中改行あり
-            $new = $tag_p.Value + $delim_ls + $t + $delim_le
-        }
-        elseif ($tag_p.Success -and $tag_br.Success) {
-            # 独立行
-            $new = $tag_p.Value + $delim_ls + $t + $delim_le
-        }
-        else {
-            # インライン
-            $new = $tag_p.Value + $delim_s + $t + $delim_e + $tag_br
-        }
+        $new = (enclose_TeX $tex)
         $text = $text.Replace($i,$new)
         $tex_list += ,@{
             org=$i
             dec=$d
-            tex=$t
+            tex=$tex
             new = $new
         }
     }
@@ -518,17 +616,17 @@ function TeX_modify_html( $text )
 {
     ## 事前処理
     # 分割されたTeXをまとめる
-    $old = '%5Cmathrm+%5Cleft%2E+%5C%7BV%5F%7BOUT%7D%3D%5Cfrac%7BVcc%7D%7B2%7D%2B%5Cfrac%7BVcc%7D%7B4%7D%5Ctim%28%2D1%2BF%5F9%2BF%5F8%5Ctim+2%5E%7B%2D1%7D%2B%2E%2E%2E%2E%2E%2E%2BF%5F1+%5Ctim+2%5E%7B%2D8%7D%2BF%5F0+%5Ctim+2%5E%7B%2D9%7D%2B2%5E%7B%2D10%7D%29%5Ctim+2%5E%7B%2DE%7D%5C%5CE%3D%5Coverl%7BS%7D%5F2+%5Ctim+2%5E2%2B%5Coverl%7BS%7D%5F1%5Ctim+2%5E1%2B%5Coverl+S%5F0%5Ctim+2%5E0++" alt="" > <img src="http://chart.apis.google.com/chart?cht=tx&chl=%5Cmathrm+%40+%5Chspace%7B10%7DS%5F0%2BS%5F1%2BS%5F2%5Cgeq+1+';#" alt="" ><br>
-    $new = [System.Web.HttpUtility]::UrlEncode(@(
+    $old = '%5Cmathrm+%5Cleft%2E+%5C%7BV%5F%7BOUT%7D%3D%5Cfrac%7BVcc%7D%7B2%7D%2B%5Cfrac%7BVcc%7D%7B4%7D%5Ctim%28%2D1%2BF%5F9%2BF%5F8%5Ctim+2%5E%7B%2D1%7D%2B%2E%2E%2E%2E%2E%2E%2BF%5F1+%5Ctim+2%5E%7B%2D8%7D%2BF%5F0+%5Ctim+2%5E%7B%2D9%7D%2B2%5E%7B%2D10%7D%29%5Ctim+2%5E%7B%2DE%7D%5C%5CE%3D%5Coverl%7BS%7D%5F2+%5Ctim+2%5E2%2B%5Coverl%7BS%7D%5F1%5Ctim+2%5E1%2B%5Coverl+S%5F0%5Ctim+2%5E0++" alt="" > <img src="' + $charts_api_url + '%5Cmathrm+%40+%5Chspace%7B10%7DS%5F0%2BS%5F1%2BS%5F2%5Cgeq+1+';#" alt="" ><br>
+    $new = [System.Web.HttpUtility]::UrlEncode((@(
         '\mathrm \left. \{V_{OUT}=\frac{Vcc}{2}+\frac{Vcc}{4}\tim(-1+F_9+F_8\tim 2^{-1}+......+F_1 \tim 2^{-8}+F_0 \tim 2^{-9}+2^{-10})\tim 2^{-E}'
         '\\E=\overl{S}_2 \tim 2^2+\overl{S}_1\tim 2^1+\overl S_0\tim 2^0'
         '\hspace{4em} @ S_0+S_1+S_2\geq 1 '
-        ) -join '')
+        ) -join ''), $euc)
     $text = $text.Replace( $old, $new )
 
     # F =( fmus \times 218 / fsam) /2b-1 を修正
     $old = 'F+%3D%28+fmus+%5Ctimes+218+%2F+fsam%29+%2F2b%2D1'
-    $new = [System.Web.HttpUtility]::UrlEncode('F =( fmus \times 2^{18} / fsam) /2^{b-1}')
+    $new = [System.Web.HttpUtility]::UrlEncode('F =( fmus \times 2^{18} / fsam) /2^{b-1}', $euc)
     $text = $text.Replace( $old, $new )
 
     ## 記述ミスらしき \hat を除去
