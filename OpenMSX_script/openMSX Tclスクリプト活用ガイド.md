@@ -32,8 +32,8 @@ openMSXで実行するスクリプトファイルは、**拡張子を必ず `.tc
 ### 2.2 配置パス（機種・環境依存を排除）
 スクリプト内では物理パスを直接書かず、必ずシステム変数を使用します。
 
-- **推奨パス（正式）**: `[file join $env(OPENMSX_USER_DATA) share scripts]`
-- **簡略記法（スラッシュ区切り）**: `$env(OPENMSX_USER_DATA)/share/scripts`
+- **推奨パス（正式）**: `[file join $env(OPENMSX_USER_DATA) scripts]`
+- **簡略記法（スラッシュ区切り）**: `$env(OPENMSX_USER_DATA)/scripts`
 - **各OSの実際のパス（参考値）**:
     - **Windows**: `C:\Users\ユーザー名\Documents\openMSX\share\scripts`
     - **macOS**: `/Users/ユーザー名/Library/Application Support/openMSX/share/scripts`
