@@ -90,3 +90,9 @@ http://p6ers.net/mm/pc-6001/dev/screen4color/
 http://fpgapark.com/ntsc/ntsc.htm  
 https://github.com/libretro/glsl-shaders/blob/master/ntsc/ntsc.glslp 
 // based on Themaister's NTSC shader
+
+-----------------------------------------------
+# 変更履歴
+
+- 2025/05/10  
+  AMDでシェーダーコンパイルに失敗してクラッシュするケースに対応するため、プリプロセッサ展開済みの物を用意。

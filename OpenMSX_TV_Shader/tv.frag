@@ -1,27 +1,33 @@
-// NTSC effect (based on Themaister's NTSC shader)
-#define NTSC
+#line 1 "tv.pre.frag"
 
-// 画質指定 : COMPOSITE も SVIDEO も無ければ 白黒(bw)と画質(quality)をユニフォームで指定
-//---------------------
-#define COMPOSITE
-//#define SVIDEO
 
-// PHASE指定 : 指定がなければテクスチャサイズから自動決定
-//---------------------
-//#define TWO_PHASE
-//#define THRERE_PHASE
 
-// additional filter
-//---------------------
-//#define vSATU(x)  (x * 1.25)  // 彩度を強調する
-  #define vSATU(x)  (x)         // 彩度を強調しない
 
-//#define vLUMA(x,c)    ((x) * (1.40 - float(c) * 0.02))    // 輝度マルチサンプルの重みに細工する(※モアレ発生)
-  #define vLUMA(x,c)    (x)                                 // 輝度マルチサンプルの重みに細工しない
 
-// begin params
-//---------------------
-#define PI 3.14159265
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
 
 varying vec4 texStep;
 varying vec4 intCoord;
@@ -33,31 +39,35 @@ uniform sampler2D videoTex;
 uniform float minScanline;
 uniform float sizeVariance;
 
-#if defined(COMPOSITE)
-   #define SATURATION  1.0
-   #define BRIGHTNESS  0.95
-   #define ARTIFACTING 1.0
-   #define FRINGING    0.75
-#elif defined(SVIDEO)
-    #define SATURATION  1.0
-    #define BRIGHTNESS  1.0
-    #define ARTIFACTING 0.0
-    #define FRINGING    0.0
-#else
-    uniform float quality;
-    uniform float bw;
-    #define mix_mat mat3(BRIGHTNESS, FRINGING, FRINGING, ARTIFACTING, 2.0 * SATURATION, 0.0, ARTIFACTING, 0.0, 2.0 * SATURATION)
-#endif
-#if defined(COMPOSITE) || defined(SVIDEO)
-    mat3 mix_mat = mat3(
-        BRIGHTNESS, FRINGING, FRINGING,
-        ARTIFACTING, 2.0 * SATURATION, 0.0,
-        ARTIFACTING, 0.0, 2.0 * SATURATION
-    );
-#endif
-// end params
 
-// begin ntsc-rgbyuv
+
+
+
+
+   
+   
+   
+   
+
+
+
+
+
+
+
+
+
+#line 60 "tv.pre.frag"
+
+    mat3 mix_mat = mat3(
+        0.75, 1.25, 1.25,
+        1.25, 2.0 * 1.0, 0.0,
+        1.25, 0.0, 2.0 * 1.0
+    );
+#line 67 "tv.pre.frag"
+
+
+
 const mat3 yiq2rgb_mat = mat3(
    1.0, 0.956, 0.6210,
    1.0, -0.2720, -0.6474,
@@ -79,8 +89,8 @@ vec3 rgb2yiq(vec3 col)
    return col * yiq_mat;
 }
 
-// begin ntsc-decode-filter-2phase
-#define phase2_TAPS 32
+
+
 float phase2_luma_filter1  = -0.000174844;
 float phase2_luma_filter2  = -0.000205844;
 float phase2_luma_filter3  = -0.000149453;
@@ -148,10 +158,10 @@ float phase2_chroma_filter30 = 0.030663170;
 float phase2_chroma_filter31 = 0.031134640;
 float phase2_chroma_filter32 = 0.031420995;
 float phase2_chroma_filter33 = 0.031517031;
-// end ntsc-decode-filter-2phase
 
-// begin ntsc-decode-filter-3phase
-#define phase3_TAPS 24
+
+
+
 float phase3_luma_filter1  = -0.000012020;
 float phase3_luma_filter2  = -0.000022146;
 float phase3_luma_filter3  = -0.000013155;
@@ -203,208 +213,208 @@ float phase3_chroma_filter22 =  0.068803602;
 float phase3_chroma_filter23 =  0.074356193;
 float phase3_chroma_filter24 =  0.077856564;
 float phase3_chroma_filter25 =  0.079052396;
-// end ntsc-decode-filter-3phase
+
 
 
 vec4 getColor(const vec2 texCoord0, const vec2 texCoord1)
 {
     vec4 src = texture2D(tex, texCoord0);
-#if SUPERIMPOSE
-    vec4 vid = texture2D(videoTex, texCoord1);
-    vec4 rgb = mix(vid, src, src.a);
-#else
+
+
+
+#line 225 "tv.pre.frag"
     vec4 rgb = src;
-#endif
+#line 227 "tv.pre.frag"
     return rgb;
 }
 
-#if defined(TWO_PHASE)
-    #define phase   2.0
-#elif defined(THRERE_PHASE)
-    #define phase   3.0
-#else
-    #define phase   texStep.w
-#endif
 
 
-#define MSX_HSCAN_RATE  1.0//(0.7485380) // (256.0 / 342.0)//ここを変えるとfilter値の変更も必要になる(※モアレ発生)
-#define MSX_HSCAN_SHIFT 2.0//((342.0-256.0))
+#line 233 "tv.pre.frag"
 
-#define CHROMA_MOD_FREQ2    (MSX_HSCAN_RATE * PI * 4.0 / 15.0)
-#define CHROMA_MOD_FREQ3    (MSX_HSCAN_RATE * PI / 3.0)
-#define CHROMA_PHASE_SHIFT2 (MSX_HSCAN_SHIFT * PI)
-#define CHROMA_PHASE_SHIFT3 (MSX_HSCAN_SHIFT * PI)
+#line 235 "tv.pre.frag"
+    
+#line 237 "tv.pre.frag"
 
-//#define CHROMA_MOD_FREQ   ((phase < 2.5) ? (4.0 * PI / 15.0) : (PI / 3.0))
-#define CHROMA_MOD_FREQ     ((phase < 2.5) ? CHROMA_MOD_FREQ2 : CHROMA_MOD_FREQ3)
-#define CHROMA_PHASE_SHIFT  ((phase < 2.5) ? CHROMA_PHASE_SHIFT2 : CHROMA_PHASE_SHIFT3)
 
-// Sub : Encode YIQ (RGB -> YIQ) -> mix
-//-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 vec4 encode(const vec2 texCoord0,
             const vec2 texCoord1,
             const vec2 pixCoord,
             const int FrameCount)
 {
-#if !defined(COMPOSITE) && !defined(SVIDEO)
-    float ARTIFACTING = 1.0 - quality;
-    float FRINGING = 1.0 - quality;
-    float SATURATION = 1.0 - bw;
-#endif
+
+
+
+
+#line 263 "tv.pre.frag"
     
     vec4 rgb = getColor(texCoord0, texCoord1);
     
-#if 1
-    // 明るい部分を縦に膨張させる(Scanline有効時)
+
+    
     float l = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
     vec4 distComp = fract(intCoord);
     rgb = rgb * smoothstep(
         minScanline + sizeVariance * (vec4(1.0 - l)),
         vec4(1.0),
         vec4(distComp.y) + (1.0 - minScanline) );
-#endif
+#line 275 "tv.pre.frag"
     
     vec3 yiq = rgb2yiq(rgb.rgb);
 
-    #if defined(TWO_PHASE)
-        //float chroma_phase = PI * (mod(pixCoord.y, 2.0) + float(FrameCount));
-        float chroma_phase = CHROMA_PHASE_SHIFT2; // MSXはy軸で位相が変化しない
-        float mod_phase = pixCoord.x * CHROMA_MOD_FREQ2 + chroma_phase;
-    #elif defined(THREE_PHASE)
-        //float chroma_phase = 0.6667 * PI * (mod(pixCoord.y, 3.0) + float(FrameCount));
-        float chroma_phase = CHROMA_PHASE_SHIFT3; // MSXはy軸で位相が変化しない
-        float mod_phase = pixCoord.x * CHROMA_MOD_FREQ3 + chroma_phase;
-    #else
-        //float chroma_phase = (phase < 2.5) ? PI * (mod(pixCoord.y, 2.0) + mod(float(FrameCount), 2.)) : 0.6667 * PI * (mod(pixCoord.y, 3.0) + mod(float(FrameCount), 2.));
-        float chroma_phase =CHROMA_PHASE_SHIFT; // MSXはy軸で位相が変化しない
-        float mod_phase = pixCoord.x * CHROMA_MOD_FREQ + chroma_phase;
-     #endif
+    
+
+
+
+#line 283 "tv.pre.frag"
+
+
+
+#line 287 "tv.pre.frag"
+        
+        float chroma_phase =((texStep.w < 2.5) ? (2.0 * 3.14159265) : (2.0 * 3.14159265)); 
+        float mod_phase = pixCoord.x * ((texStep.w < 2.5) ? (1.0 * 3.14159265 * 4.0 / 15.0) : (1.0 * 3.14159265 / 3.0)) + chroma_phase;
+     #line 291 "tv.pre.frag"
 
     float i_mod = cos(mod_phase);
     float q_mod = sin(mod_phase);
 
-    yiq.yz *= vec2(i_mod, q_mod); // Modulate.
-    yiq *= mix_mat; // Cross-talk.
-    yiq.yz *= vec2(i_mod, q_mod); // Demodulate.
+    yiq.yz *= vec2(i_mod, q_mod); 
+    yiq *= mix_mat; 
+    yiq.yz *= vec2(i_mod, q_mod); 
 
     return vec4(yiq, rgb.a);
 }
 
-#define fetch_offset(offset) \
-   encode( texCoord0 + vec2((offset) * texStep.x, 0.0) \
-         , texCoord1 + vec2((offset) * texStep.x, 0.0) \
-         , intCoord.xy + vec2((offset), 0.0), FrameCount).rgb
 
-// Main : [encode YIQ -> mix] -> split -> decode YIQ
-//-----------------------------------------------------------------
+
+
+
+
+
+
 void main()
 {
     int FrameCount = 0;
     vec2 texCoord0 = cornerCoord0.xy;
     vec2 texCoord1 = cornerCoord1.xy;
 
-#if 1
+
     vec3 signal = vec3(0.0);
     float offset;
     vec3 sums;
 
-    #define macro_loopz(p,c) offset = float(c) - 1.0; \
-        sums = fetch_offset(offset - float(phase##p##_TAPS) ) \
-             + fetch_offset(float(phase##p##_TAPS) - offset); \
-        signal += sums * vec3(vLUMA(phase##p##_luma_filter##c, c), \
-                              vSATU(phase##p##_chroma_filter##c), \
-                              vSATU(phase##p##_chroma_filter##c));
     
-    #if !defined(TWO_PHASE) && !defined(THREE_PHASE)
-    if (phase < 2.5)
+
+
+
+
+
+    
+    
+    if (texStep.w < 2.5)
     {
-    #endif
-    #if defined(TWO_PHASE) || !defined(THREE_PHASE)
-        macro_loopz(2, 1)
-        macro_loopz(2, 2)
-        macro_loopz(2, 3)
-        macro_loopz(2, 4)
-        macro_loopz(2, 5)
-        macro_loopz(2, 6)
-        macro_loopz(2, 7)
-        macro_loopz(2, 8)
-        macro_loopz(2, 9)
-        macro_loopz(2, 10)
-        macro_loopz(2, 11)
-        macro_loopz(2, 12)
-        macro_loopz(2, 13)
-        macro_loopz(2, 14)
-        macro_loopz(2, 15)
-        macro_loopz(2, 16)
-        macro_loopz(2, 17)
-        macro_loopz(2, 18)
-        macro_loopz(2, 19)
-        macro_loopz(2, 20)
-        macro_loopz(2, 21)
-        macro_loopz(2, 22)
-        macro_loopz(2, 23)
-        macro_loopz(2, 24)
-        macro_loopz(2, 25)
-        macro_loopz(2, 26)
-        macro_loopz(2, 27)
-        macro_loopz(2, 28)
-        macro_loopz(2, 29)
-        macro_loopz(2, 30)
-        macro_loopz(2, 31)
-        macro_loopz(2, 32)
-        signal += fetch_offset(0.0) *
-            vec3(vLUMA(phase2_luma_filter33, 0), 
-                 vSATU(phase2_chroma_filter33), 
-                 vSATU(phase2_chroma_filter33));
-    #endif
-    #if !defined(TWO_PHASE) && !defined(THREE_PHASE)
+    #line 331 "tv.pre.frag"
+    
+        offset = float(1) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter1), (phase2_chroma_filter1), (phase2_chroma_filter1));
+        offset = float(2) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter2), (phase2_chroma_filter2), (phase2_chroma_filter2));
+        offset = float(3) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter3), (phase2_chroma_filter3), (phase2_chroma_filter3));
+        offset = float(4) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter4), (phase2_chroma_filter4), (phase2_chroma_filter4));
+        offset = float(5) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter5), (phase2_chroma_filter5), (phase2_chroma_filter5));
+        offset = float(6) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter6), (phase2_chroma_filter6), (phase2_chroma_filter6));
+        offset = float(7) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter7), (phase2_chroma_filter7), (phase2_chroma_filter7));
+        offset = float(8) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter8), (phase2_chroma_filter8), (phase2_chroma_filter8));
+        offset = float(9) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter9), (phase2_chroma_filter9), (phase2_chroma_filter9));
+        offset = float(10) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter10), (phase2_chroma_filter10), (phase2_chroma_filter10));
+        offset = float(11) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter11), (phase2_chroma_filter11), (phase2_chroma_filter11));
+        offset = float(12) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter12), (phase2_chroma_filter12), (phase2_chroma_filter12));
+        offset = float(13) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter13), (phase2_chroma_filter13), (phase2_chroma_filter13));
+        offset = float(14) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter14), (phase2_chroma_filter14), (phase2_chroma_filter14));
+        offset = float(15) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter15), (phase2_chroma_filter15), (phase2_chroma_filter15));
+        offset = float(16) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter16), (phase2_chroma_filter16), (phase2_chroma_filter16));
+        offset = float(17) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter17), (phase2_chroma_filter17), (phase2_chroma_filter17));
+        offset = float(18) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter18), (phase2_chroma_filter18), (phase2_chroma_filter18));
+        offset = float(19) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter19), (phase2_chroma_filter19), (phase2_chroma_filter19));
+        offset = float(20) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter20), (phase2_chroma_filter20), (phase2_chroma_filter20));
+        offset = float(21) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter21), (phase2_chroma_filter21), (phase2_chroma_filter21));
+        offset = float(22) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter22), (phase2_chroma_filter22), (phase2_chroma_filter22));
+        offset = float(23) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter23), (phase2_chroma_filter23), (phase2_chroma_filter23));
+        offset = float(24) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter24), (phase2_chroma_filter24), (phase2_chroma_filter24));
+        offset = float(25) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter25), (phase2_chroma_filter25), (phase2_chroma_filter25));
+        offset = float(26) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter26), (phase2_chroma_filter26), (phase2_chroma_filter26));
+        offset = float(27) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter27), (phase2_chroma_filter27), (phase2_chroma_filter27));
+        offset = float(28) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter28), (phase2_chroma_filter28), (phase2_chroma_filter28));
+        offset = float(29) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter29), (phase2_chroma_filter29), (phase2_chroma_filter29));
+        offset = float(30) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter30), (phase2_chroma_filter30), (phase2_chroma_filter30));
+        offset = float(31) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter31), (phase2_chroma_filter31), (phase2_chroma_filter31));
+        offset = float(32) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter32), (phase2_chroma_filter32), (phase2_chroma_filter32));
+        signal += encode( texCoord0 + vec2((0.0) * texStep.x, 0.0) , texCoord1 + vec2((0.0) * texStep.x, 0.0) , intCoord.xy + vec2((0.0), 0.0), FrameCount).rgb *
+            vec3((phase2_luma_filter33), 
+                 (phase2_chroma_filter33), 
+                 (phase2_chroma_filter33));
+    #line 369 "tv.pre.frag"
+    
     }
     else
     {
-    #endif
-    #if !defined(TWO_PHASE) || defined(THREE_PHASE)
-        macro_loopz(3, 1)
-        macro_loopz(3, 2)
-        macro_loopz(3, 3)
-        macro_loopz(3, 4)
-        macro_loopz(3, 5)
-        macro_loopz(3, 6)
-        macro_loopz(3, 7)
-        macro_loopz(3, 8)
-        macro_loopz(3, 9)
-        macro_loopz(3, 10)
-        macro_loopz(3, 11)
-        macro_loopz(3, 12)
-        macro_loopz(3, 13)
-        macro_loopz(3, 14)
-        macro_loopz(3, 15)
-        macro_loopz(3, 16)
-        macro_loopz(3, 17)
-        macro_loopz(3, 18)
-        macro_loopz(3, 19)
-        macro_loopz(3, 20)
-        macro_loopz(3, 21)
-        macro_loopz(3, 22)
-        macro_loopz(3, 23)
-        macro_loopz(3, 24)
-        signal += fetch_offset(0.0) *
-            vec3(vLUMA(phase3_luma_filter25, 0), 
-                 vSATU(phase3_chroma_filter25), 
-                 vSATU(phase3_chroma_filter25));
-    #endif
-    #if !defined(TWO_PHASE) && !defined(THREE_PHASE)
+    #line 374 "tv.pre.frag"
+    
+        offset = float(1) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter1), (phase3_chroma_filter1), (phase3_chroma_filter1));
+        offset = float(2) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter2), (phase3_chroma_filter2), (phase3_chroma_filter2));
+        offset = float(3) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter3), (phase3_chroma_filter3), (phase3_chroma_filter3));
+        offset = float(4) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter4), (phase3_chroma_filter4), (phase3_chroma_filter4));
+        offset = float(5) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter5), (phase3_chroma_filter5), (phase3_chroma_filter5));
+        offset = float(6) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter6), (phase3_chroma_filter6), (phase3_chroma_filter6));
+        offset = float(7) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter7), (phase3_chroma_filter7), (phase3_chroma_filter7));
+        offset = float(8) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter8), (phase3_chroma_filter8), (phase3_chroma_filter8));
+        offset = float(9) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter9), (phase3_chroma_filter9), (phase3_chroma_filter9));
+        offset = float(10) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter10), (phase3_chroma_filter10), (phase3_chroma_filter10));
+        offset = float(11) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter11), (phase3_chroma_filter11), (phase3_chroma_filter11));
+        offset = float(12) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter12), (phase3_chroma_filter12), (phase3_chroma_filter12));
+        offset = float(13) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter13), (phase3_chroma_filter13), (phase3_chroma_filter13));
+        offset = float(14) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter14), (phase3_chroma_filter14), (phase3_chroma_filter14));
+        offset = float(15) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter15), (phase3_chroma_filter15), (phase3_chroma_filter15));
+        offset = float(16) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter16), (phase3_chroma_filter16), (phase3_chroma_filter16));
+        offset = float(17) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter17), (phase3_chroma_filter17), (phase3_chroma_filter17));
+        offset = float(18) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter18), (phase3_chroma_filter18), (phase3_chroma_filter18));
+        offset = float(19) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter19), (phase3_chroma_filter19), (phase3_chroma_filter19));
+        offset = float(20) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter20), (phase3_chroma_filter20), (phase3_chroma_filter20));
+        offset = float(21) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter21), (phase3_chroma_filter21), (phase3_chroma_filter21));
+        offset = float(22) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter22), (phase3_chroma_filter22), (phase3_chroma_filter22));
+        offset = float(23) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter23), (phase3_chroma_filter23), (phase3_chroma_filter23));
+        offset = float(24) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter24), (phase3_chroma_filter24), (phase3_chroma_filter24));
+        signal += encode( texCoord0 + vec2((0.0) * texStep.x, 0.0) , texCoord1 + vec2((0.0) * texStep.x, 0.0) , intCoord.xy + vec2((0.0), 0.0), FrameCount).rgb *
+            vec3((phase3_luma_filter25), 
+                 (phase3_chroma_filter25), 
+                 (phase3_chroma_filter25));
+    #line 404 "tv.pre.frag"
+    
     }
-    #endif
+    #line 407 "tv.pre.frag"
 
-#else
 
-    vec3 signal = encode(texCoord0, texCoord1, intCoord.xy, FrameCount).rgb;
+
+
+
+#line 413 "tv.pre.frag"
     
-#endif
     
-    // YIQ -> RGB
     vec3 rgb = yiq2rgb(signal);
     gl_FragColor = vec4(rgb, 1.0);
 
-//  gl_FragColor.xyz = vec3(sizeVariance);
+
 }

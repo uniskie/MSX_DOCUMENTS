@@ -85,3 +85,9 @@ http://p6ers.net/mm/pc-6001/dev/screen4color/
 http://fpgapark.com/ntsc/ntsc.htm  
 https://github.com/libretro/glsl-shaders/blob/master/ntsc/ntsc.glslp 
 // based on Themaister's NTSC shader
+
+-----------------------------------------------
+# Change Log
+
+- 2025/05/10
+  To address the issue of crashes due to shader compilation failures on AMD, pre-processor-decompressed versions have been prepared.

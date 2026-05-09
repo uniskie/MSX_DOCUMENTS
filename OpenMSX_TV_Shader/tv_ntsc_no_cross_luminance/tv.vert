@@ -1,3 +1,6 @@
+// NTSC effect (based on Themaister's NTSC shader)
+// https://github.com/Themaister/Emulator-Shader-Pack
+
 uniform mat4 u_mvpMatrix;
 uniform vec3 texSize; // xy = texSize1,  xz = texSize2
 
