@@ -210,7 +210,6 @@ float phase3_chroma_filter24 =  0.077856564;
 float phase3_chroma_filter25 =  0.079052396;
 // end ntsc-decode-filter-3phase
 
-
 vec4 getColor(const vec2 texCoord0, const vec2 texCoord1)
 {
     vec4 src = texture2D(tex, texCoord0);
@@ -230,7 +229,6 @@ vec4 getColor(const vec2 texCoord0, const vec2 texCoord1)
 #else
     #define phase   texStep.w
 #endif
-
 
 #define MSX_HSCAN_RATE  1.0//(0.7485380) // (256.0 / 342.0)//ここを変えるとfilter値の変更も必要になる(※モアレ発生)
 #define MSX_HSCAN_SHIFT 2.0//((342.0-256.0))

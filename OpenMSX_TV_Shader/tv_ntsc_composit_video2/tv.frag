@@ -1,9 +1,8 @@
 // NTSC effect (based on Themaister's NTSC shader)
 // https://github.com/Themaister/Emulator-Shader-Pack
 
-//#line 1 "tv.frag"
-  
-  
+//#line    1 "tv.frag"
+
 varying vec4 texStep;
 varying vec4 intCoord;
 varying vec4 cornerCoord0;
@@ -12,17 +11,14 @@ uniform sampler2D tex;
 uniform sampler2D videoTex;
 uniform float minScanline;
 uniform float sizeVariance;
-   
-   
-   
-   
-//#line 55 "tv.frag"
+
+//#line    55 "tv.frag"
     mat3 mix_mat = mat3(
         0.75, 1.25, 1.25,
         1.25, 2.0 * 1.0, 0.0,
         1.25, 0.0, 2.0 * 1.0
     );
-//#line 62 "tv.frag"
+//#line    62 "tv.frag"
 const mat3 yiq2rgb_mat = mat3(
    1.0, 0.956, 0.6210,
    1.0, -0.2720, -0.6474,
@@ -159,41 +155,40 @@ float phase3_chroma_filter25 =  0.079052396;
 vec4 getColor(const vec2 texCoord0, const vec2 texCoord1)
 {
     vec4 src = texture2D(tex, texCoord0);
-//#line 220 "tv.frag"
+//#line    220 "tv.frag"
     vec4 rgb = src;
-//#line 222 "tv.frag"
+//#line    222 "tv.frag"
     return rgb;
 }
-//#line 228 "tv.frag"
-//#line 230 "tv.frag"
+//#line    228 "tv.frag"
+//#line    230 "tv.frag"
     
-//#line 232 "tv.frag"
+//#line    232 "tv.frag"
 vec4 encode(const vec2 texCoord0,
             const vec2 texCoord1,
             const vec2 pixCoord,
             const int FrameCount)
 {
-//#line 258 "tv.frag"
+//#line    258 "tv.frag"
     
     vec4 rgb = getColor(texCoord0, texCoord1);
-    
-    
+
     float l = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
     vec4 distComp = fract(intCoord);
     rgb = rgb * smoothstep(
         minScanline + sizeVariance * (vec4(1.0 - l)),
         vec4(1.0),
         vec4(distComp.y) + (1.0 - minScanline) );
-//#line 270 "tv.frag"
+//#line    270 "tv.frag"
     
     vec3 yiq = rgb2yiq(rgb.rgb);
     
-//#line 278 "tv.frag"
-//#line 282 "tv.frag"
+//#line    278 "tv.frag"
+//#line    282 "tv.frag"
         
         float chroma_phase =((texStep.w < 2.5) ? (2.0 * 3.14159265) : (2.0 * 3.14159265)); 
         float mod_phase = pixCoord.x * ((texStep.w < 2.5) ? (1.0 * 3.14159265 * 4.0 / 15.0) : (1.0 * 3.14159265 / 3.0)) + chroma_phase;
-     //#line 286 "tv.frag"
+     //#line    286 "tv.frag"
     float i_mod = cos(mod_phase);
     float q_mod = sin(mod_phase);
     yiq.yz *= vec2(i_mod, q_mod); 
@@ -209,12 +204,10 @@ void main()
     vec3 signal = vec3(0.0);
     float offset;
     vec3 sums;
-    
-    
-    
+
     if (texStep.w < 2.5)
     {
-    //#line 330 "tv.frag"
+    //#line    330 "tv.frag"
     
         offset = float(1) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter1), (phase2_chroma_filter1), (phase2_chroma_filter1));
         offset = float(2) - 1.0; sums = encode( texCoord0 + vec2((offset - float(32)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(32)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(32)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(32) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(32) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(32) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase2_luma_filter2), (phase2_chroma_filter2), (phase2_chroma_filter2));
@@ -252,12 +245,12 @@ void main()
             vec3((phase2_luma_filter33), 
                  (phase2_chroma_filter33), 
                  (phase2_chroma_filter33));
-    //#line 368 "tv.frag"
+    //#line    368 "tv.frag"
     
     }
     else
     {
-    //#line 373 "tv.frag"
+    //#line    373 "tv.frag"
     
         offset = float(1) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter1), (phase3_chroma_filter1), (phase3_chroma_filter1));
         offset = float(2) - 1.0; sums = encode( texCoord0 + vec2((offset - float(24)) * texStep.x, 0.0) , texCoord1 + vec2((offset - float(24)) * texStep.x, 0.0) , intCoord.xy + vec2((offset - float(24)), 0.0), FrameCount).rgb + encode( texCoord0 + vec2((float(24) - offset) * texStep.x, 0.0) , texCoord1 + vec2((float(24) - offset) * texStep.x, 0.0) , intCoord.xy + vec2((float(24) - offset), 0.0), FrameCount).rgb; signal += sums * vec3((phase3_luma_filter2), (phase3_chroma_filter2), (phase3_chroma_filter2));
@@ -287,13 +280,12 @@ void main()
             vec3((phase3_luma_filter25), 
                  (phase3_chroma_filter25), 
                  (phase3_chroma_filter25));
-    //#line 403 "tv.frag"
+    //#line    403 "tv.frag"
     
     }
-    //#line 406 "tv.frag"
-//#line 412 "tv.frag"
-    
-    
+    //#line    406 "tv.frag"
+//#line    412 "tv.frag"
+
     vec3 rgb = yiq2rgb(signal);
     gl_FragColor = vec4(rgb, 1.0);
 }
