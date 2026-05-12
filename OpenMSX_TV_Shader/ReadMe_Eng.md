@@ -1,4 +1,4 @@
-# TV shader mod for OpenMSX 1.8.0
+# TV shader mod for OpenMSX
 [ReadMe in Japanese](ReadMe.md)
 
 ![sample1](img/BASIC.png)
@@ -40,21 +40,30 @@ If there is no "shaders" folder in "Documents\OpenMSX\share\", create a "shaders
 * tv_ntsc_vivid              ... Saturation enhancement
 * tv_original                ... OpenMSX raw files
 
-## how to use:
-When you're ready
+## How to Use
 
-1. Execute OpenMSX with Start from OpenMSX Catapult
-2. Select "SDLGL-PP" for "Renderer" in the "Video Control" tab of OpenMSX Catapult.
-3. In the "Video Control" tab of OpenMSX Catapult, select "TV" in Scaler: [Size] x [Filter].
+Select "TV" in the Video settings' Scaler (filter).
 
-*Note) Shader does not work on ”SDL" renderer.*
+Since brighter colors will blur through the scanline gaps,
+my personal recommendation is Scanline 75%.
+
+*Note: The TV filter reflects Scanline but ignores Blur.*
+
+### OpenMSX 20 and later
+
+![ImGUI Settings](./video_setting_tv.png)
+
+Change Settings → Video → Scaler to "TV" to apply the changes.
+
+### OpenMSX 19 and earlier
+
+1. Run OpenMSX from OpenMSX Catapult by clicking "Start".
+2. In the "Video Control" tab of OpenMSX Catapult, select "SDLGL-PP" for "Renderer".
+3. In the "Video Control" tab of OpenMSX Catapult, select "TV" for the filter under "Scaler: [Size] x [Filter]".
+
+*Note: Shaders will not work if the Renderer is "SDL".*
 
 ![screenshot of video control](./screenshot_video_control.png)
-
-My personal recommendation is Scanline 75%.
-
-*Note) The TV filter reflects the Scanline but ignores the Blur.*
-
 ## Blurring adjustment
 
 Adjust the blurring method of [tv.vert](tv.vert)"tv.vert",

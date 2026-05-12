@@ -46,7 +46,21 @@ NTSC信号の干渉処理のみです。
 * tv_original                ... OpenMSXの素のファイル
 
 ## 使用方法
-準備が終わったら、
+
+Video設定のScaler(フィルタ)でTVを選んでください。
+
+明るい色ほどスキャンラインの隙間に滲み出す処理も入っているので、
+個人的なおすすめはScanline 75%です。
+
+*※注) TVフィルタでは、Scanlineは反映されますが、Blurは無視されます。*
+
+### OpenMSX 20以降
+
+![ImGUIでの設定](./video_setting_tv.png)
+
+Settings→Video→Scalerを「TV」に変更すると反映されます。
+
+### OpenMSX 19以前
 
 1. OpenMSX Catapultから「Start」でOpenMSXを実行
 2. OpenMSX Catapultの「Video Control」タブで、「Renderer」に「SDLGL-PP」を選択
@@ -55,10 +69,6 @@ NTSC信号の干渉処理のみです。
 *※注) Rendererが「SDL」ではシェーダーは動作しません。*
 
 ![screenshot of video control](./screenshot_video_control.png)
-
-個人的なおすすめはScanline 75%です。
-
-*※注) TVフィルタでは、Scanlineは反映されますが、Blurは無視されます。*
 
 ## 滲みの調整
 
