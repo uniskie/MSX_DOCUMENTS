@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "MUSIC_DOC/MuSICA_Driver_Data_Manual.md",
+                "file": "Double_buffer_display_technique.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "MuSICA_Driver_Data_Manual"
+              "title": "Double_buffer_display_technique"
             }
           }
         ]
@@ -160,8 +160,8 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:新規ベースを作成": false,
       "markdown-importer:Markdownインポーターを開く": false,
-      "bases:Create new base": false,
       "switcher:クイックスイッチャーを開く": false,
       "graph:グラフビューを開く": false,
       "canvas:新規キャンバスを作成": false,
@@ -170,9 +170,9 @@
   },
   "active": "f2a2a1f88b8f303f",
   "lastOpenFiles": [
+    "MUSIC_DOC/MuSICA_Driver_Data_Manual.md",
     "MUSIC_DOC/MuSICA VCD File Format.md",
     "MUSIC_DOC/MGSDRV_MEMO.md",
-    "MUSIC_DOC/MuSICA_Driver_Data_Manual.md",
     "MUSIC_DOC/MuSICA_Driver_Program_manual.md",
     "MUSIC_DOC/ReadMe.md",
     "MUSIC_DOC/RTYPE_memo.md",
