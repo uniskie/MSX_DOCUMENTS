@@ -2,7 +2,7 @@
 # VRAM書き換え監視 簡易版（汎用）（非常に重い）
 #
 # ファイル名:
-#     vram_simple.tcl
+#     _vram_simple.tcl
 #
 # 保存先のおすすめ:
 #     Windows:
@@ -14,7 +14,7 @@
 # 使用方法: 
 #     ※ コンソール(F10)から
 #
-#        source $::env(OPENMSX_USER_DATA)/scripts/vram_simple.tcl
+#        source $::env(OPENMSX_USER_DATA)/scripts/_vram_simple.tcl
 #
 #     実行した時点での値を保存してZ80命令を何か実行するたびに比較する
 #

@@ -2,7 +2,7 @@
 # VRAMポートアクセス限定の書き換え監視（比較的軽量）
 #
 # ファイル名:
-#     vram_port_watch.tcl
+#     _vram_port_watch.tcl
 #
 # 保存先のおすすめ:
 #     Windows:
@@ -15,7 +15,7 @@
 #     ※ コンソール(F10)から
 #
 #     ① 読み込み
-#        source $::env(OPENMSX_USER_DATA)/scripts/vram_port_watch.tcl
+#        source $::env(OPENMSX_USER_DATA)/scripts/_vram_port_watch.tcl
 #
 #     ② 現時点の値から変化するかどうか監視開始
 #         vram_port_watch::watch_at 7 1 100 50
@@ -30,7 +30,7 @@
 #     Debugger→BreakPoints→Editor でGUI表示
 #     BreakPointWindowのWatchタブに表示される
 #───────────────────────────────────────
-# vram_port_watch.tcl
+# _vram_port_watch.tcl
 
 namespace eval ::vram_port_watch {
     variable target_address 0

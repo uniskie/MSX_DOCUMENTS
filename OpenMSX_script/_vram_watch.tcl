@@ -2,7 +2,7 @@
 # VRAM書き換え監視 （非常に重い）
 #
 # ファイル名:
-#     vram_watch.tcl
+#     _vram_watch.tcl
 #
 # 保存先のおすすめ:
 #     Windows:
@@ -15,7 +15,7 @@
 #     ※ コンソール(F10)から
 #
 #     ① 読み込み
-#        source $::env(OPENMSX_USER_DATA)/scripts/vram_watch.tcl
+#        source $::env(OPENMSX_USER_DATA)/scripts/_vram_watch.tcl
 #
 #     ② 現時点の値から変化するかどうか監視開始
 #        （スクリーン7、ページ1、X=100、Y=50の例）
@@ -28,7 +28,7 @@
 #       または
 #         vramwatch
 #───────────────────────────────────────
-# vram_watch.tcl
+# _vram_watch.tcl
 namespace eval vram_watch {
     variable cond_id
     variable old_val

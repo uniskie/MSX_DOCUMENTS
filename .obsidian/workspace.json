@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Double_buffer_display_technique.md",
-                "mode": "preview",
+                "file": "OpenMSX_script/openMSX Tclスクリプト活用ガイド.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Double_buffer_display_technique"
+              "title": "openMSX Tclスクリプト活用ガイド"
             }
           }
         ]
@@ -170,6 +170,15 @@
   },
   "active": "f2a2a1f88b8f303f",
   "lastOpenFiles": [
+    "OpenMSX_script/script_folder.png",
+    "OpenMSX_script/openMSX Tclスクリプト活用ガイド.md",
+    "README.md",
+    "OpenMSX_script/スクリーンショット 2026-07-28 070957.png",
+    "OpenMSX_script/script_toys.png",
+    "OpenMSX_script/スクリーンショット 2026-07-28 062506.png",
+    "Pasted image 20260728062507.png",
+    "OpenMSX_script/debugger_ss.png",
+    "Double_buffer_display_technique.md",
     "MUSIC_DOC/MuSICA_Driver_Data_Manual.md",
     "MUSIC_DOC/MuSICA VCD File Format.md",
     "MUSIC_DOC/MGSDRV_MEMO.md",
@@ -180,8 +189,6 @@
     "OpenMSX_TV_Shader/ReadMe_Eng.md",
     "OpenMSX_TV_Shader/screenshot_file_place.png",
     "OpenMSX_TV_Shader/screenshot_video_control.png",
-    "Double_buffer_display_technique.md",
-    "README.md",
     "MUSIC_DOC/FMBIOS_MUSIC_DATA.md",
     "MUSIC_DOC/tempo_list.md",
     "MUSIC_DOC/FMPAC_Memo.md",

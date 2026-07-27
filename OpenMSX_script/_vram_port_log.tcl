@@ -2,7 +2,7 @@
 # VRAMポート書き込みアクセスのログを取る
 #
 # ファイル名:
-#     vram_port_log.tcl
+#     _vram_port_log.tcl
 #
 # 保存先のおすすめ:
 #     Windows:
@@ -16,7 +16,7 @@
 #
 #     ① スクリプトを読み込んで使用できるようにする
 #
-#        source $::env(OPENMSX_USER_DATA)/scripts/vram_port_log.tcl
+#        source $::env(OPENMSX_USER_DATA)/scripts/_vram_port_log.tcl
 #
 #     ② 記録を開始する
 #
@@ -40,7 +40,7 @@
 #         vram_port_log::clear_log
 #
 #───────────────────────────────────────
-# vram_port_log.tcl
+# _vram_port_log.tcl
 
 # VRAM書き込みログ記録スクリプト
 
